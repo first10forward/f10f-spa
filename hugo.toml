@@ -1,0 +1,139 @@
+baseURL = 'https://first10forward.org/'
+languageCode = 'en-us'
+title = 'First 10 Forward prototype'
+theme = 'universal'
+
+[params]
+    googlefonts = ["Josefin Sans"]
+    fontbody = 'Josefin Sans'
+    disabled_logo = false
+    logo_text = "First 10 Forward"
+    logo = "img/LogoNew1.png"
+    logo_small = "img/LogoNew1.png"
+
+
+[[menu.main]]
+    name       = "Home"
+    identifier = "menu.home"
+    url        = "/"
+    weight     = 1
+
+[[menu.main]]
+    name       = "What We Do"
+    weight     = 1
+    identifier = "menu.whatwedo"
+
+[[menu.main]]
+    name       = "Our Mission"
+    url        = "/mission"
+    weight     = 10
+    parent     = "menu.whatwedo"
+
+[[menu.main]]
+    name       = "How It Works"
+    url        = "/annual-grant"
+    weight     = 11
+    parent     = "menu.whatwedo"
+
+[[menu.main]]
+    name       = "Nomination Process"
+    url        = "/nomination"
+    weight     = 12
+    parent     = "menu.whatwedo"
+
+[[menu.main]]
+    name       = "About Us"
+    weight     = 2
+    identifier = "menu.about"
+
+[[menu.main]]
+    name       = "History"
+    url        = "/history"
+    weight     = 21
+    parent     = "menu.about"
+
+[[menu.main]]
+    name       = "Leadership"
+    url        = "/leadership"
+    weight     = 22
+    parent     = "menu.about"
+
+[[menu.main]]
+    name       = "Join Us"
+    weight     = 3
+    identifier = "menu.join"
+
+[[menu.main]]
+    name       = "Membership"
+    url        = "/membership"
+    weight     = 32
+    parent     = "menu.join"
+
+[[menu.main]]
+    name       = "Annual Meeting"
+    url        = "/annual-meeting"
+    weight     = 33
+    parent     = "menu.join"
+
+[params.topbar]
+    enable = true
+    text = "<p>Contact us at hello@first10forward.org</p>"
+
+[params.carouselHomepage]
+    enable = true
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.features]
+    enable = true
+    cols = 3 # Default: 3, Available values 2,3,4,6
+    # All features are defined in their own files. You can find example items
+    # at 'exampleSite/data/features'.
+    # For more information take a look at the README.
+
+[params.carouselTestimonials]
+    items = 4
+    auto_play = false
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.testimonials]
+    enable = false
+    # All testimonials are defined in their own files. You can find example items
+    # at 'exampleSite/data/testimonials'.
+    # For more information take a look at the README.
+    # title = "Appreciation"
+    # subtitle = "<< testimonials from past grant recipients >>"
+
+[params.clients]
+    enable = true
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.photogrid]
+    sources = [  
+        "../images/maritime01.jpeg",
+        "../images/maritime02.jpeg",
+        "../images/maritime03.jpeg",
+        "../images/maritime04.jpeg",
+        "../images/maritime05.jpeg",
+        "../images/maritime06.jpeg",
+        "../images/maritime07.jpeg",
+        "../images/maritime08.jpeg",
+        "../images/maritime09.jpeg",
+        "../images/maritime10.jpeg",
+        "../images/maritime11.jpeg",
+        "../images/maritime12.jpeg",
+        "../images/maritime13.jpeg",
+        "../images/maritime14.jpeg",
+        "../images/maritime15.jpeg",
+        "../images/maritime16.jpeg",
+        "../images/maritime17.jpeg",
+        "../images/maritime18.jpeg",
+        "../images/maritime19.jpeg",
+        "../images/maritime20.jpeg",
+        "../images/maritime21.jpeg",
+        "../images/maritime22.jpeg"
+    ]

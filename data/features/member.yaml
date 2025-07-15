@@ -1,0 +1,5 @@
+weight: 5
+name: "Become a Member"
+icon: "img/icons/join.svg"
+url: "/membership"
+description: "Become a member"

@@ -10,7 +10,9 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+public
 *.local
+themes/universal/exampleSite/*
 
 # Editor directories and files
 .vscode/*
