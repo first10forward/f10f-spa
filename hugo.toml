@@ -108,6 +108,14 @@ theme = 'universal'
 
 [params.clients]
     enable = true
+    title = "First 10 Forward"
+    subtitle = "Supporting careers for women in the maritime industry"
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.CarouselCustomers]
+    items = 4
     auto_play = true
     slide_speed = 2000
     pagination_speed = 1000

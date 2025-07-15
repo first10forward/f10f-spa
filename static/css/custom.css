@@ -62,3 +62,67 @@ body {
   color: #ff6188;
   text-decoration: underline
 }
+
+/* Admin icon styling */
+.admin-link {
+  float: right;
+  color: #999;
+  font-size: 24px !important;
+  padding: 8px 12px;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.admin-link:hover {
+  color: var(--primary-accent, #38a7bb);
+  text-decoration: none;
+  transform: rotate(90deg);
+}
+
+.admin-link:focus {
+  outline: none;
+  color: var(--primary-accent, #38a7bb);
+}
+
+/* Make the top header row bigger */
+#top {
+  padding: 8px 0 !important;
+  min-height: 40px;
+}
+
+#top p {
+  font-size: 18px !important;
+  margin: 4px 0 !important;
+  line-height: 1.2;
+}
+
+#top .container {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* Make carousel images bigger */
+.customers .item img,
+.owl-carousel.customers .item img,
+section .customers .item img {
+  max-height: 180px !important;
+  width: auto !important;
+  max-width: 300px !important;
+}
+
+.customers .item,
+.owl-carousel.customers .item,
+section .customers .item {
+  margin: 0 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 200px !important;
+}
+
+/* Make the carousel container bigger */
+.customers,
+.owl-carousel.customers {
+  padding: 30px 0 !important;
+}
