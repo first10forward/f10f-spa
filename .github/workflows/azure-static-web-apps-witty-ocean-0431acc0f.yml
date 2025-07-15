@@ -19,6 +19,34 @@ jobs:
         with:
           submodules: true
           lfs: false
+
+      # Setup Node.js for building React app
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      # Setup Hugo
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+      
+      # Build Hugo site first
+      - name: Build Hugo Site
+        run: hugo
+      
+      # Install dependencies and build React app
+      - name: Install and Build React App
+        run: |
+          npm ci
+          npm run build
+          # Copy React app to public/app directory
+          mkdir -p public/app
+          cp -r dist/* public/app/
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -27,10 +55,10 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
+          app_location: "/public" # Hugo generated content location
           api_location: "" # Api source code path - optional
-          output_location: "build" # Built app content directory - optional
+          output_location: "" # No additional build needed, public folder is ready
+          skip_app_build: true # Skip automatic build since we built manually
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
