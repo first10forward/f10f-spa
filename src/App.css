@@ -1,7 +1,23 @@
-/* App Layout */
+/* Hugo-inspired CSS Variables */
+:root {
+  --primary-accent: #38a7bb;
+  --navbar-border-top: #20616d;
+  --button-border: #2a7d8c;
+  --link-focus: #267280;
+  --form-shadow: rgba(56, 167, 187, 0.6);
+  --pagination-bg: #a7dbe5;
+  --link-hover-bg: #2c8494;
+  --navbar-focus: #80cbd9;
+}
+
+/* App Layout - use Hugo's structure */
 .app {
   min-height: 100vh;
   background: #f8f9fa;
+}
+
+#content {
+  padding-top: 0;
 }
 
 .top-nav {
@@ -11,41 +27,42 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  border-top: 4px solid var(--navbar-border-top);
 }
 
 .nav-home-btn {
-  background: #6c757d;
+  background: var(--primary-accent);
   color: white;
-  border: none;
+  border: 1px solid var(--button-border);
   padding: 8px 16px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease-out;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .nav-home-btn:hover {
-  background: #5a6268;
+  background: var(--link-hover-bg);
+  border-color: var(--link-focus);
 }
 
 .top-nav h2 {
   margin: 0;
-  color: #2c3e50;
-  font-weight: 400;
+  color: var(--primary-accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .app-content {
   padding: 0;
 }
 
-/* Home Page Styles */
+/* Home Page Styles - using Hugo container structure */
 .home-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px 0;
 }
 
 .app-header {
@@ -54,19 +71,17 @@
 }
 
 .app-header h1 {
-  margin: 0 0 15px 0;
-  color: #2c3e50;
   font-size: 3rem;
-  font-weight: 300;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary-accent);
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .app-header p {
-  color: #6c757d;
   font-size: 1.2rem;
+  color: #666;
   margin: 0;
 }
 
@@ -84,29 +99,43 @@
 .nav-card {
   background: white;
   padding: 30px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease-out;
+  border-left: 4px solid var(--primary-accent);
   position: relative;
   overflow: hidden;
 }
 
 .nav-card:not(.coming-soon):hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  border-left-color: var(--link-hover-bg);
 }
 
 .nav-card.coming-soon {
   opacity: 0.6;
   cursor: not-allowed;
+  border-left-color: #ccc;
+}
+
+.nav-card.coming-soon:hover {
+  transform: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .nav-card h3 {
   margin: 0 0 15px 0;
-  color: #2c3e50;
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: var(--primary-accent);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-card.coming-soon h3 {
+  color: #999;
 }
 
 .nav-card p {
