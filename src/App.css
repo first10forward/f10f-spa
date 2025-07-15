@@ -1,0 +1,160 @@
+/* App Layout */
+.app {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.top-nav {
+  background: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-home-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-home-btn:hover {
+  background: #5a6268;
+}
+
+.top-nav h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 400;
+}
+
+.app-content {
+  padding: 0;
+}
+
+/* Home Page Styles */
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.app-header h1 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 3rem;
+  font-weight: 300;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-header p {
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.app-nav {
+  margin-top: 40px;
+}
+
+.nav-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.nav-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card:not(.coming-soon):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.nav-card.coming-soon {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nav-card h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-card p {
+  margin: 0;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.coming-soon-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ffc107;
+  color: #212529;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-page {
+    padding: 20px 15px;
+  }
+  
+  .app-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .app-header p {
+    font-size: 1rem;
+  }
+  
+  .nav-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .nav-card {
+    padding: 20px;
+  }
+  
+  .top-nav {
+    padding: 10px 15px;
+  }
+  
+  .top-nav h2 {
+    font-size: 1.2rem;
+  }
+}
