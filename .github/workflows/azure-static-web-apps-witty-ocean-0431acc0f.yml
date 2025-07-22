@@ -40,6 +40,10 @@ jobs:
       
       # Install dependencies and build React app
       - name: Install and Build React App
+        env:
+          VITE_AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.VITE_AZURE_STORAGE_ACCOUNT_NAME }}
+          VITE_AZURE_STORAGE_SAS_TOKEN: ${{ secrets.VITE_AZURE_STORAGE_SAS_TOKEN }}
+          VITE_AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.VITE_AZURE_STORAGE_CONTAINER_NAME }}
         run: |
           npm ci
           npm run build

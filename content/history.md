@@ -23,7 +23,7 @@ These graduates have charted courses through uncharted waters, reaching the high
 - Ship Captains and Chief Engineers
 - Harbor Pilots and Port Engineers
 - Military officers across all branches of service
-- Professors, executives, lawyers, doctors, and industry leaders, including the first woman president of America's largest shipbuilder
+- Professors, executives, lawyers, doctors, and industry leaders, including the first woman president of America's largest shipbuilder and the CEO of one of the largest tanker companies in the world
 
 ## Our Origins
 

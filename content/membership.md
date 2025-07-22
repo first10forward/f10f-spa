@@ -13,7 +13,7 @@ can attend the Annual Meeting, and can nominate one Eligible Organization. Share
  
 {{< notes info >}}The deadline for purchasing a Membership in 2025 is August 1, 2025.{{</ notes >}}
 
-![group photo 2024](img/photos/24_group.jpg)
+![photo 2024](img/photos/24-totem.jpg)
 
 ### Membership Application 
 
