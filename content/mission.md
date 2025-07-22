@@ -30,7 +30,7 @@ Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organizat
 <!-- ![2021 Awardee: Women Offshore]() -->
 
 ## 2020 [American Association of University Women (AAUW) NJ Tech Trek](https://www.aauw.org/resources/programs/tech-trek/)
-[2020 Awardee: ](img/photos/20-grantee.png)
+[2020 Awardee: AAUW NJ Tech Trek](img/photos/20-grantee.jpg)
 
 ## 2019 (shared) [Eureka Program Girls, Inc of San Antonio](https://www.girlsincsa.org/)
 ![2019 Awardee: Girls Inc of San Antonio](img/photos/21-grantee.jpg)
