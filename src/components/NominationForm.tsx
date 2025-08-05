@@ -10,13 +10,17 @@ interface NominationFormProps {
   isEditing?: boolean;
 }
 
+interface FormData extends Omit<ICreateNomination, 'attestation'> {
+    attestation: boolean | null;
+}
+
 const NominationForm: React.FC<NominationFormProps> = ({
     entry,
     onSubmit,
     onCancel,
     isEditing = false
 }) => {
-    const [formData, setFormData] = useState<ICreateNomination>({
+    const [formData, setFormData] = useState<FormData>({
         memberName: '',
         memberEmail: '',
         nominee: '',
@@ -24,10 +28,10 @@ const NominationForm: React.FC<NominationFormProps> = ({
         filingName: '',
         filingID: '',
         mission: '',
-        attestation: false
+        attestation: null
     });
 
-    const [errors, setErrors] = useState<Partial<Record<keyof ICreateNomination, string>>>({});
+    const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     
     useEffect(() => {
@@ -46,7 +50,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
     }, [entry]);
     
     const validateForm = (): boolean => {
-        const newErrors: Partial<Record<keyof ICreateNomination, string>> = {};
+        const newErrors: Partial<Record<keyof FormData, string>> = {};
         
             if (!formData.memberName.trim()) {
               newErrors.memberName = 'Nominating member name is required';
@@ -65,6 +69,9 @@ const NominationForm: React.FC<NominationFormProps> = ({
                     newErrors.website = 'Please enter a valid website URL';
                 }
             }
+            if (formData.attestation === null) {
+                newErrors.attestation = 'Please select Yes or No for the connection disclosure';
+            }
 
             setErrors(newErrors);
             return Object.keys(newErrors).length === 0;
@@ -74,8 +81,12 @@ const NominationForm: React.FC<NominationFormProps> = ({
         e.preventDefault();
         if (validateForm()) {
             if (isEditing) {
-                // For editing existing nominations, use the original callback
-                onSubmit(formData);
+                // For editing existing nominations, convert attestation and use the original callback
+                const submissionData: ICreateNomination = {
+                    ...formData,
+                    attestation: formData.attestation !== null ? formData.attestation : false
+                };
+                onSubmit(submissionData);
             } else {
                 // For new nominations, send email using Azure Communication Services
                 setIsSubmitting(true);
@@ -84,6 +95,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
                     // Convert to INomination format for the email service
                     const nominationData: INomination = {
                         ...formData,
+                        attestation: formData.attestation !== null ? formData.attestation : false,
                         id: '',
                         lastUpdated: new Date()
                     };
@@ -109,7 +121,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
         }
     };
 
-    const handleChange = (field: keyof ICreateNomination, value: string | number | boolean) => {
+    const handleChange = (field: keyof FormData, value: string | number | boolean | null) => {
     setFormData(prev => ({
         ...prev,
         [field]: value
@@ -220,18 +232,32 @@ const NominationForm: React.FC<NominationFormProps> = ({
         </div>
 
         <div className="form-group">
-          <div className="checkbox-label">
-            <input 
-              type="checkbox" 
-              id="attestation"
-              name="attestation" 
-              checked={formData.attestation}
-              onChange={(e) => handleChange('attestation', e.target.checked)}
-            />
-            <label htmlFor="attestation" className="checkbox-text">
-              Does the nominator or their family have a personal or professional connection to the nominated organization?
-            </label>
+          <label className="form-label">Does the nominator or their family have a personal or professional connection to the nominated organization? *</label>
+          <div className="radio-group">
+            <div className={`radio-option ${formData.attestation === true ? 'selected' : ''}`}>
+              <input 
+                type="radio" 
+                id="attestation-yes"
+                name="attestation" 
+                value="true"
+                checked={formData.attestation === true}
+                onChange={() => handleChange('attestation', true)}
+              />
+              <label htmlFor="attestation-yes" className="radio-label">Yes</label>
+            </div>
+            <div className={`radio-option ${formData.attestation === false ? 'selected' : ''}`}>
+              <input 
+                type="radio" 
+                id="attestation-no"
+                name="attestation" 
+                value="false"
+                checked={formData.attestation === false}
+                onChange={() => handleChange('attestation', false)}
+              />
+              <label htmlFor="attestation-no" className="radio-label">No</label>
+            </div>
           </div>
+          {errors.attestation && <span className="error-message">{errors.attestation}</span>}
         </div>
 
         <div className="form-actions">

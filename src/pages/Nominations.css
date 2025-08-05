@@ -127,7 +127,100 @@
   margin-right: 10px;
 }
 
-/* Checkbox styling for nomination form - Enhanced visibility */
+/* Radio button styling for nomination form - Comprehensive Override */
+.nomination-form .radio-group {
+  display: flex;
+  gap: 25px;
+  margin-top: 8px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.nomination-form .radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nomination-form .radio-option:hover {
+  background-color: #e9f4f8;
+  border-color: #38a7bb;
+}
+
+.nomination-form .radio-option.selected {
+  background-color: #e9f4f8;
+  border-color: #38a7bb;
+}
+
+/* Force radio button appearance - Most comprehensive override */
+.nomination-form .radio-option input[type="radio"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  cursor: pointer;
+  border-radius: 50% !important;
+  border: 3px solid #6c757d !important;
+  background-color: white !important;
+  position: relative;
+  outline: none !important;
+  box-shadow: none !important;
+  flex-shrink: 0;
+  display: inline-block !important;
+  vertical-align: middle;
+}
+
+.nomination-form .radio-option input[type="radio"]:checked {
+  border-color: #38a7bb !important;
+  background-color: #38a7bb !important;
+}
+
+.nomination-form .radio-option input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+  display: block;
+}
+
+.nomination-form .radio-option input[type="radio"]:focus {
+  border-color: #38a7bb !important;
+  box-shadow: 0 0 0 3px rgba(56, 167, 187, 0.25) !important;
+}
+
+.nomination-form .radio-label {
+  margin: 0 !important;
+  cursor: pointer;
+  font-weight: 500;
+  color: #495057;
+  font-size: 14px;
+  display: inline !important;
+}
+
+.nomination-form .form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Enhanced checkbox styling for nomination form - keeping for backward compatibility */
 .nomination-form .form-group .checkbox-label {
   display: flex !important;
   align-items: flex-start;
