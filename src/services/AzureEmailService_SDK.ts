@@ -16,7 +16,7 @@ export interface EmailRequest {
 }
 
 export class AzureEmailService {
-    private static readonly DEFAULT_FROM_EMAIL = 'noreply@first10forward.org';
+    private static readonly DEFAULT_FROM_EMAIL = 'DoNotReply@first10forward.org';
     private static readonly NOMINATIONS_EMAIL = 'nominations@first10forward.org';
 
     private endpoint: string;
