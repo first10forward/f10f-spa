@@ -29,6 +29,9 @@ export class AzureEmailService {
      * Check if Azure Communication Services is properly configured
      */
     private isConfigured(): boolean {
+        console.log('Debug - Endpoint:', this.endpoint);
+        console.log('Debug - Access Key:', this.accessKey ? 'SET' : 'NOT SET');
+        console.log('Debug - Available env vars:', Object.keys(import.meta.env).filter(key => key.includes('AZURE')));
         return !!(this.endpoint && this.accessKey);
     }
 
@@ -38,9 +41,6 @@ export class AzureEmailService {
     async sendEmail(emailRequest: EmailRequest): Promise<boolean> {
         if (!this.isConfigured()) {
             console.warn('Azure Communication Services not configured, falling back to mailto');
-            console.log('Debug - Endpoint:', this.endpoint ? 'SET' : 'NOT SET');
-            console.log('Debug - Access Key:', this.accessKey ? 'SET' : 'NOT SET');
-            console.log('Debug - Available env vars:', Object.keys(import.meta.env).filter(key => key.includes('AZURE')));
             return false;
         }
 
