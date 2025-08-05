@@ -37,7 +37,7 @@ export class AzureEmailService {
      */
     async sendEmail(emailRequest: EmailRequest): Promise<boolean> {
         if (!this.isConfigured()) {
-            console.log(import.meta.env)
+            console.log(this.endpoint)
             console.warn('Azure Communication Services not configured, falling back to mailto');
             return false;
         }
