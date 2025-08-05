@@ -36,7 +36,39 @@ export class AzureEmailService {
     }
 
     /**
-     * Send email using Azure Communication Services
+     * Generate SHA256 hash of content
+     */
+    private async generateContentHash(content: string): Promise<string> {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(content);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
+    }
+
+    /**
+     * Generate HMAC-SHA256 signature
+     */
+    private async generateSignature(stringToSign: string): Promise<string> {
+        const keyBytes = Uint8Array.from(atob(this.accessKey), c => c.charCodeAt(0));
+        const key = await crypto.subtle.importKey(
+            'raw',
+            keyBytes,
+            { name: 'HMAC', hash: 'SHA-256' },
+            false,
+            ['sign']
+        );
+
+        const encoder = new TextEncoder();
+        const dataBytes = encoder.encode(stringToSign);
+        const signature = await crypto.subtle.sign('HMAC', key, dataBytes);
+
+        return btoa(String.fromCharCode(...new Uint8Array(signature)));
+    }
+
+    /**
+     * Send email using Azure Communication Services with HMAC authentication
      */
     async sendEmail(emailRequest: EmailRequest): Promise<boolean> {
         if (!this.isConfigured()) {
@@ -46,6 +78,9 @@ export class AzureEmailService {
 
         try {
             const url = `${this.endpoint}/emails:send?api-version=2023-03-31`;
+            const urlObj = new URL(url);
+            const host = urlObj.host;
+            const pathAndQuery = urlObj.pathname + urlObj.search;
 
             const emailData = {
                 senderAddress: emailRequest.from || AzureEmailService.DEFAULT_FROM_EMAIL,
@@ -62,14 +97,31 @@ export class AzureEmailService {
                 }
             };
 
+            const requestBody = JSON.stringify(emailData);
+            const contentHash = await this.generateContentHash(requestBody);
+
+            // Generate timestamp in RFC1123 format
+            const timestamp = new Date().toUTCString();
+
+            // Create string to sign
+            const stringToSign = `POST\n${pathAndQuery}\n${timestamp};${host};${contentHash}`;
+
+            // Generate signature
+            const signature = await this.generateSignature(stringToSign);
+
+            // Create authorization header
+            const authorizationHeader = `HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=${signature}`;
+
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.accessKey}`,
+                    'x-ms-date': timestamp,
+                    'x-ms-content-sha256': contentHash,
+                    'Authorization': authorizationHeader,
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(emailData)
+                body: requestBody
             });
 
             if (!response.ok) {
