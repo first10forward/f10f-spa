@@ -11,6 +11,8 @@ function App() {
     switch (currentPage) {
       case 'addressbook':
         return <AddressBook />
+      case 'nominate':
+        return <NominationForm />
       case 'home':
       default:
         return (
