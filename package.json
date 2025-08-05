@@ -10,6 +10,8 @@
     "preview": "vite preview --outDir public"
   },
   "dependencies": {
+    "@azure/communication-email": "^1.0.0",
+    "@azure/core-auth": "^1.10.0",
     "@emailjs/browser": "^4.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

@@ -1,10 +1,7 @@
 /**
- * Azure Communication Services Email Service using Official SDK
+ * Azure Communication Services Email Service
  * Handles sending emails through Azure Communication Services
  */
-
-import { EmailClient } from '@azure/communication-email';
-import { AzureKeyCredential } from '@azure/core-auth';
 
 export interface EmailRequest {
     to: string[];
@@ -21,7 +18,6 @@ export class AzureEmailService {
 
     private endpoint: string;
     private accessKey: string;
-    private emailClient: EmailClient | null = null;
 
     constructor() {
         // Get configuration from environment variables
@@ -30,17 +26,6 @@ export class AzureEmailService {
         console.log('Debug - Endpoint:', this.endpoint);
         console.log('Debug - Access Key:', this.accessKey ? 'SET' : 'NOT SET');
         console.log('Debug - Available env vars:', Object.keys(import.meta.env).filter(key => key.includes('AZURE')));
-        
-        // Initialize the email client if configured
-        if (this.isConfigured()) {
-            try {
-                const credential = new AzureKeyCredential(this.accessKey);
-                this.emailClient = new EmailClient(this.endpoint, credential);
-                console.log('Azure Communication Services Email client initialized successfully');
-            } catch (error) {
-                console.error('Failed to initialize Azure Communication Services Email client:', error);
-            }
-        }
     }
 
     /**
@@ -51,16 +36,53 @@ export class AzureEmailService {
     }
 
     /**
-     * Send email using Azure Communication Services SDK
+     * Generate SHA256 hash of content
+     */
+    private async generateContentHash(content: string): Promise<string> {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(content);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
+    }
+
+    /**
+     * Generate HMAC-SHA256 signature
+     */
+    private async generateSignature(stringToSign: string): Promise<string> {
+        const keyBytes = Uint8Array.from(atob(this.accessKey), c => c.charCodeAt(0));
+        const key = await crypto.subtle.importKey(
+            'raw',
+            keyBytes,
+            { name: 'HMAC', hash: 'SHA-256' },
+            false,
+            ['sign']
+        );
+
+        const encoder = new TextEncoder();
+        const dataBytes = encoder.encode(stringToSign);
+        const signature = await crypto.subtle.sign('HMAC', key, dataBytes);
+
+        return btoa(String.fromCharCode(...new Uint8Array(signature)));
+    }
+
+    /**
+     * Send email using Azure Communication Services with HMAC authentication
      */
     async sendEmail(emailRequest: EmailRequest): Promise<boolean> {
-        if (!this.emailClient) {
+        if (!this.isConfigured()) {
             console.warn('Azure Communication Services not configured, falling back to mailto');
             return false;
         }
 
         try {
-            const emailMessage = {
+            const url = `${this.endpoint}/emails:send?api-version=2023-03-31`;
+            const urlObj = new URL(url);
+            const host = urlObj.host;
+            const pathAndQuery = urlObj.pathname + urlObj.search;
+
+            const emailData = {
                 senderAddress: emailRequest.from || AzureEmailService.DEFAULT_FROM_EMAIL,
                 content: {
                     subject: emailRequest.subject,
@@ -75,20 +97,51 @@ export class AzureEmailService {
                 }
             };
 
-            console.log('Sending email with Azure Communication Services SDK...');
-            const poller = await this.emailClient.beginSend(emailMessage);
-            const result = await poller.pollUntilDone();
+            const requestBody = JSON.stringify(emailData);
+            const contentHash = await this.generateContentHash(requestBody);
 
-            if (result.status === 'Succeeded') {
-                console.log('Email sent successfully:', result.id);
-                return true;
-            } else {
-                console.error('Email send failed:', result.status, result.error);
+            // Generate timestamp in RFC1123 format
+            const timestamp = new Date().toUTCString();
+
+            // Create string to sign
+            const stringToSign = `POST\n${pathAndQuery}\n${timestamp};${host};${contentHash}`;
+            
+            console.log('Debug - String to sign:', stringToSign);
+            console.log('Debug - Content hash:', contentHash);
+            console.log('Debug - Timestamp:', timestamp);
+            console.log('Debug - Host:', host);
+            console.log('Debug - Path and query:', pathAndQuery);
+            
+            // Generate signature
+            const signature = await this.generateSignature(stringToSign);
+            
+            // Create authorization header
+            const authorizationHeader = `HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=${signature}`;
+            
+            console.log('Debug - Authorization header:', authorizationHeader);
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-ms-date': timestamp,
+                    'x-ms-content-sha256': contentHash,
+                    'Authorization': authorizationHeader,
+                    'Accept': 'application/json'
+                },
+                body: requestBody
+            });            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Azure email send failed:', response.status, errorText);
                 return false;
             }
 
+            const result = await response.json();
+            console.log('Email sent successfully:', result.id);
+            return true;
+
         } catch (error) {
-            console.error('Error sending email via Azure Communication Services:', error);
+            console.error('Error sending email via Azure:', error);
             return false;
         }
     }
