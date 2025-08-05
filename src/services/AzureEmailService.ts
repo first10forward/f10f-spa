@@ -23,15 +23,15 @@ export class AzureEmailService {
         // Get configuration from environment variables
         this.endpoint = import.meta.env.VITE_AZURE_COMMUNICATION_ENDPOINT || '';
         this.accessKey = import.meta.env.VITE_AZURE_COMMUNICATION_ACCESS_KEY || '';
+        console.log('Debug - Endpoint:', this.endpoint);
+        console.log('Debug - Access Key:', this.accessKey ? 'SET' : 'NOT SET');
+        console.log('Debug - Available env vars:', Object.keys(import.meta.env).filter(key => key.includes('AZURE')));
     }
 
     /**
      * Check if Azure Communication Services is properly configured
      */
     private isConfigured(): boolean {
-        console.log('Debug - Endpoint:', this.endpoint);
-        console.log('Debug - Access Key:', this.accessKey ? 'SET' : 'NOT SET');
-        console.log('Debug - Available env vars:', Object.keys(import.meta.env).filter(key => key.includes('AZURE')));
         return !!(this.endpoint && this.accessKey);
     }
 
