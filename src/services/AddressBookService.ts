@@ -1,4 +1,4 @@
-import type { AddressBookEntry, CreateAddressBookEntry, UpdateAddressBookEntry } from '../types/AddressBook';
+import type { IAddressBookEntry, ICreateAddressBookEntry, IUpdateAddressBookEntry } from '../types/AddressBook';
 import { STORAGE_KEYS } from '../constants';
 
 // Type declarations for File System Access API
@@ -37,7 +37,7 @@ class AddressBookService {
     }
 
     // Load from file if available, otherwise from localStorage
-    private async loadEntries(): Promise<AddressBookEntry[]> {
+    private async loadEntries(): Promise<IAddressBookEntry[]> {
         try {
             // First try to load from file if we have a file handle
             if (this.fileHandle) {
@@ -63,7 +63,7 @@ class AddressBookService {
     }
 
     // Load entries from JSON file
-    private async loadFromFile(): Promise<AddressBookEntry[]> {
+    private async loadFromFile(): Promise<IAddressBookEntry[]> {
         try {
             if (!this.fileHandle) return [];
 
@@ -82,7 +82,7 @@ class AddressBookService {
     }
 
     // Save to both file and localStorage
-    private async saveEntries(entries: AddressBookEntry[]): Promise<void> {
+    private async saveEntries(entries: IAddressBookEntry[]): Promise<void> {
         try {
             // Always save to localStorage as backup
             localStorage.setItem(STORAGE_KEYS.ADDRESS_BOOK, JSON.stringify(entries));
@@ -98,7 +98,7 @@ class AddressBookService {
     }
 
     // Save entries to JSON file
-    private async saveToFile(entries: AddressBookEntry[]): Promise<void> {
+    private async saveToFile(entries: IAddressBookEntry[]): Promise<void> {
         try {
             if (!this.fileHandle) return;
 
@@ -181,19 +181,19 @@ class AddressBookService {
         };
     }
 
-    async getAllEntries(): Promise<AddressBookEntry[]> {
+    async getAllEntries(): Promise<IAddressBookEntry[]> {
         return this.loadEntries();
     }
 
-    async getEntryById(id: string): Promise<AddressBookEntry | null> {
+    async getEntryById(id: string): Promise<IAddressBookEntry | null> {
         const entries = await this.loadEntries();
         return entries.find(entry => entry.id === id) || null;
     }
 
-    async createEntry(entryData: CreateAddressBookEntry): Promise<AddressBookEntry> {
+    async createEntry(entryData: ICreateAddressBookEntry): Promise<IAddressBookEntry> {
         const entries = await this.loadEntries();
 
-        const newEntry: AddressBookEntry = {
+        const newEntry: IAddressBookEntry = {
             id: this.generateId(),
             ...entryData,
             lastUpdated: new Date()
@@ -205,7 +205,7 @@ class AddressBookService {
         return newEntry;
     }
 
-    async updateEntry(updateData: UpdateAddressBookEntry): Promise<AddressBookEntry | null> {
+    async updateEntry(updateData: IUpdateAddressBookEntry): Promise<IAddressBookEntry | null> {
         const entries = await this.loadEntries();
         const index = entries.findIndex(entry => entry.id === updateData.id);
 
@@ -213,7 +213,7 @@ class AddressBookService {
             return null;
         }
 
-        const updatedEntry: AddressBookEntry = {
+        const updatedEntry: IAddressBookEntry = {
             ...entries[index],
             ...updateData,
             lastUpdated: new Date()
@@ -239,7 +239,7 @@ class AddressBookService {
         return true;
     }
 
-    async searchEntries(query: string): Promise<AddressBookEntry[]> {
+    async searchEntries(query: string): Promise<IAddressBookEntry[]> {
         const entries = await this.loadEntries();
         const lowercaseQuery = query.toLowerCase();
 

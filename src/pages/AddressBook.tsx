@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { AddressBookEntry, CreateAddressBookEntry } from '../types/AddressBook';
+import type { IAddressBookEntry, ICreateAddressBookEntry } from '../types/AddressBook';
 import { addressBookService } from '../services/AddressBookService';
 import AddressBookForm from '../components/AddressBookForm';
 import AddressBookList from '../components/AddressBookList';
@@ -9,13 +9,13 @@ import './AddressBook.css';
 type ViewMode = 'list' | 'form' | 'detail';
 
 const AddressBook: React.FC = () => {
-  const [entries, setEntries] = useState<AddressBookEntry[]>([]);
-  const [filteredEntries, setFilteredEntries] = useState<AddressBookEntry[]>([]);
+  const [entries, setEntries] = useState<IAddressBookEntry[]>([]);
+  const [filteredEntries, setFilteredEntries] = useState<IAddressBookEntry[]>([]);
   const [currentView, setCurrentView] = useState<ViewMode>('list');
-  const [editingEntry, setEditingEntry] = useState<AddressBookEntry | null>(null);
-  const [viewingEntry, setViewingEntry] = useState<AddressBookEntry | null>(null);
+  const [editingEntry, setEditingEntry] = useState<IAddressBookEntry | null>(null);
+  const [viewingEntry, setViewingEntry] = useState<IAddressBookEntry | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<keyof AddressBookEntry>('name');
+  const [sortBy, setSortBy] = useState<keyof IAddressBookEntry>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +81,7 @@ const AddressBook: React.FC = () => {
     }
   };
 
-  const handleCreateEntry = async (entryData: CreateAddressBookEntry) => {
+  const handleCreateEntry = async (entryData: ICreateAddressBookEntry) => {
     try {
       setLoading(true);
       setError(null);
@@ -97,7 +97,7 @@ const AddressBook: React.FC = () => {
     }
   };
 
-  const handleUpdateEntry = async (entryData: CreateAddressBookEntry) => {
+  const handleUpdateEntry = async (entryData: ICreateAddressBookEntry) => {
     if (!editingEntry) return;
 
     try {
@@ -142,7 +142,7 @@ const AddressBook: React.FC = () => {
     }
   };
 
-  const handleSort = (field: keyof AddressBookEntry) => {
+  const handleSort = (field: keyof IAddressBookEntry) => {
     if (sortBy === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
@@ -245,7 +245,7 @@ const AddressBook: React.FC = () => {
               
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as keyof AddressBookEntry)}
+                onChange={(e) => setSortBy(e.target.value as keyof IAddressBookEntry)}
                 className="sort-select"
               >
                 <option value="name">Sort by Name</option>

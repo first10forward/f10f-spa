@@ -1,11 +1,11 @@
 import React from 'react';
-import type { AddressBookEntry } from '../types/AddressBook';
+import type { IAddressBookEntry } from '../types/AddressBook';
 
 interface AddressBookListProps {
-  entries: AddressBookEntry[];
-  onEdit: (entry: AddressBookEntry) => void;
+  entries: IAddressBookEntry[];
+  onEdit: (entry: IAddressBookEntry) => void;
   onDelete: (id: string) => void;
-  onView: (entry: AddressBookEntry) => void;
+  onView: (entry: IAddressBookEntry) => void;
 }
 
 const AddressBookList: React.FC<AddressBookListProps> = ({
@@ -59,7 +59,7 @@ const AddressBookList: React.FC<AddressBookListProps> = ({
                     {entry.email}
                   </a>
                 ) : (
-                  <span className="info-value no-contact">No email provided</span>
+                  <span className="info-value no-value">No email provided</span>
                 )}
               </div>
               
@@ -70,7 +70,7 @@ const AddressBookList: React.FC<AddressBookListProps> = ({
                     {entry.cellPhone}
                   </a>
                 ) : (
-                  <span className="info-value no-contact">No phone provided</span>
+                  <span className="info-value no-value">No phone provided</span>
                 )}
               </div>
               

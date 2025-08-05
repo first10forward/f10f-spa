@@ -1,4 +1,4 @@
-export interface AddressBookEntry {
+export interface IAddressBookEntry {
     id: string;
     name: string;
     year: number;
@@ -8,7 +8,7 @@ export interface AddressBookEntry {
     lastUpdated: Date;
 }
 
-export interface CreateAddressBookEntry {
+export interface ICreateAddressBookEntry {
     name: string;
     year: number;
     email?: string;
@@ -16,6 +16,6 @@ export interface CreateAddressBookEntry {
     mailingAddress?: string;
 }
 
-export interface UpdateAddressBookEntry extends Partial<CreateAddressBookEntry> {
+export interface IUpdateAddressBookEntry extends Partial<ICreateAddressBookEntry> {
     id: string;
 }

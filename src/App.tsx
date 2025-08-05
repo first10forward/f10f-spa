@@ -1,18 +1,60 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AddressBook from './pages/AddressBook'
+import Nominations from './pages/Nominations'
 import './App.css'
 
-type AppPage = 'home' | 'addressbook';
+type AppPage = 'home' | 'app' | 'addressbook' | 'nominations';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')
+
+  // Handle hash-based routing for direct links from Hugo site
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.substring(1); // Remove the #
+      if (hash === 'nominations') {
+        setCurrentPage('nominations');
+      } else if (hash === 'submit-nomination') {
+        setCurrentPage('nominations');
+        // Add a small delay to ensure the page loads, then trigger the form
+        setTimeout(() => {
+          const event = new CustomEvent('show-nomination-form');
+          window.dispatchEvent(event);
+        }, 100);
+      } else if (hash === 'addressbook') {
+        setCurrentPage('addressbook');
+      } else {
+        setCurrentPage('home');
+      }
+    };
+
+    // Check hash on initial load
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+
+  // Helper function to navigate and update URL hash
+  const navigateToPage = (page: AppPage) => {
+    setCurrentPage(page);
+    if (page === 'home') {
+      window.location.hash = '';
+    } else {
+      window.location.hash = page;
+    }
+  };
 
   const renderPage = () => {
     switch (currentPage) {
       case 'addressbook':
         return <AddressBook />
-      case 'nominate':
-        return <NominationForm />
+      case 'nominations':
+        return <Nominations />
       case 'home':
       default:
         return (
@@ -21,32 +63,31 @@ function App() {
               <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div className="home-page">
                   <header className="app-header">
-                    <h1>First 10 Forward SPA</h1>
+                    <h1>First 10 Forward Tools</h1>
                     <p>Management tools for F10F organization data</p>
                   </header>
                   
                   <nav className="app-nav">
                     <div className="nav-cards">
-                      <div className="nav-card" onClick={() => setCurrentPage('addressbook')}>
+                      <div className="nav-card" onClick={() => navigateToPage('addressbook')}>
                         <h3><i className="fas fa-address-book"></i> Address Book</h3>
                         <p>Manage member contacts and information</p>
                       </div>
                       
-                      <div className="nav-card coming-soon">
-                        <h3><i className="fas fa-chart-bar"></i> Reports</h3>
-                        <p>Generate membership and activity reports</p>
-                        <span className="coming-soon-badge">Coming Soon</span>
-                      </div>
-                      
-                      <div className="nav-card coming-soon">
-                        <h3><i className="fas fa-calendar"></i> Events</h3>
-                        <p>Manage annual meetings and events</p>
-                        <span className="coming-soon-badge">Coming Soon</span>
+                      <div className="nav-card" onClick={() => navigateToPage('nominations')}>
+                        <h3><i className="fas fa-award"></i> Nominations</h3>
+                        <p>Manage organization nominations for charitable giving</p>                        
                       </div>
                       
                       <div className="nav-card coming-soon">
                         <h3><i className="fas fa-dollar-sign"></i> Donations</h3>
                         <p>Track membership fees and donations</p>
+                        <span className="coming-soon-badge">Coming Soon</span>
+                      </div>
+                      
+                      <div className="nav-cards coming-soon">
+                        <h3><i className="fas fa-chart-bar"></i> Reports</h3>
+                        <p>Generate membership and activity reports</p>
                         <span className="coming-soon-badge">Coming Soon</span>
                       </div>
                     </div>
@@ -56,6 +97,49 @@ function App() {
             </div>
           </div>
         )
+      // case 'app':
+      //   return (
+      //     <div className="container" role="main">
+      //       <div className="row">
+      //         <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      //           <div className="home-page">
+      //             <header className="app-header">
+      //               <h1>First 10 Forward SPA</h1>
+      //               <p>Management tools for F10F organization data</p>
+      //             </header>
+                  
+      //             <nav className="app-nav">
+      //               <div className="nav-cards">
+      //                 <div className="nav-card" onClick={() => setCurrentPage('addressbook')}>
+      //                   <h3><i className="fas fa-address-book"></i> Address Book</h3>
+      //                   <p>Manage member contacts and information</p>
+      //                 </div>
+                      
+      //                 <div className="nav-card coming-soon">
+      //                   <h3><i className="fas fa-chart-bar"></i> Reports</h3>
+      //                   <p>Generate membership and activity reports</p>
+      //                   <span className="coming-soon-badge">Coming Soon</span>
+      //                 </div>
+                      
+      //                 <div className="nav-card" onClick={() => setCurrentPage('nomination')}>
+      //                   <h3><i className="fas fa-calendar"></i> Nominations</h3>
+      //                   <p>Manage nominations</p>                        
+      //                 </div>
+                      
+      //                 <div className="nav-card coming-soon">
+      //                   <h3><i className="fas fa-dollar-sign"></i> Donations</h3>
+      //                   <p>Track membership fees and donations</p>
+      //                   <span className="coming-soon-badge">Coming Soon</span>
+      //                 </div>
+      //               </div>
+      //             </nav>
+      //           </div>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   )
+      // default:
+      //   return ()
     }
   }
 
@@ -145,10 +229,13 @@ function App() {
       <div id="content">
         {currentPage !== 'home' && (
           <div className="top-nav">
-            <button className="nav-home-btn" onClick={() => setCurrentPage('home')}>
+            {/* <button className="nav-home-btn" onClick={() => navigateToPage('home')}>
               <i className="fas fa-home"></i> Dashboard
-            </button>
-            <h2>{currentPage === 'addressbook' ? 'Address Book' : 'Dashboard'}</h2>
+            </button> */}
+            <h2>
+              {currentPage === 'addressbook' ? 'Address Book' : 
+               currentPage === 'nominations' ? 'Nominations' : 'Dashboard'}
+            </h2>
           </div>
         )}
         
