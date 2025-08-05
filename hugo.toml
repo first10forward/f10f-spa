@@ -2,6 +2,7 @@ baseURL = 'https://first10forward.org/'
 languageCode = 'en-us'
 title = 'First 10 Forward prototype'
 theme = 'universal'
+ignoreLogs = ['warning-goldmark-raw-html']
 
 [params]
     googlefonts = ["Josefin Sans"]
