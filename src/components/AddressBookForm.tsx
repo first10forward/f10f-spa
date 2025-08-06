@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import type { AddressBookEntry, CreateAddressBookEntry } from '../types/AddressBook';
+import type { IAddressBookEntry, ICreateAddressBookEntry } from '../types/AddressBook';
 import { GRADUATION_YEARS, VALIDATION } from '../constants';
 
 interface AddressBookFormProps {
-  entry?: AddressBookEntry;
-  onSubmit: (data: CreateAddressBookEntry) => void;
+  entry?: IAddressBookEntry;
+  onSubmit: (data: ICreateAddressBookEntry) => void;
   onCancel: () => void;
   isEditing?: boolean;
 }
@@ -15,7 +15,7 @@ const AddressBookForm: React.FC<AddressBookFormProps> = ({
   onCancel,
   isEditing = false
 }) => {
-  const [formData, setFormData] = useState<CreateAddressBookEntry>({
+  const [formData, setFormData] = useState<ICreateAddressBookEntry>({
     name: '',
     year: 0, // No default year, will be validated
     email: '',
@@ -23,7 +23,7 @@ const AddressBookForm: React.FC<AddressBookFormProps> = ({
     mailingAddress: ''
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof CreateAddressBookEntry, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ICreateAddressBookEntry, string>>>({});
 
   useEffect(() => {
     if (entry) {
@@ -38,7 +38,7 @@ const AddressBookForm: React.FC<AddressBookFormProps> = ({
   }, [entry]);
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof CreateAddressBookEntry, string>> = {};
+    const newErrors: Partial<Record<keyof ICreateAddressBookEntry, string>> = {};
 
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
@@ -68,7 +68,7 @@ const AddressBookForm: React.FC<AddressBookFormProps> = ({
     }
   };
 
-  const handleChange = (field: keyof CreateAddressBookEntry, value: string | number) => {
+  const handleChange = (field: keyof ICreateAddressBookEntry, value: string | number) => {
     setFormData(prev => ({
       ...prev,
       [field]: value

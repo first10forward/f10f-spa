@@ -1,69 +1,104 @@
-# React + TypeScript + Vite
+# First 10 Forward Single Page Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript admin application for managing First 10 Forward organization data, integrated with Hugo static site generator and deployed on Azure Static Web Apps.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This SPA provides administrative tools for F10F including:
+- 📇 **Address Book**: Member contact management
+- 🏆 **Nominations**: Organization nomination system with email notifications
+- 💰 **Donations**: Membership fee and donation tracking (coming soon)
+- 📊 **Reports**: Data analytics and reporting (coming soon)
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Bootstrap 3.3.7 (matching Hugo site)
+- **Storage**: Azure Blob Storage with localStorage fallback
+- **Email**: Azure Communication Services with mailto fallback
+- **Deployment**: Azure Static Web Apps (free tier)
+- **Integration**: Hugo static site navigation
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Email System
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+The application supports two email methods:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Azure Communication Services (Recommended)
+Professional email sending with:
+- Emails from your domain (`noreply@first10forward.org`)
+- Automatic delivery without user interaction
+- HTML formatting and delivery tracking
+- Member CC functionality
+
+See [Azure Email Setup Guide](./docs/azure-email-setup.md) for configuration details.
+
+### 2. Mailto Links (Fallback)
+Opens user's email client with pre-filled content:
+- Works without configuration
+- Requires user to manually send email
+- Uses user's email client and settings
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Quick Start
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
+- Node.js 18+ and npm
+- Azure account (for production deployment)
+- Hugo 0.120+ (for integrated site)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Local Development
+
+1. **Clone and install**:
+   ```bash
+   git clone <repository-url>
+   cd f10f-spa
+   npm install
+   ```
+
+2. **Environment setup**:
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your Azure Communication Services credentials
+   ```
+
+3. **Start development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ./build-all.sh  # Includes Hugo integration
+   ```
+
+### Hugo Integration
+
+The app integrates with the main F10F Hugo site:
+- React app builds to `public/app/`
+- Hugo navigation includes "Admin Tools" link
+- Hash-based routing for direct nomination access
+- Shared Bootstrap 3.3.7 styling for consistency
+
+## Deployment
+
+### Azure Static Web Apps
+
+1. **Create Static Web App** in Azure portal
+2. **Connect GitHub repository** for automatic deployment
+3. **Configure environment variables**:
+   - `VITE_AZURE_COMMUNICATION_ENDPOINT`
+   - `VITE_AZURE_COMMUNICATION_ACCESS_KEY`
+4. **Push to repository** triggers automatic deployment
+
+See [Azure Email Setup Guide](./docs/azure-email-setup.md) for detailed configuration.
+
+## Support
+
+For technical issues:
+- Check the [Azure Email Setup Guide](./docs/azure-email-setup.md)
+- Review Azure portal logs and metrics
+
+For F10F organization questions:
+- Email: hello@first10forward.org
+- Nominations: nominations@first10forward.org

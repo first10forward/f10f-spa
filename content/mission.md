@@ -17,6 +17,8 @@ Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organizat
 
 ## Past Recipients
 
+[Submit a Nomination for 2025](../app/#submit-nomination) 
+
 ## 2024 [Sea Sisters](https://www.seasisters.org/)
 ![2024 Awardee: Sea Sisters](img/photos/24-grantee_2.jpg)
 

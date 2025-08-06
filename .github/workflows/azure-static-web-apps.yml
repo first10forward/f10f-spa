@@ -1,13 +1,13 @@
 name: Azure Static Web Apps CI/CD
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     types: [opened, synchronize, reopened, closed]
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - develop
 
 jobs:
   build_and_deploy_job:
@@ -30,7 +30,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
+          hugo-version: '0.148.1'
           extended: true
       
       # Build Hugo site first
@@ -43,6 +43,9 @@ jobs:
           VITE_AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.VITE_AZURE_STORAGE_ACCOUNT_NAME }}
           VITE_AZURE_STORAGE_SAS_TOKEN: ${{ secrets.VITE_AZURE_STORAGE_SAS_TOKEN }}
           VITE_AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.VITE_AZURE_STORAGE_CONTAINER_NAME }}
+          VITE_AZURE_COMMUNICATION_ENDPOINT: ${{ secrets.VITE_AZURE_COMMUNICATION_ENDPOINT }}
+          VITE_AZURE_COMMUNICATION_ACCESS_KEY: ${{ secrets.VITE_AZURE_COMMUNICATION_ACCESS_KEY }}
+          VITE_FROM_EMAIL_DOMAIN: ${{ secrets.VITE_FROM_EMAIL_DOMAIN }}
         run: |
           npm ci
           npm run build

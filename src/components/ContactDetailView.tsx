@@ -1,8 +1,8 @@
 import React from 'react';
-import type { AddressBookEntry } from '../types/AddressBook';
+import type { IAddressBookEntry } from '../types/AddressBook';
 
 interface ContactDetailViewProps {
-  entry: AddressBookEntry;
+  entry: IAddressBookEntry;
   onEdit: () => void;
   onClose: () => void;
   onDelete: () => void;
@@ -71,7 +71,7 @@ const ContactDetailView: React.FC<ContactDetailViewProps> = ({
                   </button>
                 </div>
               ) : (
-                <span className="no-contact">No email address provided</span>
+                <span className="no-value">No email address provided</span>
               )}
             </div>
             <div className="detail-item">
@@ -88,7 +88,7 @@ const ContactDetailView: React.FC<ContactDetailViewProps> = ({
                   </button>
                 </div>
               ) : (
-                <span className="no-contact">No phone number provided</span>
+                <span className="no-value">No phone number provided</span>
               )}
             </div>
           </div>
