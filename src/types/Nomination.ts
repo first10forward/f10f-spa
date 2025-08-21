@@ -8,6 +8,7 @@ export interface INomination {
     filingID?: string,
     mission?: string,
     attestation: boolean,
+    grantYear: number,
     lastUpdated: Date
 }
 

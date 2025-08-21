@@ -19,12 +19,10 @@ const AddressBook: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [fileStatus, setFileStatus] = useState<{ hasFile: boolean; fileName: string | null }>({ hasFile: false, fileName: null });
 
   // Load entries on component mount
   useEffect(() => {
     loadEntries();
-    updateFileStatus();
   }, []);
 
   // Filter and sort entries when dependencies change
@@ -151,9 +149,9 @@ const AddressBook: React.FC = () => {
     }
   };
 
-  const exportData = () => {
+  const exportData = async () => {
     try {
-      const jsonData = addressBookService.exportToJson();
+      const jsonData = await addressBookService.exportEntries();
       const blob = new Blob([jsonData], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -177,7 +175,7 @@ const AddressBook: React.FC = () => {
     reader.onload = async (e) => {
       try {
         const jsonData = e.target?.result as string;
-        await addressBookService.importFromJson(jsonData);
+        await addressBookService.importEntries(jsonData);
         await loadEntries();
         setError(null);
       } catch (err) {
@@ -186,45 +184,6 @@ const AddressBook: React.FC = () => {
       }
     };
     reader.readAsText(file);
-  };
-
-  const updateFileStatus = () => {
-    setFileStatus(addressBookService.getFileStatus());
-  };
-
-  const initializeFileAccess = async () => {
-    try {
-      setLoading(true);
-      const success = await addressBookService.initializeFileAccess();
-      if (success) {
-        updateFileStatus();
-        setError(null);
-      } else {
-        setError('File access not supported in this browser. Data will be saved locally only.');
-      }
-    } catch (err) {
-      setError('Failed to initialize file access.');
-      console.error('Error initializing file access:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadFromFile = async () => {
-    try {
-      setLoading(true);
-      const success = await addressBookService.loadFromExistingFile();
-      if (success) {
-        await loadEntries();
-        updateFileStatus();
-        setError(null);
-      }
-    } catch (err) {
-      setError('Failed to load from file.');
-      console.error('Error loading from file:', err);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -269,20 +228,6 @@ const AddressBook: React.FC = () => {
                 className="btn btn-primary"
               >
                 Add Contact
-              </button>
-              
-              {fileStatus.hasFile ? (
-                <span className="file-status">
-                  📁 Saving to: {fileStatus.fileName}
-                </span>
-              ) : (
-                <button onClick={initializeFileAccess} className="btn btn-info">
-                  Save to File
-                </button>
-              )}
-              
-              <button onClick={loadFromFile} className="btn btn-secondary">
-                Load from File
               </button>
               
               <button onClick={exportData} className="btn btn-secondary">

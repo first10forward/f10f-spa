@@ -1,45 +1,27 @@
 import type { INomination, ICreateNomination, IUpdateNomination } from '../types/Nomination';
-import AzureStorageService from './AzureStorageService';
+import { jsonStorage, type JSONStorageConfig } from './UnifiedStorageService';
+import { STORAGE_CONFIGS, GRANT_YEAR } from '../constants';
 
 export class NominationsService {
-    private static readonly STORAGE_KEY = 'nominations';
-    private static readonly CONTAINER_NAME = 'nominations';
-    private azureService: AzureStorageService;
-
-    constructor() {
-        this.azureService = new AzureStorageService();
-    }
+    private static readonly STORAGE_CONFIG: JSONStorageConfig = STORAGE_CONFIGS.NOMINATIONS;
 
     private generateId(): string {
         return Date.now().toString() + Math.random().toString(36).substr(2, 9);
     }
 
     async getNominations(): Promise<INomination[]> {
-        try {
-            // Try Azure Storage first
-            const azureData = await this.azureService.getJsonData<INomination[]>(
-                NominationsService.CONTAINER_NAME,
-                'nominations.json'
-            );
-
-            if (azureData && azureData.length > 0) {
-                // Sync to localStorage for offline access
-                localStorage.setItem(NominationsService.STORAGE_KEY, JSON.stringify(azureData));
-                return azureData;
-            }
-        } catch (error) {
-            console.log('Azure Storage not available, using localStorage:', error);
-        }
-
-        // Fallback to localStorage
-        const stored = localStorage.getItem(NominationsService.STORAGE_KEY);
-        return stored ? JSON.parse(stored) : [];
+        const nominations = await jsonStorage.loadJSON<INomination>(NominationsService.STORAGE_CONFIG);
+        return nominations.map(nom => ({
+            ...nom,
+            lastUpdated: new Date(nom.lastUpdated)
+        }));
     }
 
     async addNomination(nominationData: ICreateNomination): Promise<INomination> {
         const newNomination: INomination = {
             id: this.generateId(),
             ...nominationData,
+            grantYear: GRANT_YEAR.CURRENT,
             lastUpdated: new Date()
         };
 
@@ -81,20 +63,7 @@ export class NominationsService {
     }
 
     private async saveNominations(nominations: INomination[]): Promise<void> {
-        // Save to localStorage immediately
-        localStorage.setItem(NominationsService.STORAGE_KEY, JSON.stringify(nominations));
-
-        // Try to sync to Azure Storage
-        try {
-            await this.azureService.saveJsonData(
-                NominationsService.CONTAINER_NAME,
-                'nominations.json',
-                nominations
-            );
-        } catch (error) {
-            console.log('Failed to sync to Azure Storage:', error);
-            // Continue with localStorage - data is still saved locally
-        }
+        await jsonStorage.saveJSON(NominationsService.STORAGE_CONFIG, nominations);
     }
 
     // Search and filter methods
@@ -118,36 +87,17 @@ export class NominationsService {
         );
     }
 
-    async clearAllNominations(): Promise<void> {
-        await this.saveNominations([]);
-    }
-
     // Import/export functionality
     async exportNominations(): Promise<string> {
-        const nominations = await this.getNominations();
-        return JSON.stringify(nominations, null, 2);
+        return jsonStorage.exportJSON(NominationsService.STORAGE_CONFIG);
     }
 
     async importNominations(jsonData: string): Promise<void> {
-        try {
-            const nominations: INomination[] = JSON.parse(jsonData);
+        await jsonStorage.importJSON(NominationsService.STORAGE_CONFIG, jsonData);
+    }
 
-            // Validate the data structure
-            if (!Array.isArray(nominations)) {
-                throw new Error('Invalid data format: expected an array');
-            }
-
-            // Basic validation of nomination objects
-            for (const nomination of nominations) {
-                if (!nomination.id || !nomination.memberName || !nomination.nominee) {
-                    throw new Error('Invalid nomination data: missing required fields');
-                }
-            }
-
-            await this.saveNominations(nominations);
-        } catch (error) {
-            throw new Error(`Failed to import nominations: ${error}`);
-        }
+    async clearAllNominations(): Promise<void> {
+        await this.saveNominations([]);
     }
 }
 

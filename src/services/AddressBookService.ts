@@ -1,197 +1,29 @@
 import type { IAddressBookEntry, ICreateAddressBookEntry, IUpdateAddressBookEntry } from '../types/AddressBook';
-import { STORAGE_KEYS } from '../constants';
+import { jsonStorage, type JSONStorageConfig } from './UnifiedStorageService';
+import { STORAGE_CONFIGS } from '../constants';
 
-// Type declarations for File System Access API
-declare global {
-    interface Window {
-        showSaveFilePicker?: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>;
-        showOpenFilePicker?: (options?: OpenFilePickerOptions) => Promise<FileSystemFileHandle[]>;
-    }
-}
-
-interface SaveFilePickerOptions {
-    suggestedName?: string;
-    types?: FilePickerAcceptType[];
-}
-
-interface OpenFilePickerOptions {
-    types?: FilePickerAcceptType[];
-}
-
-interface FilePickerAcceptType {
-    description: string;
-    accept: Record<string, string[]>;
-}
-
-class AddressBookService {
-    private fileHandle: FileSystemFileHandle | null = null;
-    private readonly fileName = 'f10f-address-book.json';
+export class AddressBookService {
+    private static readonly STORAGE_CONFIG: JSONStorageConfig = STORAGE_CONFIGS.ADDRESS_BOOK;
 
     private generateId(): string {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
-    // Check if File System Access API is supported
-    private supportsFileSystemAccess(): boolean {
-        return 'showSaveFilePicker' in window && 'showOpenFilePicker' in window;
-    }
-
-    // Load from file if available, otherwise from localStorage
-    private async loadEntries(): Promise<IAddressBookEntry[]> {
-        try {
-            // First try to load from file if we have a file handle
-            if (this.fileHandle) {
-                const fileEntries = await this.loadFromFile();
-                if (fileEntries.length > 0) {
-                    return fileEntries;
-                }
-            }
-
-            // Fallback to localStorage
-            const data = localStorage.getItem(STORAGE_KEYS.ADDRESS_BOOK);
-            if (!data) return [];
-
-            const entries = JSON.parse(data);
-            return entries.map((entry: any) => ({
-                ...entry,
-                lastUpdated: new Date(entry.lastUpdated)
-            }));
-        } catch (error) {
-            console.error('Error loading address book entries:', error);
-            return [];
-        }
-    }
-
-    // Load entries from JSON file
-    private async loadFromFile(): Promise<IAddressBookEntry[]> {
-        try {
-            if (!this.fileHandle) return [];
-
-            const file = await this.fileHandle.getFile();
-            const text = await file.text();
-            const entries = JSON.parse(text);
-
-            return entries.map((entry: any) => ({
-                ...entry,
-                lastUpdated: new Date(entry.lastUpdated)
-            }));
-        } catch (error) {
-            console.error('Error loading from file:', error);
-            return [];
-        }
-    }
-
-    // Save to both file and localStorage
-    private async saveEntries(entries: IAddressBookEntry[]): Promise<void> {
-        try {
-            // Always save to localStorage as backup
-            localStorage.setItem(STORAGE_KEYS.ADDRESS_BOOK, JSON.stringify(entries));
-
-            // Also save to file if we have a file handle
-            if (this.fileHandle) {
-                await this.saveToFile(entries);
-            }
-        } catch (error) {
-            console.error('Error saving address book entries:', error);
-            throw new Error('Failed to save address book entries');
-        }
-    }
-
-    // Save entries to JSON file
-    private async saveToFile(entries: IAddressBookEntry[]): Promise<void> {
-        try {
-            if (!this.fileHandle) return;
-
-            const writable = await this.fileHandle.createWritable();
-            await writable.write(JSON.stringify(entries, null, 2));
-            await writable.close();
-        } catch (error) {
-            console.error('Error saving to file:', error);
-            // Don't throw here - localStorage is still working
-        }
-    }
-
-    // Initialize file access - let user pick a file location
-    async initializeFileAccess(): Promise<boolean> {
-        try {
-            if (!this.supportsFileSystemAccess() || !window.showSaveFilePicker) {
-                console.log('File System Access API not supported');
-                return false;
-            }
-
-            this.fileHandle = await window.showSaveFilePicker({
-                suggestedName: this.fileName,
-                types: [{
-                    description: 'JSON files',
-                    accept: { 'application/json': ['.json'] }
-                }]
-            });
-
-            // Load existing data from localStorage and save to file
-            const existingEntries = await this.getAllEntries();
-            if (existingEntries.length > 0) {
-                await this.saveToFile(existingEntries);
-            }
-
-            return true;
-        } catch (error) {
-            const err = error as Error;
-            if (err.name !== 'AbortError') {
-                console.error('Error initializing file access:', error);
-            }
-            return false;
-        }
-    }
-
-    // Load from an existing file
-    async loadFromExistingFile(): Promise<boolean> {
-        try {
-            if (!this.supportsFileSystemAccess() || !window.showOpenFilePicker) {
-                return false;
-            }
-
-            const [fileHandle] = await window.showOpenFilePicker({
-                types: [{
-                    description: 'JSON files',
-                    accept: { 'application/json': ['.json'] }
-                }]
-            });
-
-            this.fileHandle = fileHandle;
-            const entries = await this.loadFromFile();
-
-            // Save to localStorage as well
-            localStorage.setItem(STORAGE_KEYS.ADDRESS_BOOK, JSON.stringify(entries));
-
-            return true;
-        } catch (error) {
-            const err = error as Error;
-            if (err.name !== 'AbortError') {
-                console.error('Error loading from file:', error);
-            }
-            return false;
-        }
-    }
-
-    // Get file status
-    getFileStatus(): { hasFile: boolean; fileName: string | null } {
-        return {
-            hasFile: !!this.fileHandle,
-            fileName: this.fileHandle ? this.fileName : null
-        };
-    }
-
     async getAllEntries(): Promise<IAddressBookEntry[]> {
-        return this.loadEntries();
+        const entries = await jsonStorage.loadJSON<IAddressBookEntry>(AddressBookService.STORAGE_CONFIG);
+        return entries.map(entry => ({
+            ...entry,
+            lastUpdated: new Date(entry.lastUpdated)
+        }));
     }
 
     async getEntryById(id: string): Promise<IAddressBookEntry | null> {
-        const entries = await this.loadEntries();
+        const entries = await this.getAllEntries();
         return entries.find(entry => entry.id === id) || null;
     }
 
     async createEntry(entryData: ICreateAddressBookEntry): Promise<IAddressBookEntry> {
-        const entries = await this.loadEntries();
+        const entries = await this.getAllEntries();
 
         const newEntry: IAddressBookEntry = {
             id: this.generateId(),
@@ -206,7 +38,7 @@ class AddressBookService {
     }
 
     async updateEntry(updateData: IUpdateAddressBookEntry): Promise<IAddressBookEntry | null> {
-        const entries = await this.loadEntries();
+        const entries = await this.getAllEntries();
         const index = entries.findIndex(entry => entry.id === updateData.id);
 
         if (index === -1) {
@@ -226,7 +58,7 @@ class AddressBookService {
     }
 
     async deleteEntry(id: string): Promise<boolean> {
-        const entries = await this.loadEntries();
+        const entries = await this.getAllEntries();
         const index = entries.findIndex(entry => entry.id === id);
 
         if (index === -1) {
@@ -240,7 +72,7 @@ class AddressBookService {
     }
 
     async searchEntries(query: string): Promise<IAddressBookEntry[]> {
-        const entries = await this.loadEntries();
+        const entries = await this.getAllEntries();
         const lowercaseQuery = query.toLowerCase();
 
         return entries.filter(entry =>
@@ -251,28 +83,21 @@ class AddressBookService {
         );
     }
 
-    // Utility method to export data as JSON file
-    exportToJson(): string {
-        const entries = JSON.parse(localStorage.getItem(STORAGE_KEYS.ADDRESS_BOOK) || '[]');
-        return JSON.stringify(entries, null, 2);
+    private async saveEntries(entries: IAddressBookEntry[]): Promise<void> {
+        await jsonStorage.saveJSON(AddressBookService.STORAGE_CONFIG, entries);
     }
 
-    // Utility method to import data from JSON
-    async importFromJson(jsonData: string): Promise<void> {
-        try {
-            const entries = JSON.parse(jsonData);
+    // Import/export functionality
+    async exportEntries(): Promise<string> {
+        return jsonStorage.exportJSON(AddressBookService.STORAGE_CONFIG);
+    }
 
-            // Validate the data structure
-            const validatedEntries = entries.map((entry: any) => ({
-                ...entry,
-                lastUpdated: new Date(entry.lastUpdated || new Date())
-            }));
+    async importEntries(jsonData: string): Promise<void> {
+        await jsonStorage.importJSON(AddressBookService.STORAGE_CONFIG, jsonData);
+    }
 
-            await this.saveEntries(validatedEntries);
-        } catch (error) {
-            console.error('Error importing JSON data:', error);
-            throw new Error('Invalid JSON data format');
-        }
+    async clearAllEntries(): Promise<void> {
+        await this.saveEntries([]);
     }
 }
 

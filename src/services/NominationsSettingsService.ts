@@ -1,4 +1,5 @@
-import AzureStorageService from './AzureStorageService';
+import { jsonStorage } from './UnifiedStorageService';
+import { STORAGE_CONFIGS, DEFAULTS } from '../constants';
 
 export interface INominationsSettings {
     isOpen: boolean;
@@ -7,42 +8,29 @@ export interface INominationsSettings {
 }
 
 export class NominationsSettingsService {
-    private static readonly STORAGE_KEY = 'nominations-settings';
-    private static readonly CONTAINER_NAME = 'nominations';
-    private static readonly SETTINGS_FILE = 'settings.json';
-    private azureService: AzureStorageService;
-
-    constructor() {
-        this.azureService = new AzureStorageService();
-    }
+    private static readonly STORAGE_CONFIG = STORAGE_CONFIGS.NOMINATIONS_SETTINGS;
 
     async getSettings(): Promise<INominationsSettings> {
         try {
-            // Try Azure Storage first
-            const azureData = await this.azureService.getJsonData<INominationsSettings>(
-                NominationsSettingsService.CONTAINER_NAME,
-                NominationsSettingsService.SETTINGS_FILE
+            const settings = await jsonStorage.loadJSON<INominationsSettings>(
+                NominationsSettingsService.STORAGE_CONFIG
             );
 
-            if (azureData) {
-                // Sync to localStorage for offline access
-                localStorage.setItem(NominationsSettingsService.STORAGE_KEY, JSON.stringify(azureData));
-                return azureData;
+            if (settings.length > 0) {
+                const settingsData = settings[0];
+                return {
+                    ...settingsData,
+                    lastUpdated: new Date(settingsData.lastUpdated)
+                };
             }
         } catch (error) {
-            console.log('Azure Storage not available for settings, using localStorage:', error);
-        }
-
-        // Fallback to localStorage
-        const stored = localStorage.getItem(NominationsSettingsService.STORAGE_KEY);
-        if (stored) {
-            return JSON.parse(stored);
+            console.log('Failed to load settings, using defaults:', error);
         }
 
         // Default settings - nominations are closed by default
         return {
-            isOpen: false,
-            closedMessage: 'Nominations are currently closed. Please check back later.',
+            isOpen: DEFAULTS.NOMINATIONS.IS_OPEN,
+            closedMessage: DEFAULTS.NOMINATIONS.CLOSED_MESSAGE,
             lastUpdated: new Date()
         };
     }
@@ -63,7 +51,7 @@ export class NominationsSettingsService {
     async closeNominations(message?: string): Promise<INominationsSettings> {
         return this.updateSettings({
             isOpen: false,
-            closedMessage: message || 'Nominations are currently closed. Please check back later.'
+            closedMessage: message || DEFAULTS.NOMINATIONS.CLOSED_MESSAGE
         });
     }
 
@@ -74,20 +62,8 @@ export class NominationsSettingsService {
     }
 
     private async saveSettings(settings: INominationsSettings): Promise<void> {
-        // Save to localStorage immediately
-        localStorage.setItem(NominationsSettingsService.STORAGE_KEY, JSON.stringify(settings));
-
-        // Try to sync to Azure Storage
-        try {
-            await this.azureService.saveJsonData(
-                NominationsSettingsService.CONTAINER_NAME,
-                NominationsSettingsService.SETTINGS_FILE,
-                settings
-            );
-        } catch (error) {
-            console.log('Failed to sync settings to Azure Storage:', error);
-            // Continue with localStorage - data is still saved locally
-        }
+        // Save as array with single settings object for consistency with JSON storage pattern
+        await jsonStorage.saveJSON(NominationsSettingsService.STORAGE_CONFIG, [settings]);
     }
 }
 

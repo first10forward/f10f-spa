@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import type { ICreateNomination, INomination } from '../types/Nomination';
+import { GRANT_YEAR } from '../constants';
 import EmailService from '../services/EmailService';
 
 interface NominationFormProps {
@@ -97,6 +98,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
                         ...formData,
                         attestation: formData.attestation !== null ? formData.attestation : false,
                         id: '',
+                        grantYear: GRANT_YEAR.CURRENT,
                         lastUpdated: new Date()
                     };
                     
