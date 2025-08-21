@@ -373,6 +373,218 @@
   background-color: #ffc107;
 }
 
+/* Admin Controls */
+.admin-controls {
+  margin-bottom: 25px;
+}
+
+.admin-controls .panel {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #f0ad4e;
+}
+
+.admin-controls .panel-header {
+  background-color: #fcf8e3;
+  padding: 15px;
+  border-bottom: 1px solid #f0ad4e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-controls .panel-header h4 {
+  margin: 0;
+  color: #8a6d3b;
+}
+
+.admin-controls .panel-body {
+  padding: 20px;
+}
+
+.admin-controls .badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+.admin-controls .badge-success {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.admin-controls .badge-danger {
+  background-color: #d9534f;
+  color: white;
+}
+
+.admin-controls .message-input-section {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+/* Nominations Closed Message */
+.nominations-closed {
+  margin-bottom: 25px;
+}
+
+.nominations-closed .panel {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #5bc0de;
+}
+
+.nominations-closed .panel-header {
+  background-color: #d9edf7;
+  padding: 20px;
+  border-bottom: 1px solid #5bc0de;
+}
+
+.nominations-closed .panel-body {
+  background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+  border-radius: 0 0 4px 4px;
+  padding: 30px;
+}
+
+.nominations-closed i.fa-exclamation-triangle {
+  animation: pulse 2s infinite;
+}
+
+/* Nominees Grid */
+.nominees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.nominee-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.nominee-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.nominee-number {
+  background: linear-gradient(135deg, #5bc0de, #31708f);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.nominee-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nominee-name {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.nominee-website {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.nominee-website .website-link {
+  color: #5bc0de;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.nominee-website .website-link:hover {
+  color: #31708f;
+  text-decoration: underline;
+}
+
+.nominee-mission {
+  margin: 12px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.nominee-meta {
+  margin: 10px 0 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.nominees-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #e0e0e0;
+  margin-top: 20px;
+}
+
+.nominees-footer p {
+  margin: 5px 0;
+}
+
+.no-nominees {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Responsive adjustments for nominees */
+@media (max-width: 768px) {
+  .nominees-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .nominee-card {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .nominee-number {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .nominee-name {
+    font-size: 16px;
+  }
+  
+  .nominations-closed .panel-body {
+    padding: 20px;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
 /* Email Options Styling */
 .email-options {
   background-color: #f8f9fa;
