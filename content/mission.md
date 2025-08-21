@@ -15,9 +15,11 @@ male-dominated industries. Our members share a desire to "pay it forward" to gir
 First10Forward raises money to support charitable organizations whose activities advance women and girls pursuing non-traditional careers.
 Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organization selected based on member votes.
 
-## Past Recipients
+### [2025 Nominees](../nominations)
+<!-- [Submit a Nomination for 2025](../app/#submit-nomination)  -->
 
-[Submit a Nomination for 2025](../app/#submit-nomination) 
+
+## Past Recipients
 
 ## 2024 [Sea Sisters](https://www.seasisters.org/)
 ![2024 Awardee: Sea Sisters](img/photos/24-grantee_2.jpg)
