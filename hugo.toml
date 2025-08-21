@@ -90,7 +90,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 
 [params.topbar]
     enable = true
-    text = "<p>Contact us at hello@first10forward.org</p>"
+    text = "<p>Contact us at <a href='mailto:hello@first10forward.org'>hello@first10forward.org</a></p>"
 
 [params.carouselHomepage]
     enable = true

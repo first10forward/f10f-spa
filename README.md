@@ -102,3 +102,5 @@ For technical issues:
 For F10F organization questions:
 - Email: hello@first10forward.org
 - Nominations: nominations@first10forward.org
+
+icon source: https://www.streamlinehq.com/icons/freehand-duotone-free

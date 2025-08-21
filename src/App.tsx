@@ -64,14 +64,20 @@ function App() {
                 <div className="home-page">
                   <header className="app-header">
                     <h1>First 10 Forward Tools</h1>
-                    <p>Management tools for F10F organization data</p>
+                    <h3>Board tools for F10F organization data</h3>
                   </header>
                   
                   <nav className="app-nav">
                     <div className="nav-cards">
-                      <div className="nav-card" onClick={() => navigateToPage('addressbook')}>
+                      <div className="nav-card" onClick={() => window.open('https://outlook.office.com', '_blank')}>
+                        <h3><i className="fas fa-envelope"></i> Outlook Email</h3>
+                        <p>Access your F10F email</p>
+                      </div>
+                      
+                      <div className="nav-card coming-soon" onClick={() => navigateToPage('addressbook')}>
                         <h3><i className="fas fa-address-book"></i> Address Book</h3>
                         <p>Manage member contacts and information</p>
+                        <span className="coming-soon-badge">Coming Soon</span>
                       </div>
                       
                       <div className="nav-card" onClick={() => navigateToPage('nominations')}>
@@ -82,12 +88,6 @@ function App() {
                       <div className="nav-card coming-soon">
                         <h3><i className="fas fa-dollar-sign"></i> Donations</h3>
                         <p>Track membership fees and donations</p>
-                        <span className="coming-soon-badge">Coming Soon</span>
-                      </div>
-                      
-                      <div className="nav-cards coming-soon">
-                        <h3><i className="fas fa-chart-bar"></i> Reports</h3>
-                        <p>Generate membership and activity reports</p>
                         <span className="coming-soon-badge">Coming Soon</span>
                       </div>
                     </div>
