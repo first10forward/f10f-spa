@@ -150,7 +150,7 @@ function App() {
           <div className="container">
             <div className="row">
               <div className="col-xs-5">
-                <p>Contact us at hello@first10forward.org</p>
+                <p>Contact us at <a href='mailto:hello@first10forward.org'>hello@first10forward.org</a></p>
               </div>
               <div className="col-xs-7">
                 <div className="social">
