@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const socialDiv = document.querySelector('#top .social');
   
   if (socialDiv) {
+    // Create the party link
+    const partyLink = document.createElement('a');
+    partyLink.href = '/annual-meeting-details';
+    partyLink.className = 'party-link';
+    partyLink.title = 'Party!';
+    partyLink.innerHTML = '<div class="mini-icon"><img class="img-fluid" src="img/icons/party.svg" alt="Itinerary"><i class="img/icons/party.svg"></i></div>';
+
+    // Add the link to the social div
+    socialDiv.appendChild(partyLink);
+        
     // Create the admin link
     const adminLink = document.createElement('a');
     adminLink.href = '/app';
@@ -13,5 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add the link to the social div
     socialDiv.appendChild(adminLink);
+
   }
 });

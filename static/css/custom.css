@@ -13,6 +13,23 @@ body {
   height: 2.5em
 }
 
+.mini-icon {
+  display: inline-block;
+  background-color: white;
+  color: #fff;
+  border: solid 1px #fff;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+}
+.mini-icon .img-responsive {
+  display: inline-flex;
+  height: 1em;
+}
+.mini-icon .img-fluid{
+  height: .85em
+}
+
 @media (max-width: 991px) {
   .home-carousel h1 {
     font-size: 2.1em;
@@ -69,6 +86,7 @@ body {
   color: #999;
   font-size: 24px !important;
   padding: 0;
+  margin: .2em;
   transition: all 0.2s ease-out;
   text-decoration: none;
   line-height: 1;
@@ -84,6 +102,28 @@ body {
   outline: none;
   color: var(--primary-accent, #38a7bb);
 }
+
+/* Party icon styling */
+.party-link {
+  font-size: 24px !important;
+  padding: 0;
+  margin: .2em;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.party-link:hover {
+  color: var(--primary-accent, #38a7bb);
+  text-decoration: none;
+  transform: rotate(90deg);
+}
+
+.paety-link:focus {
+  outline: none;
+  color: var(--primary-accent, #38a7bb);
+}
+
 
 /* Make the top header row bigger */
 #top {
