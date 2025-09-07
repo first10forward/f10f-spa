@@ -19,6 +19,8 @@ Treasurer – Connie (Dato) English (1986)
 
 Webmaster/Controller – Rachel Wright (1989)
 
+Auditor - Jamie (Carr) Conners (1982)
+
 ## At Large
 Carolyn Kurtz (1986)
 
