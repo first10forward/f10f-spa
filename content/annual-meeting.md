@@ -8,15 +8,11 @@ Organizations](../nomination#eligibility) they believe should be awarded First10
 which Eligible Charitable Organization will receive the Annual Grant. The Annual Meeting also includes social activities, networking, 
 and community. It is held at a different resort each year over from Saturday to Tuesday. 
 
-## [2025 First10Forward Annual Meeting](../annual-meeting-details)
-{{< super >}}*[click for details!](../annual-meeting-details)*{{</ super >}}
-
-Our 2025 Annual Meeting will be held at the [Couer d’Alene Resort](https://www.cdaresort.com/) in Idaho Sep 6-9, 2025! 
-{{< notes warning >}}The deadline to reserve a room is July 15, 2025.{{</ notes >}} For those planning to fly, the closest airport is Spokane, WA, and the resort offers a shuttle service but it must be booked in advance. 
-
-All Eligible Women graduates of the USMMA are encouraged to join!
-
 ## Past Annual Meetings
+
+## 2025 Couer d'Alene, ID
+
+Our 2025 Annual Meeting was be held at the [Couer d’Alene Resort](https://www.cdaresort.com/) in Idaho Sep 6-9, 2025.
 
 ## 2024 Wading River, NY
 

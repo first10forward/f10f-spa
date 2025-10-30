@@ -72,6 +72,12 @@ ignoreLogs = ['warning-goldmark-raw-html']
     parent     = "menu.about"
 
 [[menu.main]]
+    name       = "News"
+    url        = "/news"
+    weight     = 23
+    parent     = "menu.about"
+
+[[menu.main]]
     name       = "Join Us"
     weight     = 3
     identifier = "menu.join"

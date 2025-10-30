@@ -1,0 +1,37 @@
+<!-- News Ticker -->
+{{ if .Site.Data.news }}
+<div class="news-ticker-wrapper">
+  <div class="news-ticker-container">
+    <div class="news-ticker-label">
+      <i class="fas fa-bullhorn"></i>
+      <span>News</span>
+    </div>
+    <div class="news-ticker-content">
+      <div class="news-ticker-track">
+        {{ range .Site.Data.news }}
+        <div class="news-ticker-item">
+          {{ if .link }}
+            <a href="{{ .link }}" class="news-ticker-link">{{ .text }}</a>
+          {{ else }}
+            <span>{{ .text }}</span>
+          {{ end }}
+          <span class="news-ticker-separator">•</span>
+        </div>
+        {{ end }}
+        <!-- Duplicate items for seamless loop -->
+        {{ range .Site.Data.news }}
+        <div class="news-ticker-item">
+          {{ if .link }}
+            <a href="{{ .link }}" class="news-ticker-link">{{ .text }}</a>
+          {{ else }}
+            <span>{{ .text }}</span>
+          {{ end }}
+          <span class="news-ticker-separator">•</span>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
+<!-- *** NEWS TICKER END *** -->

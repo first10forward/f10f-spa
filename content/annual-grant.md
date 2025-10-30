@@ -16,5 +16,5 @@ After all nominated organizations have been presented, members vote on which one
 entirety* to the organization that receives the most votes.
 
 <!-- [Submit a Nomination](../app/#submit-nomination) -->
-### [2025 Nominees](../nominations)
+<!-- ### [2025 Nominees](../nominations) -->
 
