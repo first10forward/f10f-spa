@@ -6,7 +6,11 @@ title: "Press Release: First 10 Forward Awards 2025 Annual Grant to Missouri Wom
 
 **FOR IMMEDIATE RELEASE**
 
-**Kings Point, NY – October 31, 2025** – First 10 Forward (F10F) proudly announces Missouri Women in Trades (MOWIT) as the 2025 recipient of its Annual Grant, valued at $27,500. The award was selected following presentations and voting by members at F10F’s Annual Meeting, recognizing MOWIT’s exceptional leadership in advancing opportunities for women entering and succeeding in the construction and building trades across the greater St. Louis area.
+**Kings Point, NY – October 30, 2025** – First 10 Forward (F10F) proudly announces Missouri Women in Trades (MOWIT) as the 2025 recipient of its Annual Grant, valued at $27,500. The award was selected following presentations and voting by members at F10F’s Annual Meeting, recognizing MOWIT’s exceptional leadership in advancing opportunities for women entering and succeeding in the construction and building trades across the greater St. Louis area.
+
+*“This grant embodies the spirit and purpose of our organization: Women supporting women to be all they can be,”* said Karen Kukurugya Davis, Managing Director, OCIMF and President, First10Forward. *“Missouri Women in Trades is transforming lives by giving women the confidence, skills, and community to thrive in workplaces where they’ve historically been underrepresented. We’re honored to support their work.”*
+
+*“This grant will help us continue building pathways for women to enter and succeed in construction careers,”* said Beth Barton, Co-Founder of MOWIT. *“We’re deeply grateful to First 10 Forward for believing in our mission and investing in our future.”*
 
 ## About the Recipient
 
@@ -30,13 +34,9 @@ First 10 Forward (F10F) is a New Jersey-based nonprofit founded by women graduat
 
 Each year, F10F members nominate and consider charitable organizations from a variety of communities with missions that align with their own; supporting women and girls pursuing non-traditional careers. Members vote to select one organization to receive the Annual Grant at their Annual Membership Meeting.
 
-*“Missouri Women in Trades exemplifies the spirit and purpose of First 10 Forward,”* said Karen Davis, President of F10F. *“Their programs are transforming the trades by giving women the confidence, skills, and community to thrive in workplaces where they’ve historically been underrepresented. We’re honored to support their work.”*
-
 ## Looking Forward
 
 The $27,500 Annual Grant will support MOWIT’s continued efforts to break down barriers and create pathways for women in the trades.
-
-*“This grant will help us continue building pathways for women to enter and succeed in construction careers,”* said Beth Barton, Co-Founder of MOWIT. *“We’re deeply grateful to First 10 Forward for believing in our mission and investing in our future.”*
 
 For more information about First10Forward, visit [first10forward.org](first10forward.org) or contact [hello@first10forward.org](mailto:hello@first10forward.org).
 
