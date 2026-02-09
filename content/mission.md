@@ -22,6 +22,7 @@ Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organizat
 ## Past Recipients
 
 ## 2025 [MOWIT (Missouri Women in Trades)](https://www.mowit.org/)
+![2025 Awardee: MOWIT](img/photos/25-grantee.jpeg)
 
 ## 2024 [Sea Sisters](https://www.seasisters.org/)
 ![2024 Awardee: Sea Sisters](img/photos/24-grantee_2.jpg)
