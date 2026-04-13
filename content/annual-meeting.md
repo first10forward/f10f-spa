@@ -11,7 +11,7 @@ and community. It is held at a different resort each year over from Saturday to 
 ## 2026 Savannah, GA
 Our 2026 Annual Meeting will be held at the [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah) in Savannah, GA from October 9 -12, 2026.
 
-![Hyatt Regency Savannah](img/photos/26_savannah.png)
+![Hyatt Regency Savannah](img/photos/26-savannah.png)
 
 ## Past Annual Meetings
 
