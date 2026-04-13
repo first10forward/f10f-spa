@@ -1,6 +1,6 @@
 baseURL = 'https://first10forward.org/'
 languageCode = 'en-us'
-title = 'First 10 Forward prototype'
+title = 'First 10 Forward'
 theme = 'universal'
 ignoreLogs = ['warning-goldmark-raw-html']
 
