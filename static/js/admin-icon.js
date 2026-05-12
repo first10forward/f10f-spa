@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hhLink.href = '/annual-meeting';
     hhLink.className = 'hh-link';
     hhLink.title = 'Happy Hour!';
-    hhLink.innerHTML = '<div class="mini-icon"><img class="img-fluid" src="img/icons/cheers.svg" alt="Happy Hour!"><i class="img/icons/cheers.svg"></i></div>';
+    hhLink.innerHTML = '<div class="mini-icon"><img class="img-fluid" src="img/icons/cheers.png" alt="Happy Hour!"><i class="img/icons/cheers.png"></i></div>';
 
     // Add the link to the social div
     socialDiv.appendChild(hhLink);
