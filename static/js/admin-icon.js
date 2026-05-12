@@ -13,7 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // // Add the link to the social div
     // socialDiv.appendChild(partyLink);
-        
+
+    // Create the HH link
+    const hhLink = document.createElement('a');
+    hhLink.href = '/annual-meeting';
+    hhLink.className = 'hh-link';
+    hhLink.title = 'Happy Hour!';
+    hhLink.innerHTML = '<div class="mini-icon"><img class="img-fluid" src="img/icons/cheers.svg" alt="Happy Hour!"><i class="img/icons/cheers.svg"></i></div>';
+
+    // Add the link to the social div
+    socialDiv.appendChild(hhLink);
+
     // Create the admin link
     const adminLink = document.createElement('a');
     adminLink.href = '/app';

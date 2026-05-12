@@ -11,7 +11,7 @@ to the [Annual Grant](../annual-grant).
 Eligible graduates can also choose to share a single Membership with one or two other eligible graduates. All graduates on the shared the Membership 
 can attend the Annual Meeting, and can nominate one Eligible Organization. Shared memberships cast a single vote on which Eligible Organization will receive that year’s Grant.
  
-<!-- {{< notes info >}}The deadline for purchasing a Membership in 2026 is August 1, 2026.{{</ notes >}} -->
+{{< notes info >}}The deadline for purchasing a Membership in 2026 is August 15, 2026.{{</ notes >}}
 
 ![photo 2024](img/photos/24-totem.jpg)
 

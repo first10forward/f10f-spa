@@ -11,6 +11,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
     logo_text = "First 10 Forward"
     logo = "img/LogoNew1.png"
     logo_small = "img/LogoNew1.png"
+    date_format = "MM-DD-YYYY"
 
 
 [[menu.main]]
