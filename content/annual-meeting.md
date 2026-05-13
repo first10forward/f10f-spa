@@ -22,9 +22,15 @@ Our 2026 Annual Meeting will be held at the [Hyatt Regency](https://www.hyatt.co
 
 Our 2025 Annual Meeting was be held at the [Couer d’Alene Resort](https://www.cdaresort.com/) in Idaho Sep 6-9, 2025.
 
+![2025 meeting](img/photos/25-boating.jpg)
+![2025 meeting](img/photos/25-ziplining.jpg)
+
 ## 2024 Wading River, NY
 
 Our 2024 Annual Meeting was at [East Wind Resort and Spa](https://eastwindlongisland.com/), Wading River, NY, and was timed to coordinate with the academy homecoming celebration of 50 Years of Women at KP!
+
+![2024 meeting](img/photos/24-sailing.jpg)
+![2024 meeting](img/photos/24-shopping.jpg)
 
 ## 2023 Rockland, ME
 
