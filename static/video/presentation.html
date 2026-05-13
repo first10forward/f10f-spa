@@ -517,6 +517,7 @@ function go(n) {
   counter.textContent    = `${cur + 1} / ${SLIDES.length}`;
   prevBtn.disabled       = cur === 0;
   nextBtn.disabled       = cur === SLIDES.length - 1;
+  if (!timer) updatePlayBtn();
 }
 
 function next() { if (cur < SLIDES.length - 1) go(cur + 1); else stopAuto(); }
@@ -541,17 +542,36 @@ function scheduleNext() {
   const delay = SLIDES[cur].delay ?? DELAY;
   timer = setTimeout(() => { next(); if (timer !== null) scheduleNext(); }, delay);
 }
+function updatePlayBtn() {
+  if (timer) {
+    playBtn.classList.add('on');
+    playBtn.innerHTML = '&#9646;&#9646;&nbsp;Pause';
+  } else if (cur === SLIDES.length - 1) {
+    playBtn.classList.remove('on');
+    playBtn.innerHTML = '&#8635;&nbsp;Restart';
+  } else {
+    playBtn.classList.remove('on');
+    playBtn.innerHTML = '&#9654;&nbsp;Play';
+  }
+}
 function startAuto() {
   scheduleNext();
-  playBtn.classList.add('on');
-  playBtn.innerHTML = '&#9646;&#9646;&nbsp;Pause';
+  updatePlayBtn();
 }
 function stopAuto() {
   clearTimeout(timer); timer = null;
-  playBtn.classList.remove('on');
-  playBtn.innerHTML = '&#9654;&nbsp;Play';
+  updatePlayBtn();
 }
-function toggleAuto() { timer ? stopAuto() : startAuto(); }
+function toggleAuto() {
+  if (timer) {
+    stopAuto();
+  } else if (cur === SLIDES.length - 1) {
+    go(0);
+    startAuto();
+  } else {
+    startAuto();
+  }
+}
 playBtn.addEventListener('click', toggleAuto);
 
 // Fullscreen
