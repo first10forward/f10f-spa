@@ -18,6 +18,7 @@ Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organizat
 <!-- ### [2025 Nominees](../nominations) -->
 <!-- [Submit a Nomination for 2025](../app/#submit-nomination)  -->
 
+{{< notes info >}}### _To date, we have awarded grants totaling $190,450 to nine organizations._{{</ notes >}}
 
 ## Past Recipients
 
