@@ -7,8 +7,8 @@
 - text: "Annual Meeting in Savannah, GA - Save the Date for October 9-12, 2026"
   link: "/annual-meeting"
 
-- text: "Join us in making a difference - Learn more at a Virtual Happy Hour on May 14th, 7PM EDT"
-  link: "/membership"
+# - text: "Join us in making a difference - Learn more at a Virtual Happy Hour on May 14th, 7PM EDT"
+#   link: "/membership"
 
-# - text: "Supporting local charities since 2014 - Read our history and mission"
-#   link: "/history"
+- text: "Supporting local charities since 2014 - Read our history and mission"
+  link: "/history"
