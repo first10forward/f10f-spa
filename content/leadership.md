@@ -34,4 +34,3 @@ Carolyn Kurtz (1986)
 Stephanie Tanner (1985)
 
 
-![president][img/photos/25-moose.jpg]
