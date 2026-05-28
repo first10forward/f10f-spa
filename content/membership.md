@@ -24,8 +24,8 @@ For any individual or any group wishing to join First10Forward, email the follow
 - Phone number(s) and
 - Email(s)
 
-### Virtual Happy Hour - May 14th, 7PM EDT
+<!-- ### Virtual Happy Hour - May 14th, 7PM EDT
 
 Join us for a virtual happy hour on Thursday, May 14th, 7PM EDT. This is a great opportunity to connect with fellow members, share updates, and discuss our upcoming Annual Meeting in Savannah, GA. We look forward to seeing you there!
 
-Link coming soon!
+Link coming soon! -->

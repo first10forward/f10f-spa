@@ -8,8 +8,8 @@ Organizations](../nomination#eligibility) they believe should be awarded First10
 which Eligible Charitable Organization will receive the Annual Grant. The Annual Meeting also includes social activities, networking, 
 and community. It is held at a different resort each year over from Saturday to Tuesday. 
 
-## Join Us for Happy Hour!
-Learn more about First10Forward, meet some of our members, and hear about our upcoming Annual Meeting at our Happy Hour on Thursday, May 14th at 7:00pm EDT. Email [hello@first10forward.org](mailto:hello@first10forward.org) for more a link to the event.
+<!-- ## Join Us for Happy Hour!
+Learn more about First10Forward, meet some of our members, and hear about our upcoming Annual Meeting at our Happy Hour on Thursday, May 14th at 7:00pm EDT. Email [hello@first10forward.org](mailto:hello@first10forward.org) for more a link to the event. -->
 
 ## 2026 Savannah, GA
 Our 2026 Annual Meeting will be held at the [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah) in Savannah, GA from October 9 -12, 2026.
