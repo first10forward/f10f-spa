@@ -317,3 +317,11 @@ section .customers .item {
     font-size: 12px;
   }
 }
+
+.blockquote {
+  border: 4px solid #ccc;
+  padding-left: 15px;
+  margin-left: 0;
+  font-size: 1.2em;
+  color: var(--primary-accent, #38a7bb);
+}

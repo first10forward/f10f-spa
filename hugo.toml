@@ -165,3 +165,9 @@ ignoreLogs = ['warning-goldmark-raw-html']
         "../images/maritime21.jpeg",
         "../images/maritime22.jpeg"
     ]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true

@@ -14,6 +14,12 @@ Learn more about First10Forward, meet some of our members, and hear about our up
 ## 2026 Savannah, GA
 Our 2026 Annual Meeting will be held at the [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah) in Savannah, GA from October 9 -12, 2026.
 
+{{< notes info >}}The deadline for purchasing a Membership in 2026 is August 15, 2026.{{</ notes >}}
+{{< notes success >}}The nomination deadline for 2026 is September 18, 2026{{</ notes >}}
+{{< notes warning >}}The deadline to reserve a room is September 18, 2026.{{</ notes >}}
+
+>The Trip Planning Committee is hard at work arranging fun and interesting events for our stay! Full details about the 2026 Annual Meeting will be posted here as they are finalized.
+
 ![Hyatt Regency Savannah](img/photos/26-savannah.png)
 
 ## Past Annual Meetings
