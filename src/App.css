@@ -256,7 +256,7 @@
   position: relative;
   cursor: pointer;
   color: var(--primary-accent);
-  font-size: 1rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 
@@ -269,12 +269,12 @@
   left: 50%;
   bottom: calc(100% + 8px);
   transform: translateX(-50%);
-  width: 280px;
-  padding: 10px 14px;
+  width: 320px;
+  padding: 14px 18px;
   background: #333;
   color: #fff;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   border-radius: 5px;
   z-index: 100;
   pointer-events: none;
