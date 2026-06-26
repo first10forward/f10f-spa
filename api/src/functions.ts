@@ -5,7 +5,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 const MEMBERSHIP_EMAIL = 'hello@first10forward.org';
 const NOMINATIONS_EMAIL = 'nominations@first10forward.org';
 const TRIP_INTEREST_EMAIL = 'hello@first10forward.org';
-const FROM_EMAIL = 'DoNotReply@first10forward.org';
+const FROM_EMAIL = process.env.ACS_FROM_EMAIL || 'DoNotReply@first10forward.org';
 
 // GET /api/status — returns which env vars are configured (never their values)
 app.http('status', {
@@ -18,8 +18,40 @@ app.http('status', {
         acsEndpoint: !!process.env.AZURE_COMMUNICATION_ENDPOINT,
         acsKey: !!process.env.AZURE_COMMUNICATION_ACCESS_KEY,
         turnstileSecret: !!process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+        fromEmail: FROM_EMAIL,
       },
     };
+  },
+});
+
+// GET /api/test-email?to=you@example.com — sends a real test email and returns success or full error
+app.http('testEmail', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'test-email',
+  handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
+    const to = new URL(request.url).searchParams.get('to');
+    if (!to) return { status: 400, jsonBody: { error: 'Missing ?to= parameter' } };
+
+    const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
+    const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
+    if (!endpoint || !accessKey) return { status: 500, jsonBody: { error: 'ACS env vars not set' } };
+
+    try {
+      const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
+      const poller = await client.beginSend({
+        senderAddress: FROM_EMAIL,
+        content: { subject: 'F10F test email', plainText: 'This is a test from the API.' },
+        recipients: { to: [{ address: to }] },
+      });
+      const result = await poller.pollUntilDone();
+      context.log('Test email result:', result);
+      return { jsonBody: { success: true, status: result.status } };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      context.error('Test email error:', err);
+      return { status: 500, jsonBody: { success: false, error: msg } };
+    }
   },
 });
 
