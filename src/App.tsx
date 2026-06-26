@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import AddressBook from './pages/AddressBook'
 import Nominations from './pages/Nominations'
+import TripInterest from './pages/TripInterest'
 import './App.css'
 
-type AppPage = 'home' | 'app' | 'addressbook' | 'nominations';
+type AppPage = 'home' | 'app' | 'addressbook' | 'nominations' | 'trip-interest';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')
@@ -23,6 +24,8 @@ function App() {
         }, 100);
       } else if (hash === 'addressbook') {
         setCurrentPage('addressbook');
+      } else if (hash === 'trip-interest') {
+        setCurrentPage('trip-interest');
       } else {
         setCurrentPage('home');
       }
@@ -55,6 +58,8 @@ function App() {
         return <AddressBook />
       case 'nominations':
         return <Nominations />
+      case 'trip-interest':
+        return <TripInterest />
       case 'home':
       default:
         return (
@@ -89,6 +94,11 @@ function App() {
                         <h3><i className="fas fa-dollar-sign"></i> Donations</h3>
                         <p>Track membership fees and donations</p>
                         <span className="coming-soon-badge">Coming Soon</span>
+                      </div>
+
+                      <div className="nav-card" onClick={() => navigateToPage('trip-interest')}>
+                        <h3><i className="fas fa-plane"></i> Trip Interest</h3>
+                        <p>Sign up to receive annual retreat details</p>
                       </div>
                     </div>
                   </nav>
@@ -233,8 +243,9 @@ function App() {
               <i className="fas fa-home"></i> Dashboard
             </button> */}
             <h2>
-              {currentPage === 'addressbook' ? 'Address Book' : 
-               currentPage === 'nominations' ? 'Nominations' : 'Dashboard'}
+              {currentPage === 'addressbook' ? 'Address Book' :
+               currentPage === 'nominations' ? 'Nominations' :
+               currentPage === 'trip-interest' ? 'Trip Interest' : 'Dashboard'}
             </h2>
           </div>
         )}

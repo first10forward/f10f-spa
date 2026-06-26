@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import type { ICreateNomination, INomination } from '../types/Nomination';
-import EmailService from '../services/EmailService';
+import Turnstile from './Turnstile';
+import SubmissionService from '../services/SubmissionService';
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY as string | undefined;
 
 interface NominationFormProps {
   entry?: INomination;
@@ -33,6 +36,11 @@ const NominationForm: React.FC<NominationFormProps> = ({
 
     const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [honeypot, setHoneypot] = useState('');
+    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    const [turnstileError, setTurnstileError] = useState(false);
+    const [turnstileResetKey, setTurnstileResetKey] = useState(0);
     
     useEffect(() => {
     if (entry) {
@@ -79,6 +87,13 @@ const NominationForm: React.FC<NominationFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Honeypot: silently close the form to not reveal the trap to bots
+        if (honeypot) {
+            onCancel();
+            return;
+        }
+
         if (validateForm()) {
             if (isEditing) {
                 // For editing existing nominations, convert attestation and use the original callback
@@ -88,32 +103,37 @@ const NominationForm: React.FC<NominationFormProps> = ({
                 };
                 onSubmit(submissionData);
             } else {
-                // For new nominations, send email using Azure Communication Services
+                if (TURNSTILE_SITE_KEY && !turnstileToken) {
+                    setTurnstileError(true);
+                    return;
+                }
+
                 setIsSubmitting(true);
-                
+
                 try {
-                    // Convert to INomination format for the email service
-                    const nominationData: INomination = {
+                    const success = await SubmissionService.submitNomination({
                         ...formData,
                         attestation: formData.attestation !== null ? formData.attestation : false,
-                        id: '',
-                        lastUpdated: new Date()
-                    };
-                    
-                    // Send via Azure or fallback to mailto
-                    const emailSent = await EmailService.sendNomination(nominationData);
-                    
-                    if (emailSent) {
-                        alert('Your nomination has been submitted successfully! The nominations team and you will receive a copy by email.');
+                        turnstileToken: turnstileToken ?? '',
+                        honeypot,
+                    });
+
+                    if (success) {
+                        setSubmitted(true);
                     } else {
-                        alert('There was an issue sending the email automatically. Please contact us directly at nominations@first10forward.org');
+                        setTurnstileResetKey(k => k + 1);
+                        setTurnstileToken(null);
+                        setErrors(prev => ({
+                            ...prev,
+                            memberName: 'Submission failed. Please try again or contact nominations@first10forward.org directly.'
+                        }));
                     }
-                    
-                    onCancel(); // Close the form
-                    
                 } catch (error) {
-                    console.error('Error sending nomination:', error);
-                    alert('Error preparing nomination email. Please try again or contact us directly.');
+                    console.error('Nomination submission error:', error);
+                    setErrors(prev => ({
+                        ...prev,
+                        memberName: 'Something went wrong. Please try again.'
+                    }));
                 } finally {
                     setIsSubmitting(false);
                 }
@@ -136,10 +156,38 @@ const NominationForm: React.FC<NominationFormProps> = ({
     }
     };
 
+    if (submitted) {
+        return (
+            <div className="nomination-success">
+                <h3>Nomination submitted!</h3>
+                <p>
+                    Thank you for nominating <strong>{formData.nominee}</strong>.
+                    A confirmation has been sent to <strong>{formData.memberEmail}</strong>.
+                </p>
+                <button className="btn btn-secondary" onClick={onCancel}>
+                    Back to nominations
+                </button>
+            </div>
+        );
+    }
+
     return (
     <div className="nomination-form">
       {/* <h2>{isEditing ? 'Edit Nomination' : 'Submit Nomination'}</h2> */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
+        {/* Honeypot — hidden from real users, bots fill it in */}
+        <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
+          <label htmlFor="nom_phone">Phone number (leave blank)</label>
+          <input
+            type="text"
+            id="nom_phone"
+            name="phone"
+            tabIndex={-1}
+            autoComplete="off"
+            value={honeypot}
+            onChange={e => setHoneypot(e.target.value)}
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="memberName">Nominating member name *</label>
           <input 
@@ -260,6 +308,24 @@ const NominationForm: React.FC<NominationFormProps> = ({
           {errors.attestation && <span className="error-message">{errors.attestation}</span>}
         </div>
 
+        {!isEditing && TURNSTILE_SITE_KEY && (
+          <div className="form-group">
+            <Turnstile
+              siteKey={TURNSTILE_SITE_KEY}
+              onVerify={token => {
+                setTurnstileToken(token);
+                setTurnstileError(false);
+              }}
+              onExpire={() => setTurnstileToken(null)}
+              onError={() => setTurnstileToken(null)}
+              resetKey={turnstileResetKey}
+            />
+            {turnstileError && (
+              <span className="error-message">Please complete the security check</span>
+            )}
+          </div>
+        )}
+
         <div className="form-actions">
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             {isSubmitting ? 'Sending...' : (isEditing ? 'Update Nomination' : 'Submit Nomination')}
@@ -268,6 +334,11 @@ const NominationForm: React.FC<NominationFormProps> = ({
             Cancel
           </button>
         </div>
+
+        <p className="form-privacy-notice">
+          First 10 Forward will only use your information to process this nomination.
+          We do not sell, share, or disclose your personal data to outside organizations.
+        </p>
       </form>
     </div>
     )

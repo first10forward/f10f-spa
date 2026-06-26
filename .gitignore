@@ -14,6 +14,10 @@ public
 *.local
 themes/universal/exampleSite/*
 
+# Azure Functions local settings (may contain secrets)
+api/local.settings.json
+api/dist/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -24,3 +28,4 @@ themes/universal/exampleSite/*
 *.njsproj
 *.sln
 *.sw?
+local.env

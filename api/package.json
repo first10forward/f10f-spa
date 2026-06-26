@@ -1,0 +1,20 @@
+{
+  "name": "f10f-api",
+  "version": "1.0.0",
+  "description": "Azure Functions API for F10F SPA",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "prestart": "npm run build",
+    "start": "func start"
+  },
+  "main": "dist/functions.js",
+  "dependencies": {
+    "@azure/communication-email": "^1.0.0",
+    "@azure/core-auth": "^1.10.0"
+  },
+  "devDependencies": {
+    "@azure/functions": "^4.0.0",
+    "typescript": "~5.8.3"
+  }
+}
