@@ -3,8 +3,8 @@ title: "Retreat & Annual Meeting"
 
 ---
 
-Each year, First10Forward holds its __Annual Retreat__. At the Annual Retreat, we come together for networking and fun social activities like white-water rafting, river cruises, and winery tours. The Retreat is a chance for our sisterhood of Kings Point graduates to reconnect, bond, enjoy fun activities, and build new friendships. It is held at a different resort each year over a four-day weekend. To support our charitable mission, we also hold our __Annual Meeting__ at the Annual Retreat. 
-Any member can nominate and pitch [Eligible Charitable Organizations](../nomination#eligibility) for First10Forward’s [Annual Grant](../annual-grant). The Annual Grant is comprised of all of the membership dues collected for the year, which has been as much as $37K! Members vote on which Eligible Charitable Organization will receive the entire Annual Grant. 
+Each year, First10Forward holds its __Annual Retreat__. At the Annual Retreat, we come together for networking and fun social activities like white-water rafting, river cruises, and winery tours. The Retreat is a chance for our sisterhood of Kings Point graduates to reconnect, bond, enjoy fun activities, and build new friendships. It is held at a different resort each year over a four-day weekend. To support our charitable mission, we also hold our __Annual Meeting__ during the Annual Retreat. 
+Any member can nominate and pitch an [Eligible Charitable Organization](../nomination#eligibility) for First10Forward’s [Annual Grant](../annual-grant). The Annual Grant is comprised of all of the membership dues collected for the year, which has been as much as $37K! Members vote on which Eligible Charitable Organization will receive the entire Annual Grant. 
 
 <!-- ## Join Us for Happy Hour!
 Learn more about First10Forward, meet some of our members, and hear about our upcoming Annual Retreat at our Happy Hour on Thursday, May 14th at 7:00pm EDT. Email [hello@first10forward.org](mailto:hello@first10forward.org) for more a link to the event. -->

@@ -13,11 +13,11 @@ can attend the Annual Retreat, and can nominate one Eligible Organization. Share
  
 {{< notes info >}}The deadline for purchasing a Membership in 2026 is August 15, 2026.{{</ notes >}}
 
-![photo 2024](/img/photos/24-totem.jpg)
+![photo 2024](/img/photos/25-group.jpg)
 
 ### Membership Application 
 
-For any individual or any group wishing to join First10Forward, email the following information to First10Forward@gmail.com:
+For any individual or any group wishing to join First10Forward, email the following information to hello@first10forward.org:
 
 - Your Name(s)
 - KP Class Year(s)
