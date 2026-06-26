@@ -44,15 +44,20 @@ jobs:
           VITE_AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.VITE_AZURE_STORAGE_ACCOUNT_NAME }}
           VITE_AZURE_STORAGE_SAS_TOKEN: ${{ secrets.VITE_AZURE_STORAGE_SAS_TOKEN }}
           VITE_AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.VITE_AZURE_STORAGE_CONTAINER_NAME }}
-          VITE_AZURE_COMMUNICATION_ENDPOINT: ${{ secrets.VITE_AZURE_COMMUNICATION_ENDPOINT }}
-          VITE_AZURE_COMMUNICATION_ACCESS_KEY: ${{ secrets.VITE_AZURE_COMMUNICATION_ACCESS_KEY }}
-          VITE_FROM_EMAIL_DOMAIN: ${{ secrets.VITE_FROM_EMAIL_DOMAIN }}
+          VITE_CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}
         run: |
           npm ci
           npm run build
           # Copy React app to public/app directory
           mkdir -p public/app
           cp -r dist/* public/app/
+
+      # Build Azure Functions API
+      - name: Build API
+        run: |
+          cd api
+          npm ci
+          npm run build
 
       - name: Build And Deploy
         id: builddeploy
@@ -63,7 +68,7 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           app_location: "/public" # Hugo generated content location
-          api_location: "" # Api source code path - optional
+          api_location: "api" # Azure Functions API
           output_location: "" # No additional build needed, public folder is ready
           skip_app_build: true # Skip automatic build since we built manually
           ###### End of Repository/Build Configurations ######
