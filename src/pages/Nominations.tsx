@@ -16,7 +16,7 @@ const Nominations: React.FC = () => {
   const [editingNomination, setEditingNomination] = useState<INomination | undefined>();
   const [viewingNomination, setViewingNomination] = useState<INomination | undefined>();
   const [searchQuery, setSearchQuery] = useState('');
-  const [showActionsBar] = useState(false); // Hide search and add button for now
+  const [showActionsBar] = useState(true);
   const [settings, setSettings] = useState<INominationsSettings | null>(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [showAdminControls, setShowAdminControls] = useState(false);

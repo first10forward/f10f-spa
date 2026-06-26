@@ -1,7 +1,7 @@
 // Application constants
 export const GRADUATION_YEARS = {
     MIN: 1978,
-    MAX: 1994
+    MAX: 1995
 } as const;
 
 // Validation constants

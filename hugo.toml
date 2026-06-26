@@ -49,11 +49,11 @@ ignoreLogs = ['warning-goldmark-raw-html']
     weight     = 13
     parent     = "menu.whatwedo"
 
-# [[menu.main]]
-#     name       = "Submit Nomination"
-#     url        = "/app/#submit-nomination"
-#     weight     = 13
-#     parent     = "menu.whatwedo"
+[[menu.main]]
+    name       = "Submit Nomination"
+    url        = "/app/#submit-nomination"
+    weight     = 14
+    parent     = "menu.whatwedo"
 
 [[menu.main]]
     name       = "About Us"
