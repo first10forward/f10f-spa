@@ -59,16 +59,20 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
   const secret = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
   if (!secret) return true; // skip verification in dev mode
 
-  const form = new URLSearchParams();
-  form.append('secret', secret);
-  form.append('response', token);
+  try {
+    const form = new URLSearchParams();
+    form.append('secret', secret);
+    form.append('response', token);
 
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body: form,
-  });
-  const data = await res.json() as { success: boolean };
-  return data.success;
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: form,
+    });
+    const data = await res.json() as { success: boolean };
+    return data.success;
+  } catch {
+    return false; // treat network errors as failed verification
+  }
 }
 
 // POST /api/verify-turnstile
@@ -172,7 +176,7 @@ app.http('tripInterest', {
           message ? `\nMessage:\n${message}` : null,
         ].filter(Boolean) as string[];
 
-        const poller = await client.beginSend({
+        await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `Trip Interest Signup: ${name}`,
@@ -183,7 +187,6 @@ app.http('tripInterest', {
             cc: [{ address: email }],
           },
         });
-        await poller.pollUntilDone();
       } catch (err) {
         context.error('Failed to send trip interest email:', err);
       }
@@ -271,7 +274,7 @@ app.http('nominate', {
           `Personal/Professional Connection: ${attestation ? 'YES' : 'NO'}`,
         ].filter(Boolean) as string[];
 
-        const poller = await client.beginSend({
+        await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `New Nomination: ${nominee}`,
@@ -282,7 +285,6 @@ app.http('nominate', {
             cc: [{ address: memberEmail }],
           },
         });
-        await poller.pollUntilDone();
       } catch (err) {
         context.error('Failed to send nomination email:', err);
       }
@@ -372,7 +374,7 @@ app.http('membership', {
           `  Address: ${shareAddressOptOut ? 'OPT OUT — do not share' : 'OK to share'}`,
         ].filter(Boolean) as string[];
 
-        const poller = await client.beginSend({
+        await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `Membership Form: ${name} (Class of ${classYear})`,
@@ -383,7 +385,6 @@ app.http('membership', {
             cc: [{ address: email }],
           },
         });
-        await poller.pollUntilDone();
       } catch (err) {
         context.error('Failed to send membership email:', err);
       }
