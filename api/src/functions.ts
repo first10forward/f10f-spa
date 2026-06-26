@@ -7,6 +7,22 @@ const NOMINATIONS_EMAIL = 'nominations@first10forward.org';
 const TRIP_INTEREST_EMAIL = 'hello@first10forward.org';
 const FROM_EMAIL = 'DoNotReply@first10forward.org';
 
+// GET /api/status — returns which env vars are configured (never their values)
+app.http('status', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'status',
+  handler: async (_request: HttpRequest, _context: InvocationContext): Promise<HttpResponseInit> => {
+    return {
+      jsonBody: {
+        acsEndpoint: !!process.env.AZURE_COMMUNICATION_ENDPOINT,
+        acsKey: !!process.env.AZURE_COMMUNICATION_ACCESS_KEY,
+        turnstileSecret: !!process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+      },
+    };
+  },
+});
+
 async function verifyTurnstileToken(token: string): Promise<boolean> {
   const secret = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
   if (!secret) return true; // skip verification in dev mode
@@ -104,6 +120,10 @@ app.http('tripInterest', {
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
 
+    if (!endpoint || !accessKey) {
+      context.warn('Trip interest: ACS env vars not set — skipping email');
+    }
+
     if (endpoint && accessKey) {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
@@ -193,6 +213,10 @@ app.http('nominate', {
 
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
+
+    if (!endpoint || !accessKey) {
+      context.warn('Nominate: ACS env vars not set — skipping email');
+    }
 
     if (endpoint && accessKey) {
       try {
@@ -289,6 +313,10 @@ app.http('membership', {
 
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
+
+    if (!endpoint || !accessKey) {
+      context.warn('Membership: ACS env vars not set — skipping email');
+    }
 
     if (endpoint && accessKey) {
       try {
