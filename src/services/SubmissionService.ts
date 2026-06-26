@@ -18,55 +18,42 @@ class SubmissionService {
     }
   }
 
-  static async submitNomination(
+  private static async post(url: string, data: unknown): Promise<boolean> {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({})) as { error?: string };
+        console.error(`[F10F] ${url} failed (${res.status}):`, body.error ?? body);
+        return false;
+      }
+      const result = await res.json() as { success: boolean };
+      return result.success;
+    } catch (err) {
+      console.error(`[F10F] ${url} threw:`, err);
+      return false;
+    }
+  }
+
+  static submitNomination(
     data: ICreateNomination & { turnstileToken: string; honeypot?: string }
   ): Promise<boolean> {
-    try {
-      const res = await fetch('/api/nominate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) return false;
-      const result = await res.json() as { success: boolean };
-      return result.success;
-    } catch {
-      return false;
-    }
+    return SubmissionService.post('/api/nominate', data);
   }
 
-  static async submitMembership(
+  static submitMembership(
     data: ICreateMembership & { turnstileToken: string; honeypot?: string }
   ): Promise<boolean> {
-    try {
-      const res = await fetch('/api/membership', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) return false;
-      const result = await res.json() as { success: boolean };
-      return result.success;
-    } catch {
-      return false;
-    }
+    return SubmissionService.post('/api/membership', data);
   }
 
-  static async submitTripInterest(
+  static submitTripInterest(
     data: ICreateTripInterest & { turnstileToken: string; honeypot?: string; shareNameOptOut: boolean }
   ): Promise<boolean> {
-    try {
-      const res = await fetch('/api/trip-interest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) return false;
-      const result = await res.json() as { success: boolean };
-      return result.success;
-    } catch {
-      return false;
-    }
+    return SubmissionService.post('/api/trip-interest', data);
   }
 }
 
