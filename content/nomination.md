@@ -8,7 +8,7 @@ The nomination form must be submitted before the nomination deadline, usually fo
 
 {{< notes info >}}The nomination deadline for 2026 is September 18, 2026{{</ notes >}}
 [Submit a Nomination](../app/#submit-nomination)
-<!-- ### [2025 Nominees](../nominations) -->
+<!-- ### [2026 Nominees](../nominations) -->
 
 At the Annual Meeting, the nominating member should prepare to deliver an oral presentation (_no longer than 6 minutes_) to educate members about the organization
  and persuade them that their activities contribute effectively to First10Forward’s mission. The presentation is oral only -- no technology, photographs or other visual aids.

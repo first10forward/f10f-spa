@@ -15,14 +15,14 @@ male-dominated industries. Our members share a desire to "pay it forward" to gir
 First10Forward raises money to support charitable organizations whose activities advance women and girls pursuing non-traditional careers.
 Each year, we donate an [Annual Grant](../annual-grant) to an Eligible Organization selected based on member votes.
 
-<!-- ### [2025 Nominees](../nominations) -->
+<!-- ### [2026 Nominees](../nominations) -->
 <!-- [Submit a Nomination for 2025](../app/#submit-nomination)  -->
 
 {{< notes info >}}### _To date, we have awarded grants totaling $190,450 to nine organizations._{{</ notes >}}
 
 ## Past Recipients
 
-## 2025 [MOWIT (Missouri Women in Trades)](https://www.mowit.org/)
+## 2026 [MOWIT (Missouri Women in Trades)](https://www.mowit.org/)
 ![2025 Awardee: MOWIT](/img/photos/25-grantee.jpg)
 
 ## 2024 [Sea Sisters](https://www.seasisters.org/)
