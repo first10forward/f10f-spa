@@ -231,3 +231,62 @@
 .form-group .checkbox-label {
   margin-bottom: 10px;
 }
+
+/* Membership dues section */
+.membership-dues-section {
+  margin-top: 32px;
+  padding: 20px 24px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f8f9fa;
+}
+
+.dues-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dues-header h4 {
+  margin: 0;
+}
+
+.dues-info-trigger {
+  position: relative;
+  cursor: pointer;
+  color: var(--primary-accent);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.dues-info-trigger:hover {
+  color: var(--navbar-border-top);
+}
+
+.dues-info-popover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: 280px;
+  padding: 10px 14px;
+  background: #333;
+  color: #fff;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border-radius: 5px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Arrow pointing down */
+.dues-info-popover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+}

@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import AddressBook from './pages/AddressBook'
 import Nominations from './pages/Nominations'
 import TripInterest from './pages/TripInterest'
+import Membership from './pages/Membership'
 import './App.css'
 
-type AppPage = 'home' | 'app' | 'addressbook' | 'nominations' | 'trip-interest';
+type AppPage = 'home' | 'app' | 'addressbook' | 'nominations' | 'trip-interest' | 'membership';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')
@@ -26,6 +27,8 @@ function App() {
         setCurrentPage('addressbook');
       } else if (hash === 'trip-interest') {
         setCurrentPage('trip-interest');
+      } else if (hash === 'membership') {
+        setCurrentPage('membership');
       } else {
         setCurrentPage('home');
       }
@@ -60,6 +63,8 @@ function App() {
         return <Nominations />
       case 'trip-interest':
         return <TripInterest />
+      case 'membership':
+        return <Membership />
       case 'home':
       default:
         return (
@@ -74,31 +79,24 @@ function App() {
                   
                   <nav className="app-nav">
                     <div className="nav-cards">
-                      <div className="nav-card" onClick={() => window.open('https://outlook.office.com', '_blank')}>
-                        <h3><i className="fas fa-envelope"></i> Outlook Email</h3>
-                        <p>Access your F10F email</p>
-                      </div>
-                      
-                      <div className="nav-card coming-soon" onClick={() => navigateToPage('addressbook')}>
-                        <h3><i className="fas fa-address-book"></i> Address Book</h3>
-                        <p>Manage member contacts and information</p>
-                        <span className="coming-soon-badge">Coming Soon</span>
-                      </div>
-                      
                       <div className="nav-card" onClick={() => navigateToPage('nominations')}>
                         <h3><i className="fas fa-award"></i> Nominations</h3>
-                        <p>Manage organization nominations for charitable giving</p>                        
+                        <p>Nominate an organization for the annual grant</p>
                       </div>
-                      
-                      <div className="nav-card coming-soon">
-                        <h3><i className="fas fa-dollar-sign"></i> Donations</h3>
-                        <p>Track membership fees and donations</p>
-                        <span className="coming-soon-badge">Coming Soon</span>
+
+                      <div className="nav-card" onClick={() => navigateToPage('membership')}>
+                        <h3><i className="fas fa-id-card"></i> Membership</h3>
+                        <p>Update your contact information</p>
                       </div>
 
                       <div className="nav-card" onClick={() => navigateToPage('trip-interest')}>
                         <h3><i className="fas fa-plane"></i> Trip Interest</h3>
                         <p>Sign up to receive annual retreat details</p>
+                      </div>
+
+                      <div className="nav-card" onClick={() => window.open('https://outlook.office.com', '_blank')}>
+                        <h3><i className="fas fa-envelope"></i> Outlook Email</h3>
+                        <p>Access your F10F email</p>
                       </div>
                     </div>
                   </nav>
@@ -222,7 +220,7 @@ function App() {
                   </ul>
                 </li>
                 <li className="dropdown active">
-                  <a href="/app">Admin Tools</a>
+                  <a href="/app">Tools</a>
                 </li>
               </ul>
             </div>
@@ -245,7 +243,8 @@ function App() {
             <h2>
               {currentPage === 'addressbook' ? 'Address Book' :
                currentPage === 'nominations' ? 'Nominations' :
-               currentPage === 'trip-interest' ? 'Trip Interest' : 'Dashboard'}
+               currentPage === 'trip-interest' ? 'Trip Interest' :
+               currentPage === 'membership' ? 'Membership' : 'Dashboard'}
             </h2>
           </div>
         )}

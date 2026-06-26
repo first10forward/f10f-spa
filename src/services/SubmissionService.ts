@@ -1,5 +1,6 @@
 import type { ICreateTripInterest } from '../types/TripInterest';
 import type { ICreateNomination } from '../types/Nomination';
+import type { ICreateMembership } from '../types/Membership';
 
 class SubmissionService {
   static async verifyTurnstile(token: string): Promise<boolean> {
@@ -22,6 +23,23 @@ class SubmissionService {
   ): Promise<boolean> {
     try {
       const res = await fetch('/api/nominate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) return false;
+      const result = await res.json() as { success: boolean };
+      return result.success;
+    } catch {
+      return false;
+    }
+  }
+
+  static async submitMembership(
+    data: ICreateMembership & { turnstileToken: string; honeypot?: string }
+  ): Promise<boolean> {
+    try {
+      const res = await fetch('/api/membership', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

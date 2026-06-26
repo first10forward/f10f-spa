@@ -2,6 +2,7 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/fu
 import { EmailClient } from '@azure/communication-email';
 import { AzureKeyCredential } from '@azure/core-auth';
 
+const MEMBERSHIP_EMAIL = 'hello@first10forward.org';
 const NOMINATIONS_EMAIL = 'nominations@first10forward.org';
 const TRIP_INTEREST_EMAIL = 'hello@first10forward.org';
 const FROM_EMAIL = 'DoNotReply@first10forward.org';
@@ -228,6 +229,103 @@ app.http('nominate', {
         await poller.pollUntilDone();
       } catch (err) {
         context.error('Failed to send nomination email:', err);
+      }
+    }
+
+    return { jsonBody: { success: true } };
+  },
+});
+
+// POST /api/membership
+app.http('membership', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'membership',
+  handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
+    let body: {
+      name?: string;
+      marriedName?: string;
+      classYear?: string;
+      email?: string;
+      phone?: string;
+      address?: string;
+      shareEmailOptOut?: boolean;
+      sharePhoneOptOut?: boolean;
+      shareAddressOptOut?: boolean;
+      turnstileToken?: string;
+      honeypot?: string;
+    };
+
+    try {
+      body = await request.json() as typeof body;
+    } catch {
+      return { status: 400, jsonBody: { success: false, error: 'Invalid request body' } };
+    }
+
+    if (body.honeypot) {
+      return { jsonBody: { success: true } };
+    }
+
+    const { name, marriedName, classYear, email, phone, address,
+            shareEmailOptOut, sharePhoneOptOut, shareAddressOptOut, turnstileToken } = body;
+
+    if (!name?.trim() || !email?.trim() || !classYear) {
+      return { status: 400, jsonBody: { success: false, error: 'Name, email, and class year are required' } };
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return { status: 400, jsonBody: { success: false, error: 'Invalid email address' } };
+    }
+
+    if (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
+      }
+      const verified = await verifyTurnstileToken(turnstileToken);
+      if (!verified) {
+        return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+      }
+    }
+
+    const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
+    const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
+
+    if (endpoint && accessKey) {
+      try {
+        const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
+        const timestamp = new Date().toLocaleString();
+
+        const lines = [
+          'New Membership Form Submission',
+          `Submitted: ${timestamp}`,
+          '',
+          `Name: ${name}`,
+          marriedName ? `Married Name: ${marriedName}` : null,
+          `Class Year: ${classYear}`,
+          `Email: ${email}`,
+          phone ? `Phone: ${phone}` : null,
+          address ? `\nMailing Address:\n${address}` : null,
+          '',
+          'Sharing preferences:',
+          `  Email: ${shareEmailOptOut ? 'OPT OUT — do not share' : 'OK to share'}`,
+          `  Phone: ${sharePhoneOptOut ? 'OPT OUT — do not share' : 'OK to share'}`,
+          `  Address: ${shareAddressOptOut ? 'OPT OUT — do not share' : 'OK to share'}`,
+        ].filter(Boolean) as string[];
+
+        const poller = await client.beginSend({
+          senderAddress: FROM_EMAIL,
+          content: {
+            subject: `Membership Form: ${name} (Class of ${classYear})`,
+            plainText: lines.join('\n'),
+          },
+          recipients: {
+            to: [{ address: MEMBERSHIP_EMAIL }],
+            cc: [{ address: email }],
+          },
+        });
+        await poller.pollUntilDone();
+      } catch (err) {
+        context.error('Failed to send membership email:', err);
       }
     }
 
