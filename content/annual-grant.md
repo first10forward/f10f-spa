@@ -15,6 +15,6 @@ and girls pursuing non-traditional careers. The nominating member presents the p
 After all nominated organizations have been presented, members vote on which one will receive Annual Grant. The Annual Grant is donated *in its 
 entirety* to the organization that receives the most votes.
 
-<!-- [Submit a Nomination](../app/#submit-nomination) -->
+[Submit a Nomination](../app/#submit-nomination)
 <!-- ### [2025 Nominees](../nominations) -->
 

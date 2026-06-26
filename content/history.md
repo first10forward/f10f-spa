@@ -1,7 +1,7 @@
 ---
 title: "History"
 ---
-![USMMA](img/aerial-kp.jpg)
+![USMMA](/img/aerial-kp.jpg)
 
 First10Forward is a non-profit corporation comprised of women graduates from the United States Merchant Marine Academy (USMMA) at Kings Point. Kings Point was the first of the five federal service academies to accept women, a full two years before all other federal service academies. When the academy opened its doors to women in 1974, only a small number of brave pioneers joined the Regiment of Midshipmen. Even today, women comprise only about 15% of the student body.
 

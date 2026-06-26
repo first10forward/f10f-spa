@@ -13,7 +13,7 @@ can attend the Annual Meeting, and can nominate one Eligible Organization. Share
  
 {{< notes info >}}The deadline for purchasing a Membership in 2026 is August 15, 2026.{{</ notes >}}
 
-![photo 2024](img/photos/24-totem.jpg)
+![photo 2024](/img/photos/24-totem.jpg)
 
 ### Membership Application 
 
