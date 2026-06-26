@@ -1,11 +1,11 @@
 ---
-title: "Annual Meeting Details"
+title: "Annual Retreat Details"
 date: 2025-06-18
 draft: false
 ---
 
-# First10Forward Annual Meeting 2026
-Our 2026 Annual Meeting will be held in Savannah, GA from Friday October 9 to Monday October 12, 2026!
+# First10Forward Annual Retreat 2026
+Our 2026 Annual Retreat will be held in Savannah, GA from Friday October 9 to Monday October 12, 2026!
 
 **Venue:** [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah), Savannah, GA
 

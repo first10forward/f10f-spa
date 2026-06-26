@@ -208,7 +208,7 @@ function App() {
                   </a>
                   <ul className="dropdown-menu">
                     <li><a href="/membership">Membership</a></li>
-                    <li><a href="/annual-meeting">Annual Meeting</a></li>
+                    <li><a href="/annual-meeting">Annual Retreat</a></li>
                   </ul>
                 </li>
                 <li className="dropdown active">

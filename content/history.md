@@ -27,7 +27,7 @@ These graduates have charted courses through uncharted waters, reaching the high
 
 ## Our Origins
 
-Born from a conversation at a 2016 KP golf outing in Las Vegas and formalized during Homecoming that fall, First10Forward represents the trailblazing spirit of women who attended Kings Point in one of the first ten classes to graduate women. In July 2017, fourteen graduates gathered for our first Annual Meeting to define our mission and set our goals. Each year our ranks grow, as women from subsequent graduating classes are invited to join, broadening our perspectives and enhancing our ability to contribute.
+Born from a conversation at a 2016 KP golf outing in Las Vegas and formalized during Homecoming that fall, First10Forward represents the trailblazing spirit of women who attended Kings Point in one of the first ten classes to graduate women. In July 2017, fourteen graduates gathered for our first Annual Retreat to define our mission and set our goals. Each year our ranks grow, as women from subsequent graduating classes are invited to join, broadening our perspectives and enhancing our ability to contribute.
 
 ## Our Purpose
 
