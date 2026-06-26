@@ -1,5 +1,5 @@
 ---
-title: "Annual Meeting"
+title: "Retreat & Annual Meeting"
 
 ---
 

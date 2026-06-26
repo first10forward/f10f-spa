@@ -189,7 +189,7 @@ const Nominations: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <h1>Submit Nomination</h1>
-                  <p className="text-muted">Nominate an organization for the 2025 Annual Grant</p>
+                  <p className="text-muted">Nominate an organization for the 2026 Annual Grant</p>
                 </div>
                 {isAdmin() && settings && (
                   <div>

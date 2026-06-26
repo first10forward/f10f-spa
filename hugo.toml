@@ -44,7 +44,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
     parent     = "menu.whatwedo"
 
 [[menu.main]]
-    name       = "2025 Nominations"
+    name       = "2026 Nominations"
     url        = "/nominations"
     weight     = 13
     parent     = "menu.whatwedo"
@@ -90,7 +90,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
     parent     = "menu.join"
 
 [[menu.main]]
-    name       = "Annual Meeting"
+    name       = "Annual Retreat"
     url        = "/annual-meeting"
     weight     = 33
     parent     = "menu.join"

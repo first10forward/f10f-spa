@@ -19,14 +19,14 @@ const NominationsClosedMessage: React.FC<NominationsClosedMessageProps> = ({ set
         <div className="panel-header">
           <h2 style={{ margin: 0, color: '#31708f' }}>
             <i className="fa fa-list" style={{ marginRight: '10px' }}></i>
-            2025 Nominees
+            2026 Nominees
           </h2>
         </div>
         <div className="panel-body">
           {uniqueNominees.length > 0 ? (
             <div>
               <p className="text-muted" style={{ marginBottom: '25px', fontSize: '16px' }}>
-                The following organizations have been nominated for the 2025 Annual Grant:
+                The following organizations have been nominated for the 2026 Annual Grant:
               </p>
               
               <div className="nominees-grid">
