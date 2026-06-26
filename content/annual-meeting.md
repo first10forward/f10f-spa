@@ -28,47 +28,47 @@ Our 2026 Annual Retreat will be held at the [Hyatt Regency](https://www.hyatt.co
 
 Our 2025 Annual Retreat was be held at the [Couer d’Alene Resort](https://www.cdaresort.com/) in Idaho Sep 6-9, 2025.
 
-![2025 meeting](/img/photos/25-boating.jpg)
-![2025 meeting](/img/photos/25-ziplining.jpg)
+![2025 retreat](/img/photos/25-boating.jpg)
+![2025 retreat](/img/photos/25-ziplining.jpg)
 
 ## 2024 Wading River, NY
 
 Our 2024 Annual Retreat was at [East Wind Resort and Spa](https://eastwindlongisland.com/), Wading River, NY, and was timed to coordinate with the academy homecoming celebration of 50 Years of Women at KP!
 
-![2024 meeting](/img/photos/24-sailing.jpg)
-![2024 meeting](/img/photos/24-shopping.jpg)
+![2024 retreat](/img/photos/24-sailing.jpg)
+![2024 retreat](/img/photos/24-shopping.jpg)
 
 ## 2023 Rockland, ME
 
 Our 2023 Annual Retreat was held at [Samoset Resort](https://www.opalcollection.com/samoset/), Rockland, ME from July 8-11, 2023.
 
-![2023 meeting](/img/photos/wine-tasting.jpg)
-![2023 meeting](/img/photos/23_patio.jpg)
+![2023 retreat](/img/photos/wine-tasting.jpg)
+![2023 retreat](/img/photos/23_patio.jpg)
 
 ## 2022 Glen Arbor, MI
 
 Our 2022 Annual Retreat was held July 9-12, 2022 at [The Homestead Resort](https://www.thehomesteadresort.com/), Glen Arbor, Michigan. 
 
-![2022 meeting](/img/photos/22_curling_3.jpg)
+![2022 retreat](/img/photos/22_curling_3.jpg)
 
 ## 2021 Napa, CA
 
 Our July 2021 Annual Retreat occurred at [Silverado Resort](https://www.silveradoresort.com/) in beautiful Napa, CA.
 
-![2021 meeting](/img/photos/21_golf_1.jpg)
-![2021 meeting](/img/photos/21-dinnertable.jpg)
+![2021 retreat](/img/photos/21_golf_1.jpg)
+![2021 retreat](/img/photos/21-dinnertable.jpg)
 
 ## 2019 Royal Caribbean
 The July 2019 Annual Retreat was a cruise on Royal Caribbean’s Majesty Of The Seas to Key West and The Bahamas July 13 – 17, 2019.
 
-![2019 meeting](/img/photos/19-group-2.jpg)
+![2019 retreat](/img/photos/19-group-2.jpg)
 
 ## 2018 Keystone, CO
 
 The July 2018 Annual Retreat took place at [Keystone Lodge and Spa](https://www.keystoneresort.com/plan-your-trip/stay/lodge-spa.aspx), Keystone, CO.
 
-![2018 meeting](/img/photos/18-rafting.jpg)
-![2018 meeting](/img/photos/18-group.jpg)
+![2018 retreat](/img/photos/18-rafting.jpg)
+![2018 retreat](/img/photos/18-group.jpg)
 
 ## 2017
 The First Annual Retreat (July 2017) took place at the [Buccaneer Resort and Hotel](https://thebuccaneer.com/) on St. Croix, U.S.V.I.
