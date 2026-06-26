@@ -3,10 +3,9 @@ title: "Retreat & Annual Meeting"
 
 ---
 
-Each year, First10Forward holds its __Annual Retreat__. Members gather to listen to fellow members pitch nominated [Eligible Charitable
-Organizations](../nomination#eligibility) they believe should be awarded First10Forward’s [Annual Grant](../annual-grant). Members vote on 
-which Eligible Charitable Organization will receive the Annual Grant. The Annual Retreat also includes social activities, networking, 
+Each year, First10Forward holds its __Annual Retreat__. The Annual Retreat includes social activities, networking, 
 and community. It is held at a different resort each year over from Saturday to Tuesday. 
+Members gather to listen to fellow members pitch nominated [Eligible Charitable Organizations](../nomination#eligibility) they believe should be awarded First10Forward’s [Annual Grant](../annual-grant). The Annual Grant is comprised of all of the membership dues collected for the year. Members vote on which Eligible Charitable Organization will receive the Annual Grant. 
 
 <!-- ## Join Us for Happy Hour!
 Learn more about First10Forward, meet some of our members, and hear about our upcoming Annual Retreat at our Happy Hour on Thursday, May 14th at 7:00pm EDT. Email [hello@first10forward.org](mailto:hello@first10forward.org) for more a link to the event. -->
