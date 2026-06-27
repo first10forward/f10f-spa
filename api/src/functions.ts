@@ -176,7 +176,7 @@ app.http('tripInterest', {
           message ? `\nMessage:\n${message}` : null,
         ].filter(Boolean) as string[];
 
-        await client.beginSend({
+        const poller = await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `Trip Interest Signup: ${name}`,
@@ -187,12 +187,18 @@ app.http('tripInterest', {
             cc: [{ address: email }],
           },
         });
+        const result = await poller.pollUntilDone();
+        context.log('Trip interest email result:', result);
+        if (result?.status !== 'Succeeded') {
+          context.warn('Trip interest email did not succeed:', result);
+        }
       } catch (err) {
         context.error('Failed to send trip interest email:', err);
       }
     }
 
-    return { jsonBody: { success: true } };
+    // Include send status in response for debugging
+    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
   },
 });
 
@@ -274,7 +280,7 @@ app.http('nominate', {
           `Personal/Professional Connection: ${attestation ? 'YES' : 'NO'}`,
         ].filter(Boolean) as string[];
 
-        await client.beginSend({
+        const poller = await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `New Nomination: ${nominee}`,
@@ -285,12 +291,18 @@ app.http('nominate', {
             cc: [{ address: memberEmail }],
           },
         });
+        const result = await poller.pollUntilDone();
+        context.log('Nomination email result:', result);
+        if (result?.status !== 'Succeeded') {
+          context.warn('Nomination email did not succeed:', result);
+        }
       } catch (err) {
         context.error('Failed to send nomination email:', err);
       }
     }
 
-    return { jsonBody: { success: true } };
+    // Include send status in response for debugging
+    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
   },
 });
 
@@ -374,7 +386,7 @@ app.http('membership', {
           `  Address: ${shareAddressOptOut ? 'OPT OUT — do not share' : 'OK to share'}`,
         ].filter(Boolean) as string[];
 
-        await client.beginSend({
+        const poller = await client.beginSend({
           senderAddress: FROM_EMAIL,
           content: {
             subject: `Membership Form: ${name} (Class of ${classYear})`,
@@ -385,11 +397,17 @@ app.http('membership', {
             cc: [{ address: email }],
           },
         });
+        const result = await poller.pollUntilDone();
+        context.log('Membership email result:', result);
+        if (result?.status !== 'Succeeded') {
+          context.warn('Membership email did not succeed:', result);
+        }
       } catch (err) {
         context.error('Failed to send membership email:', err);
       }
     }
 
-    return { jsonBody: { success: true } };
+    // Include send status in response for debugging
+    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
   },
 });
