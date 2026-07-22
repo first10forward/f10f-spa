@@ -46,6 +46,7 @@ body {
 [class*="notes"] {
   margin-bottom: 15px;
   padding: 4px 12px;
+  font-size: 1.3em;
 }
 .theme__dark [class*="notes"] {
   color: #535a61;
@@ -324,4 +325,10 @@ section .customers .item {
   margin-left: 0;
   font-size: 1.2em;
   color: var(--primary-accent, #38a7bb);
+}
+
+.events {
+  font-weight: 300;
+  font-size: 1.4em;
+  line-height: 1.6;
 }
