@@ -12,7 +12,7 @@ Learn more about First10Forward, meet some of our members, and hear about our up
 ## 2026 Savannah, GA
 Our 2026 Annual Retreat will be held at the [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah) in Savannah, GA from October 9 -12, 2026.
 
-{{< notes info >}}[The deadline for purchasing a Membership in 2026 is August 15, 2026.](../membership){{</ notes >}}
+{{< notes info >}}[The deadline for purchasing a [Membership](/donate) in 2026 is August 15, 2026.](../membership){{</ notes >}}
 {{< notes success >}}[The nomination deadline for 2026 is September 18, 2026](../nomination){{</ notes >}}
 {{< notes warning >}}[The deadline to reserve a room is September 18, 2026.](../annual-meeting-details){{</ notes >}}
 
