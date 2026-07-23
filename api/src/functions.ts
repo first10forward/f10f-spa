@@ -156,11 +156,12 @@ app.http('tripInterest', {
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
 
+    let sendStatus = 'skipped';
+    let sendError: string | undefined;
+
     if (!endpoint || !accessKey) {
       context.warn('Trip interest: ACS env vars not set — skipping email');
-    }
-
-    if (endpoint && accessKey) {
+    } else {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
         const timestamp = new Date().toLocaleString();
@@ -189,16 +190,19 @@ app.http('tripInterest', {
         });
         const result = await poller.pollUntilDone();
         context.log('Trip interest email result:', result);
+        sendStatus = result?.status ?? 'unknown';
         if (result?.status !== 'Succeeded') {
           context.warn('Trip interest email did not succeed:', result);
+          sendError = result?.error ? JSON.stringify(result.error) : `status=${result?.status}`;
         }
       } catch (err) {
         context.error('Failed to send trip interest email:', err);
+        sendStatus = 'error';
+        sendError = err instanceof Error ? err.message : String(err);
       }
     }
 
-    // Include send status in response for debugging
-    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
+    return { jsonBody: { success: true, sendStatus, ...(sendError ? { sendError } : {}) } };
   },
 });
 
@@ -255,11 +259,12 @@ app.http('nominate', {
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
 
+    let sendStatus = 'skipped';
+    let sendError: string | undefined;
+
     if (!endpoint || !accessKey) {
       context.warn('Nominate: ACS env vars not set — skipping email');
-    }
-
-    if (endpoint && accessKey) {
+    } else {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
         const timestamp = new Date().toLocaleString();
@@ -293,16 +298,19 @@ app.http('nominate', {
         });
         const result = await poller.pollUntilDone();
         context.log('Nomination email result:', result);
+        sendStatus = result?.status ?? 'unknown';
         if (result?.status !== 'Succeeded') {
           context.warn('Nomination email did not succeed:', result);
+          sendError = result?.error ? JSON.stringify(result.error) : `status=${result?.status}`;
         }
       } catch (err) {
         context.error('Failed to send nomination email:', err);
+        sendStatus = 'error';
+        sendError = err instanceof Error ? err.message : String(err);
       }
     }
 
-    // Include send status in response for debugging
-    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
+    return { jsonBody: { success: true, sendStatus, ...(sendError ? { sendError } : {}) } };
   },
 });
 
@@ -337,7 +345,7 @@ app.http('membership', {
     }
 
     const { name, marriedName, classYear, email, phone, address,
-            shareEmailOptOut, sharePhoneOptOut, shareAddressOptOut, turnstileToken } = body;
+      shareEmailOptOut, sharePhoneOptOut, shareAddressOptOut, turnstileToken } = body;
 
     if (!name?.trim() || !email?.trim() || !classYear) {
       return { status: 400, jsonBody: { success: false, error: 'Name, email, and class year are required' } };
@@ -360,11 +368,12 @@ app.http('membership', {
     const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
     const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
 
+    let sendStatus = 'skipped';
+    let sendError: string | undefined;
+
     if (!endpoint || !accessKey) {
       context.warn('Membership: ACS env vars not set — skipping email');
-    }
-
-    if (endpoint && accessKey) {
+    } else {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
         const timestamp = new Date().toLocaleString();
@@ -399,15 +408,18 @@ app.http('membership', {
         });
         const result = await poller.pollUntilDone();
         context.log('Membership email result:', result);
+        sendStatus = result?.status ?? 'unknown';
         if (result?.status !== 'Succeeded') {
           context.warn('Membership email did not succeed:', result);
+          sendError = result?.error ? JSON.stringify(result.error) : `status=${result?.status}`;
         }
       } catch (err) {
         context.error('Failed to send membership email:', err);
+        sendStatus = 'error';
+        sendError = err instanceof Error ? err.message : String(err);
       }
     }
 
-    // Include send status in response for debugging
-    return { jsonBody: { success: true, sendStatus: 'sent-or-skipped' } };
+    return { jsonBody: { success: true, sendStatus, ...(sendError ? { sendError } : {}) } };
   },
 });

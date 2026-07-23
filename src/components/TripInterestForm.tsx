@@ -27,6 +27,7 @@ const TripInterestForm = () => {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileError, setTurnstileError] = useState(false);
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [turnstileUnavailable, setTurnstileUnavailable] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -62,7 +63,7 @@ const TripInterestForm = () => {
 
     if (!validate()) return;
 
-    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+    if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
       setTurnstileError(true);
       return;
     }
@@ -199,6 +200,7 @@ const TripInterestForm = () => {
               }}
               onExpire={() => setTurnstileToken(null)}
               onError={() => setTurnstileToken(null)}
+              onLoadError={() => setTurnstileUnavailable(true)}
               resetKey={turnstileResetKey}
             />
             {turnstileError && (

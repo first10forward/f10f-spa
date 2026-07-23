@@ -24,6 +24,7 @@ interface TurnstileProps {
   onVerify: (token: string) => void;
   onExpire?: () => void;
   onError?: () => void;
+  onLoadError?: () => void;
   // Increment to force a fresh widget (e.g. after a failed submission)
   resetKey?: number;
 }
@@ -54,12 +55,12 @@ function ensureScript(onReady: () => void) {
   }
 }
 
-const Turnstile = ({ siteKey, onVerify, onExpire, onError, resetKey }: TurnstileProps) => {
+const Turnstile = ({ siteKey, onVerify, onExpire, onError, onLoadError, resetKey }: TurnstileProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   // Refs keep callbacks stable so we don't re-render the widget on every parent render
-  const callbacksRef = useRef({ onVerify, onExpire, onError });
-  callbacksRef.current = { onVerify, onExpire, onError };
+  const callbacksRef = useRef({ onVerify, onExpire, onError, onLoadError });
+  callbacksRef.current = { onVerify, onExpire, onError, onLoadError };
 
   useEffect(() => {
     const renderWidget = () => {
@@ -68,17 +69,30 @@ const Turnstile = ({ siteKey, onVerify, onExpire, onError, resetKey }: Turnstile
         try { window.turnstile.remove(widgetIdRef.current); } catch (_) {}
         widgetIdRef.current = null;
       }
-      widgetIdRef.current = window.turnstile.render(containerRef.current, {
-        sitekey: siteKey,
-        callback: (token) => callbacksRef.current.onVerify(token),
-        'expired-callback': () => callbacksRef.current.onExpire?.(),
-        'error-callback': () => callbacksRef.current.onError?.(),
-      });
+      try {
+        widgetIdRef.current = window.turnstile.render(containerRef.current, {
+          sitekey: siteKey,
+          callback: (token) => callbacksRef.current.onVerify(token),
+          'expired-callback': () => callbacksRef.current.onExpire?.(),
+          'error-callback': () => callbacksRef.current.onError?.(),
+        });
+      } catch {
+        callbacksRef.current.onLoadError?.();
+      }
     };
 
-    ensureScript(renderWidget);
+    // If the script fails to load (e.g. CSP blocking), fire onLoadError after a timeout
+    const loadTimeout = setTimeout(() => {
+      if (widgetIdRef.current === null) callbacksRef.current.onLoadError?.();
+    }, 5000);
+
+    ensureScript(() => {
+      clearTimeout(loadTimeout);
+      renderWidget();
+    });
 
     return () => {
+      clearTimeout(loadTimeout);
       if (widgetIdRef.current !== null && window.turnstile) {
         try { window.turnstile.remove(widgetIdRef.current); } catch (_) {}
         widgetIdRef.current = null;

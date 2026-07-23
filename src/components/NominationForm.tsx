@@ -41,6 +41,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
     const [turnstileError, setTurnstileError] = useState(false);
     const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+    const [turnstileUnavailable, setTurnstileUnavailable] = useState(false);
     
     useEffect(() => {
     if (entry) {
@@ -103,7 +104,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
                 };
                 onSubmit(submissionData);
             } else {
-                if (TURNSTILE_SITE_KEY && !turnstileToken) {
+                if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
                     setTurnstileError(true);
                     return;
                 }
@@ -318,6 +319,7 @@ const NominationForm: React.FC<NominationFormProps> = ({
               }}
               onExpire={() => setTurnstileToken(null)}
               onError={() => setTurnstileToken(null)}
+              onLoadError={() => setTurnstileUnavailable(true)}
               resetKey={turnstileResetKey}
             />
             {turnstileError && (
