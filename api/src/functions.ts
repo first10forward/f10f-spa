@@ -117,6 +117,7 @@ app.http('tripInterest', {
       message?: string;
       shareNameOptOut?: boolean;
       turnstileToken?: string;
+      turnstileUnavailable?: boolean;
       honeypot?: string;
     };
 
@@ -131,7 +132,7 @@ app.http('tripInterest', {
       return { jsonBody: { success: true } };
     }
 
-    const { name, email, classYear, message, shareNameOptOut, turnstileToken } = body;
+    const { name, email, classYear, message, shareNameOptOut, turnstileToken, turnstileUnavailable } = body;
 
     if (!name?.trim() || !email?.trim()) {
       return { status: 400, jsonBody: { success: false, error: 'Name and email are required' } };
@@ -141,14 +142,21 @@ app.http('tripInterest', {
       return { status: 400, jsonBody: { success: false, error: 'Invalid email address' } };
     }
 
-    // Verify Turnstile — if secret key is configured, token is required
+    // Verify Turnstile — if secret key is configured, token is required.
+    // Exception: if the client reports the widget couldn't load (Edge strict
+    // tracking prevention, content blockers, etc.), allow the submission and
+    // rely on the honeypot + basic validation above.
     if (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY) {
-      if (!turnstileToken) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
-      }
-      const verified = await verifyTurnstileToken(turnstileToken);
-      if (!verified) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+      if (turnstileUnavailable && !turnstileToken) {
+        context.warn('Trip interest: Turnstile reported unavailable by client — accepting submission with honeypot only');
+      } else {
+        if (!turnstileToken) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
+        }
+        const verified = await verifyTurnstileToken(turnstileToken);
+        if (!verified) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+        }
       }
     }
 
@@ -223,6 +231,7 @@ app.http('nominate', {
       mission?: string;
       attestation?: boolean;
       turnstileToken?: string;
+      turnstileUnavailable?: boolean;
       honeypot?: string;
     };
 
@@ -236,7 +245,7 @@ app.http('nominate', {
       return { jsonBody: { success: true } };
     }
 
-    const { memberName, memberEmail, nominee, website, filingName, filingID, mission, attestation, turnstileToken } = body;
+    const { memberName, memberEmail, nominee, website, filingName, filingID, mission, attestation, turnstileToken, turnstileUnavailable } = body;
 
     if (!memberName?.trim() || !memberEmail?.trim() || !nominee?.trim()) {
       return { status: 400, jsonBody: { success: false, error: 'Missing required fields' } };
@@ -247,12 +256,16 @@ app.http('nominate', {
     }
 
     if (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY) {
-      if (!turnstileToken) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
-      }
-      const verified = await verifyTurnstileToken(turnstileToken);
-      if (!verified) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+      if (turnstileUnavailable && !turnstileToken) {
+        context.warn('Nominate: Turnstile reported unavailable by client — accepting submission with honeypot only');
+      } else {
+        if (!turnstileToken) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
+        }
+        const verified = await verifyTurnstileToken(turnstileToken);
+        if (!verified) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+        }
       }
     }
 
@@ -331,6 +344,7 @@ app.http('membership', {
       sharePhoneOptOut?: boolean;
       shareAddressOptOut?: boolean;
       turnstileToken?: string;
+      turnstileUnavailable?: boolean;
       honeypot?: string;
     };
 
@@ -345,7 +359,7 @@ app.http('membership', {
     }
 
     const { name, marriedName, classYear, email, phone, address,
-      shareEmailOptOut, sharePhoneOptOut, shareAddressOptOut, turnstileToken } = body;
+      shareEmailOptOut, sharePhoneOptOut, shareAddressOptOut, turnstileToken, turnstileUnavailable } = body;
 
     if (!name?.trim() || !email?.trim() || !classYear) {
       return { status: 400, jsonBody: { success: false, error: 'Name, email, and class year are required' } };
@@ -356,24 +370,17 @@ app.http('membership', {
     }
 
     if (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY) {
-      if (!turnstileToken) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
-      }
-      const verified = await verifyTurnstileToken(turnstileToken);
-      if (!verified) {
-        return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
-      }
-    }
-
-    const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
-    const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
-
-    let sendStatus = 'skipped';
-    let sendError: string | undefined;
-
-    if (!endpoint || !accessKey) {
-      context.warn('Membership: ACS env vars not set — skipping email');
-    } else {
+      if (turnstileUnavailable && !turnstileToken) {
+        context.warn('Membership: Turnstile reported unavailable by client — accepting submission with honeypot only');
+      } else {
+        if (!turnstileToken) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification required' } };
+        }
+        const verified = await verifyTurnstileToken(turnstileToken);
+        if (!verified) {
+          return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
+        }
+      } else {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
         const timestamp = new Date().toLocaleString();

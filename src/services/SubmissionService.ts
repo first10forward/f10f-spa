@@ -39,19 +39,19 @@ class SubmissionService {
   }
 
   static submitNomination(
-    data: ICreateNomination & { turnstileToken: string; honeypot?: string }
+    data: ICreateNomination & { turnstileToken: string; turnstileUnavailable?: boolean; honeypot?: string }
   ): Promise<boolean> {
     return SubmissionService.post('/api/nominate', data);
   }
 
   static submitMembership(
-    data: ICreateMembership & { turnstileToken: string; honeypot?: string }
+    data: ICreateMembership & { turnstileToken: string; turnstileUnavailable?: boolean; honeypot?: string }
   ): Promise<boolean> {
     return SubmissionService.post('/api/membership', data);
   }
 
   static submitTripInterest(
-    data: ICreateTripInterest & { turnstileToken: string; honeypot?: string; shareNameOptOut: boolean }
+    data: ICreateTripInterest & { turnstileToken: string; turnstileUnavailable?: boolean; honeypot?: string; shareNameOptOut: boolean }
   ): Promise<boolean> {
     return SubmissionService.post('/api/trip-interest', data);
   }

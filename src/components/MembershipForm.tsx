@@ -89,6 +89,7 @@ const MembershipForm = () => {
         sharePhoneOptOut: formData.sharePhoneOptOut,
         shareAddressOptOut: formData.shareAddressOptOut,
         turnstileToken: turnstileToken ?? '',
+        turnstileUnavailable,
         honeypot,
       });
 
@@ -241,7 +242,7 @@ const MembershipForm = () => {
           </label>
         </fieldset>
 
-        {TURNSTILE_SITE_KEY && (
+        {TURNSTILE_SITE_KEY && !turnstileUnavailable && (
           <div className="form-group">
             <Turnstile
               siteKey={TURNSTILE_SITE_KEY}
@@ -257,6 +258,16 @@ const MembershipForm = () => {
             {turnstileError && (
               <span className="error-message">Please complete the security check</span>
             )}
+          </div>
+        )}
+
+        {TURNSTILE_SITE_KEY && turnstileUnavailable && (
+          <div className="form-group">
+            <p className="form-privacy-notice" style={{ margin: 0 }}>
+              Our security check couldn't load in your browser (this can happen
+              with strict tracking prevention or content blockers). Your submission
+              will still be received — you can continue.
+            </p>
           </div>
         )}
 

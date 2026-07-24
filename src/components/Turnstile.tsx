@@ -58,11 +58,14 @@ function ensureScript(onReady: () => void) {
 const Turnstile = ({ siteKey, onVerify, onExpire, onError, onLoadError, resetKey }: TurnstileProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
+  const gotTokenRef = useRef(false);
   // Refs keep callbacks stable so we don't re-render the widget on every parent render
   const callbacksRef = useRef({ onVerify, onExpire, onError, onLoadError });
   callbacksRef.current = { onVerify, onExpire, onError, onLoadError };
 
   useEffect(() => {
+    gotTokenRef.current = false;
+
     const renderWidget = () => {
       if (!containerRef.current) return;
       if (widgetIdRef.current !== null) {
@@ -72,7 +75,10 @@ const Turnstile = ({ siteKey, onVerify, onExpire, onError, onLoadError, resetKey
       try {
         widgetIdRef.current = window.turnstile.render(containerRef.current, {
           sitekey: siteKey,
-          callback: (token) => callbacksRef.current.onVerify(token),
+          callback: (token) => {
+            gotTokenRef.current = true;
+            callbacksRef.current.onVerify(token);
+          },
           'expired-callback': () => callbacksRef.current.onExpire?.(),
           'error-callback': () => callbacksRef.current.onError?.(),
         });
@@ -81,18 +87,28 @@ const Turnstile = ({ siteKey, onVerify, onExpire, onError, onLoadError, resetKey
       }
     };
 
-    // If the script fails to load (e.g. CSP blocking), fire onLoadError after a timeout
-    const loadTimeout = setTimeout(() => {
+    // 1) Script-load timeout: if the api.js never loads (CSP/network blocked)
+    const scriptTimeout = setTimeout(() => {
       if (widgetIdRef.current === null) callbacksRef.current.onLoadError?.();
     }, 5000);
 
+    // 2) Challenge timeout: some browsers (Edge with strict tracking prevention,
+    //    aggressive content blockers, etc.) let the widget render but silently
+    //    block the challenge iframe, so no token is ever issued. Give it a
+    //    generous window, then declare Turnstile unavailable so the form can
+    //    fall back to server-side honeypot + validation only.
+    const challengeTimeout = setTimeout(() => {
+      if (!gotTokenRef.current) callbacksRef.current.onLoadError?.();
+    }, 12000);
+
     ensureScript(() => {
-      clearTimeout(loadTimeout);
+      clearTimeout(scriptTimeout);
       renderWidget();
     });
 
     return () => {
-      clearTimeout(loadTimeout);
+      clearTimeout(scriptTimeout);
+      clearTimeout(challengeTimeout);
       if (widgetIdRef.current !== null && window.turnstile) {
         try { window.turnstile.remove(widgetIdRef.current); } catch (_) {}
         widgetIdRef.current = null;
