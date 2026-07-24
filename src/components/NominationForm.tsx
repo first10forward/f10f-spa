@@ -198,15 +198,17 @@ const NominationForm: React.FC<NominationFormProps> = ({
     <div className="nomination-form">
       {/* <h2>{isEditing ? 'Edit Nomination' : 'Submit Nomination'}</h2> */}
       <form onSubmit={handleSubmit} noValidate>
-        {/* Honeypot — hidden from real users, bots fill it in */}
+        {/* Honeypot — hidden from real users, bots fill it in.
+            Uses a non-standard name + new-password autocomplete so browsers
+            (particularly Edge) don't autofill it with a real phone number. */}
         <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
-          <label htmlFor="nom_phone">Phone number (leave blank)</label>
+          <label htmlFor="nom_hp_website">Website (leave blank)</label>
           <input
             type="text"
-            id="nom_phone"
-            name="phone"
+            id="nom_hp_website"
+            name="nom_hp_website"
             tabIndex={-1}
-            autoComplete="off"
+            autoComplete="new-password"
             value={honeypot}
             onChange={e => setHoneypot(e.target.value)}
           />

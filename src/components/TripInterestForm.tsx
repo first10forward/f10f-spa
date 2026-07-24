@@ -55,7 +55,6 @@ const TripInterestForm = () => {
   };
 
   const doSubmit = async (token: string | null, unavailable: boolean) => {
-    console.log('[F10F] tripInterest doSubmit called', { hasToken: !!token, unavailable, inFlight: submitInFlightRef.current });
     if (submitInFlightRef.current) return;
     submitInFlightRef.current = true;
     setIsSubmitting(true);
@@ -70,7 +69,6 @@ const TripInterestForm = () => {
         turnstileUnavailable: unavailable,
         honeypot,
       });
-      console.log('[F10F] tripInterest submit result', { success });
 
       if (success) {
         setSubmitted(true);
@@ -96,7 +94,6 @@ const TripInterestForm = () => {
   // If the user clicked Submit before Turnstile finished, fire the submission
   // as soon as a token arrives or the widget is declared unavailable.
   useEffect(() => {
-    console.log('[F10F] tripInterest state', { pendingSubmit, hasToken: !!turnstileToken, turnstileUnavailable });
     if (!pendingSubmit) return;
     if (turnstileToken || turnstileUnavailable) {
       void doSubmit(turnstileToken, turnstileUnavailable);
@@ -106,23 +103,17 @@ const TripInterestForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[F10F] tripInterest handleSubmit', { hasToken: !!turnstileToken, turnstileUnavailable, honeypot, formData });
 
     // Honeypot: silently pretend to succeed so bots don't know they were caught
     if (honeypot) {
-      console.warn('[F10F] tripInterest: honeypot triggered', { honeypot });
       setSubmitted(true);
       return;
     }
 
-    if (!validate()) {
-      console.warn('[F10F] tripInterest: validate() returned false');
-      return;
-    }
+    if (!validate()) return;
 
     // Turnstile not ready yet — queue the submission and wait for it to resolve
     if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
-      console.log('[F10F] tripInterest: queueing submit, waiting for Turnstile');
       setTurnstileError(false);
       setPendingSubmit(true);
       return;
@@ -146,15 +137,17 @@ const TripInterestForm = () => {
   return (
     <div className="trip-interest-form">
       <form onSubmit={handleSubmit} noValidate>
-        {/* Honeypot — hidden from real users, bots fill it in */}
+        {/* Honeypot — hidden from real users, bots fill it in.
+            Uses a non-standard name + new-password autocomplete so browsers
+            (particularly Edge) don't autofill it with a real phone number. */}
         <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
-          <label htmlFor="ti_phone">Phone number (leave blank)</label>
+          <label htmlFor="ti_hp_website">Website (leave blank)</label>
           <input
             type="text"
-            id="ti_phone"
-            name="phone"
+            id="ti_hp_website"
+            name="ti_hp_website"
             tabIndex={-1}
-            autoComplete="off"
+            autoComplete="new-password"
             value={honeypot}
             onChange={e => setHoneypot(e.target.value)}
           />

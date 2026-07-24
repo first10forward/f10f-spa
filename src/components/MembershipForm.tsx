@@ -144,15 +144,17 @@ const MembershipForm = () => {
   return (
     <div className="membership-form">
       <form onSubmit={handleSubmit} noValidate>
-        {/* Honeypot */}
+        {/* Honeypot — hidden from real users, bots fill it in.
+            Uses a non-standard name + new-password autocomplete so browsers
+            (particularly Edge) don't autofill it. */}
         <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
-          <label htmlFor="mem_company">Company (leave blank)</label>
+          <label htmlFor="mem_hp_website">Website (leave blank)</label>
           <input
             type="text"
-            id="mem_company"
-            name="company"
+            id="mem_hp_website"
+            name="mem_hp_website"
             tabIndex={-1}
-            autoComplete="off"
+            autoComplete="new-password"
             value={honeypot}
             onChange={e => setHoneypot(e.target.value)}
           />
