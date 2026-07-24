@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Turnstile from './Turnstile';
 import SubmissionService from '../services/SubmissionService';
 
@@ -37,7 +37,9 @@ const MembershipForm = () => {
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [turnstileUnavailable, setTurnstileUnavailable] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const submitInFlightRef = useRef(false);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
@@ -61,21 +63,9 @@ const MembershipForm = () => {
     setFormData(prev => ({ ...prev, [field]: checked }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (honeypot) {
-      setSubmitted(true);
-      return;
-    }
-
-    if (!validate()) return;
-
-    if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
-      setTurnstileError(true);
-      return;
-    }
-
+  const doSubmit = async (token: string | null, unavailable: boolean) => {
+    if (submitInFlightRef.current) return;
+    submitInFlightRef.current = true;
     setIsSubmitting(true);
     try {
       const success = await SubmissionService.submitMembership({
@@ -88,8 +78,8 @@ const MembershipForm = () => {
         shareEmailOptOut: formData.shareEmailOptOut,
         sharePhoneOptOut: formData.sharePhoneOptOut,
         shareAddressOptOut: formData.shareAddressOptOut,
-        turnstileToken: turnstileToken ?? '',
-        turnstileUnavailable,
+        turnstileToken: token ?? '',
+        turnstileUnavailable: unavailable,
         honeypot,
       });
 
@@ -107,7 +97,39 @@ const MembershipForm = () => {
       setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
+      setPendingSubmit(false);
+      submitInFlightRef.current = false;
     }
+  };
+
+  // If the user clicked Submit before Turnstile finished, fire the submission
+  // as soon as a token arrives or the widget is declared unavailable.
+  useEffect(() => {
+    if (!pendingSubmit) return;
+    if (turnstileToken || turnstileUnavailable) {
+      void doSubmit(turnstileToken, turnstileUnavailable);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingSubmit, turnstileToken, turnstileUnavailable]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (honeypot) {
+      setSubmitted(true);
+      return;
+    }
+
+    if (!validate()) return;
+
+    // Turnstile not ready yet — queue the submission and wait for it to resolve
+    if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
+      setTurnstileError(false);
+      setPendingSubmit(true);
+      return;
+    }
+
+    await doSubmit(turnstileToken, turnstileUnavailable);
   };
 
   if (submitted) {
@@ -272,8 +294,8 @@ const MembershipForm = () => {
         )}
 
         <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting || pendingSubmit}>
+            {pendingSubmit ? 'Verifying…' : isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         </div>
 

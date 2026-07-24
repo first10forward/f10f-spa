@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import type { ICreateNomination, INomination } from '../types/Nomination';
 import Turnstile from './Turnstile';
@@ -42,6 +42,8 @@ const NominationForm: React.FC<NominationFormProps> = ({
     const [turnstileError, setTurnstileError] = useState(false);
     const [turnstileResetKey, setTurnstileResetKey] = useState(0);
     const [turnstileUnavailable, setTurnstileUnavailable] = useState(false);
+    const [pendingSubmit, setPendingSubmit] = useState(false);
+    const submitInFlightRef = useRef(false);
     
     useEffect(() => {
     if (entry) {
@@ -86,6 +88,52 @@ const NominationForm: React.FC<NominationFormProps> = ({
             return Object.keys(newErrors).length === 0;
     }
 
+    const doSubmit = async (token: string | null, unavailable: boolean) => {
+        if (submitInFlightRef.current) return;
+        submitInFlightRef.current = true;
+        setIsSubmitting(true);
+        try {
+            const success = await SubmissionService.submitNomination({
+                ...formData,
+                attestation: formData.attestation !== null ? formData.attestation : false,
+                turnstileToken: token ?? '',
+                turnstileUnavailable: unavailable,
+                honeypot,
+            });
+
+            if (success) {
+                setSubmitted(true);
+            } else {
+                setTurnstileResetKey(k => k + 1);
+                setTurnstileToken(null);
+                setErrors(prev => ({
+                    ...prev,
+                    memberName: 'Submission failed. Please try again or contact nominations@first10forward.org directly.'
+                }));
+            }
+        } catch (error) {
+            console.error('Nomination submission error:', error);
+            setErrors(prev => ({
+                ...prev,
+                memberName: 'Something went wrong. Please try again.'
+            }));
+        } finally {
+            setIsSubmitting(false);
+            setPendingSubmit(false);
+            submitInFlightRef.current = false;
+        }
+    };
+
+    // If the user clicked Submit before Turnstile finished, fire the submission
+    // as soon as a token arrives or the widget is declared unavailable.
+    useEffect(() => {
+        if (!pendingSubmit) return;
+        if (turnstileToken || turnstileUnavailable) {
+            void doSubmit(turnstileToken, turnstileUnavailable);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pendingSubmit, turnstileToken, turnstileUnavailable]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -104,41 +152,14 @@ const NominationForm: React.FC<NominationFormProps> = ({
                 };
                 onSubmit(submissionData);
             } else {
+                // Turnstile not ready yet — queue and wait
                 if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
-                    setTurnstileError(true);
+                    setTurnstileError(false);
+                    setPendingSubmit(true);
                     return;
                 }
 
-                setIsSubmitting(true);
-
-                try {
-                    const success = await SubmissionService.submitNomination({
-                        ...formData,
-                        attestation: formData.attestation !== null ? formData.attestation : false,
-                        turnstileToken: turnstileToken ?? '',
-                        turnstileUnavailable,
-                        honeypot,
-                    });
-
-                    if (success) {
-                        setSubmitted(true);
-                    } else {
-                        setTurnstileResetKey(k => k + 1);
-                        setTurnstileToken(null);
-                        setErrors(prev => ({
-                            ...prev,
-                            memberName: 'Submission failed. Please try again or contact nominations@first10forward.org directly.'
-                        }));
-                    }
-                } catch (error) {
-                    console.error('Nomination submission error:', error);
-                    setErrors(prev => ({
-                        ...prev,
-                        memberName: 'Something went wrong. Please try again.'
-                    }));
-                } finally {
-                    setIsSubmitting(false);
-                }
+                await doSubmit(turnstileToken, turnstileUnavailable);
             }
         }
     };
@@ -340,8 +361,8 @@ const NominationForm: React.FC<NominationFormProps> = ({
         )}
 
         <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Sending...' : (isEditing ? 'Update Nomination' : 'Submit Nomination')}
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting || pendingSubmit}>
+            {pendingSubmit ? 'Verifying…' : isSubmitting ? 'Sending...' : (isEditing ? 'Update Nomination' : 'Submit Nomination')}
           </button>
           <button type="button" onClick={onCancel} className="btn btn-secondary">
             Cancel

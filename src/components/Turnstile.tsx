@@ -94,12 +94,12 @@ const Turnstile = ({ siteKey, onVerify, onExpire, onError, onLoadError, resetKey
 
     // 2) Challenge timeout: some browsers (Edge with strict tracking prevention,
     //    aggressive content blockers, etc.) let the widget render but silently
-    //    block the challenge iframe, so no token is ever issued. Give it a
-    //    generous window, then declare Turnstile unavailable so the form can
-    //    fall back to server-side honeypot + validation only.
+    //    block the challenge iframe, so no token is ever issued. If no token
+    //    arrives in a reasonable window, declare Turnstile unavailable so the
+    //    form can fall back to server-side honeypot + validation only.
     const challengeTimeout = setTimeout(() => {
       if (!gotTokenRef.current) callbacksRef.current.onLoadError?.();
-    }, 12000);
+    }, 6000);
 
     ensureScript(() => {
       clearTimeout(scriptTimeout);

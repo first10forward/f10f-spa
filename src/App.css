@@ -60,6 +60,28 @@
   padding: 0;
 }
 
+.app-footer {
+  margin-top: 60px;
+  padding: 20px 0;
+  border-top: 1px solid #e5e5e5;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.app-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  color: var(--primary-accent);
+}
+
+.app-footer i {
+  margin-right: 6px;
+}
+
 /* Home Page Styles - using Hugo container structure */
 .home-page {
   padding: 40px 0;

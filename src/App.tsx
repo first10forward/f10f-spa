@@ -73,8 +73,7 @@ function App() {
               <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div className="home-page">
                   <header className="app-header">
-                    <h1>First 10 Forward Tools</h1>
-                    <h3>Board tools for F10F organization data</h3>
+                    <h2>First 10 Forward Tools</h2>
                   </header>
                   
                   <nav className="app-nav">
@@ -253,6 +252,18 @@ function App() {
           {renderPage()}
         </div>
       </div>
+
+      <footer className="app-footer">
+        <p>
+          <a
+            href="https://github.com/first10forward/f10f-spa"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i className="fab fa-github"></i> Source on GitHub
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }

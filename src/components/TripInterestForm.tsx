@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Turnstile from './Turnstile';
 import SubmissionService from '../services/SubmissionService';
 
@@ -29,7 +29,9 @@ const TripInterestForm = () => {
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [turnstileUnavailable, setTurnstileUnavailable] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const submitInFlightRef = useRef(false);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
@@ -52,22 +54,9 @@ const TripInterestForm = () => {
     setFormData(prev => ({ ...prev, [field]: checked }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Honeypot: silently pretend to succeed so bots don't know they were caught
-    if (honeypot) {
-      setSubmitted(true);
-      return;
-    }
-
-    if (!validate()) return;
-
-    if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
-      setTurnstileError(true);
-      return;
-    }
-
+  const doSubmit = async (token: string | null, unavailable: boolean) => {
+    if (submitInFlightRef.current) return;
+    submitInFlightRef.current = true;
     setIsSubmitting(true);
     try {
       const success = await SubmissionService.submitTripInterest({
@@ -76,8 +65,8 @@ const TripInterestForm = () => {
         classYear: formData.classYear || undefined,
         message: formData.message || undefined,
         shareNameOptOut: formData.shareNameOptOut,
-        turnstileToken: turnstileToken ?? '',
-        turnstileUnavailable,
+        turnstileToken: token ?? '',
+        turnstileUnavailable: unavailable,
         honeypot,
       });
 
@@ -97,7 +86,41 @@ const TripInterestForm = () => {
       setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
+      setPendingSubmit(false);
+      submitInFlightRef.current = false;
     }
+  };
+
+  // If the user clicked Submit before Turnstile finished, fire the submission
+  // as soon as a token arrives or the widget is declared unavailable.
+  useEffect(() => {
+    if (!pendingSubmit) return;
+    if (turnstileToken || turnstileUnavailable) {
+      void doSubmit(turnstileToken, turnstileUnavailable);
+    }
+    // doSubmit is stable enough for this use — closure captures latest formData via state
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingSubmit, turnstileToken, turnstileUnavailable]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Honeypot: silently pretend to succeed so bots don't know they were caught
+    if (honeypot) {
+      setSubmitted(true);
+      return;
+    }
+
+    if (!validate()) return;
+
+    // Turnstile not ready yet — queue the submission and wait for it to resolve
+    if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
+      setTurnstileError(false);
+      setPendingSubmit(true);
+      return;
+    }
+
+    await doSubmit(turnstileToken, turnstileUnavailable);
   };
 
   if (submitted) {
@@ -221,8 +244,8 @@ const TripInterestForm = () => {
         )}
 
         <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Sign Me Up'}
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting || pendingSubmit}>
+            {pendingSubmit ? 'Verifying…' : isSubmitting ? 'Submitting...' : 'Sign Me Up'}
           </button>
         </div>
 
