@@ -5,8 +5,8 @@ theme = 'universal'
 ignoreLogs = ['warning-goldmark-raw-html']
 
 [params]
-    googlefonts = ["Josefin Sans"]
-    fontbody = 'Josefin Sans'
+    googlefonts = ["Montserrat", "Nunito"]
+    fontbody = 'Nunito'
     disabled_logo = false
     logo_text = "First 10 Forward"
     logo = "img/LogoNew1.png"

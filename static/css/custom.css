@@ -1,9 +1,13 @@
 body {
-  font-family: "Josefin Sans", Helvetica, Arial, sans-serif !important;
+  font-family: "Nunito", sans-serif !important;
   font-size: 16px;
-  line-height: 1.42857143;
+  line-height: 1.55;
   color: #555555;
 }
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+}
+
 
 .icon .img-responsive {
   display: inline-flex;
@@ -329,6 +333,5 @@ section .customers .item {
 
 .events {
   font-weight: 300;
-  font-size: 1.4em;
-  line-height: 1.6;
+  font-size: 1.2em;
 }
