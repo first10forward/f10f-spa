@@ -106,18 +106,23 @@ const TripInterestForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[F10F] tripInterest handleSubmit', { hasToken: !!turnstileToken, turnstileUnavailable });
+    console.log('[F10F] tripInterest handleSubmit', { hasToken: !!turnstileToken, turnstileUnavailable, honeypot, formData });
 
     // Honeypot: silently pretend to succeed so bots don't know they were caught
     if (honeypot) {
+      console.warn('[F10F] tripInterest: honeypot triggered', { honeypot });
       setSubmitted(true);
       return;
     }
 
-    if (!validate()) return;
+    if (!validate()) {
+      console.warn('[F10F] tripInterest: validate() returned false');
+      return;
+    }
 
     // Turnstile not ready yet — queue the submission and wait for it to resolve
     if (TURNSTILE_SITE_KEY && !turnstileToken && !turnstileUnavailable) {
+      console.log('[F10F] tripInterest: queueing submit, waiting for Turnstile');
       setTurnstileError(false);
       setPendingSubmit(true);
       return;
