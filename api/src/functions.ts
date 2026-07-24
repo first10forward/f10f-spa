@@ -380,7 +380,18 @@ app.http('membership', {
         if (!verified) {
           return { status: 400, jsonBody: { success: false, error: 'Security verification failed' } };
         }
-      } else {
+      }
+    }
+
+    const endpoint = process.env.AZURE_COMMUNICATION_ENDPOINT;
+    const accessKey = process.env.AZURE_COMMUNICATION_ACCESS_KEY;
+
+    let sendStatus = 'skipped';
+    let sendError: string | undefined;
+
+    if (!endpoint || !accessKey) {
+      context.warn('Membership: ACS env vars not set — skipping email');
+    } else {
       try {
         const client = new EmailClient(endpoint, new AzureKeyCredential(accessKey));
         const timestamp = new Date().toLocaleString();
