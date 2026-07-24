@@ -14,7 +14,7 @@ Our 2026 Annual Retreat will be held in Savannah, GA from Friday October 9 to Mo
 
 [Reserve your room at the Hyatt Regency](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F)
 
-[Sign up for updates](../app/#trip-interest-form)
+[Sign up for updates](../app#trip-interest)
 
 ### Activities Planned
 
