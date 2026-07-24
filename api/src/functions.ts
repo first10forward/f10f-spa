@@ -7,6 +7,38 @@ const NOMINATIONS_EMAIL = 'nominations@first10forward.org';
 const TRIP_INTEREST_EMAIL = 'hello@first10forward.org';
 const FROM_EMAIL = process.env.ACS_FROM_EMAIL || 'DoNotReply@first10forward.org';
 
+// Simple in-memory rate limiter for form endpoints.
+// Resets on cold start, which is fine for a low-traffic site.
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const rateLimitStore = new Map<string, number[]>();
+
+function getClientIp(request: HttpRequest): string {
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0].trim();
+  return request.headers.get('x-azure-clientip') || 'unknown';
+}
+
+function checkRateLimit(request: HttpRequest, context: InvocationContext, label: string): HttpResponseInit | null {
+  const ip = getClientIp(request);
+  const now = Date.now();
+  const cutoff = now - RATE_LIMIT_WINDOW_MS;
+  const timestamps = (rateLimitStore.get(ip) || []).filter(t => t > cutoff);
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    rateLimitStore.set(ip, timestamps);
+    context.warn(`${label}: rate limit exceeded for ip=${ip} (${timestamps.length} in window)`);
+    const retryAfter = Math.ceil((timestamps[0] + RATE_LIMIT_WINDOW_MS - now) / 1000);
+    return {
+      status: 429,
+      headers: { 'Retry-After': String(retryAfter) },
+      jsonBody: { success: false, error: 'Too many submissions. Please try again later.' },
+    };
+  }
+  timestamps.push(now);
+  rateLimitStore.set(ip, timestamps);
+  return null;
+}
+
 // GET /api/status — returns which env vars are configured (never their values)
 app.http('status', {
   methods: ['GET'],
@@ -110,6 +142,9 @@ app.http('tripInterest', {
   authLevel: 'anonymous',
   route: 'trip-interest',
   handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
+    const rateLimited = checkRateLimit(request, context, 'Trip interest');
+    if (rateLimited) return rateLimited;
+
     let body: {
       name?: string;
       email?: string;
@@ -221,6 +256,9 @@ app.http('nominate', {
   authLevel: 'anonymous',
   route: 'nominate',
   handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
+    const rateLimited = checkRateLimit(request, context, 'Nominate');
+    if (rateLimited) return rateLimited;
+
     let body: {
       memberName?: string;
       memberEmail?: string;
@@ -333,6 +371,9 @@ app.http('membership', {
   authLevel: 'anonymous',
   route: 'membership',
   handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
+    const rateLimited = checkRateLimit(request, context, 'Membership');
+    if (rateLimited) return rateLimited;
+
     let body: {
       name?: string;
       marriedName?: string;
