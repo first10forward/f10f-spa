@@ -38,17 +38,16 @@ const Membership = () => {
                 </span>
               </div>
               <p>
-                Send payment via Zelle to{' '}
-                <strong>treasurer@first10forward.org</strong>
+                Send payment via Zelle from your bank's app or website to{' '}
+                <strong>treasurer@first10forward.org</strong>, or scan the QR
+                code below with your bank's Zelle scanner.
               </p>
-              <a
-                href="https://zellepay.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-default"
-              >
-                <i className="fas fa-external-link-alt"></i> Open Zelle
-              </a>
+              <img
+                src="/img/f10f-zelle.jpg"
+                alt="Zelle QR code for treasurer@first10forward.org"
+                className="zelle-qr"
+                style={{ maxWidth: '240px', height: 'auto', display: 'block' }}
+              />
             </div>
           </div>
         </div>
