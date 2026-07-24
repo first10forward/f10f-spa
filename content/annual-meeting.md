@@ -16,8 +16,7 @@ Our 2026 Annual Retreat will be held at the [Hyatt Regency](https://www.hyatt.co
 {{< notes success >}}The [nomination](/nomination) deadline for 2026 is September 18, 2026.{{</ notes >}}
 {{< notes warning >}}The deadline to [reserve a room](../annual-meeting-details) is September 18, 2026.{{</ notes >}}
 
->The Trip Planning Committee is hard at work arranging fun and interesting events for our stay! Full details about the 2026 Annual Retreat will be posted here as they are finalized.
-[_click here for more details_](../annual-meeting-details)
+>[Click here for event details](../annual-meeting-details)
 
 ![Hyatt Regency Savannah](/img/photos/26-savannah.png)
 
