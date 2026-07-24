@@ -55,6 +55,7 @@ const TripInterestForm = () => {
   };
 
   const doSubmit = async (token: string | null, unavailable: boolean) => {
+    console.log('[F10F] tripInterest doSubmit called', { hasToken: !!token, unavailable, inFlight: submitInFlightRef.current });
     if (submitInFlightRef.current) return;
     submitInFlightRef.current = true;
     setIsSubmitting(true);
@@ -69,6 +70,7 @@ const TripInterestForm = () => {
         turnstileUnavailable: unavailable,
         honeypot,
       });
+      console.log('[F10F] tripInterest submit result', { success });
 
       if (success) {
         setSubmitted(true);
@@ -94,16 +96,17 @@ const TripInterestForm = () => {
   // If the user clicked Submit before Turnstile finished, fire the submission
   // as soon as a token arrives or the widget is declared unavailable.
   useEffect(() => {
+    console.log('[F10F] tripInterest state', { pendingSubmit, hasToken: !!turnstileToken, turnstileUnavailable });
     if (!pendingSubmit) return;
     if (turnstileToken || turnstileUnavailable) {
       void doSubmit(turnstileToken, turnstileUnavailable);
     }
-    // doSubmit is stable enough for this use — closure captures latest formData via state
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingSubmit, turnstileToken, turnstileUnavailable]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('[F10F] tripInterest handleSubmit', { hasToken: !!turnstileToken, turnstileUnavailable });
 
     // Honeypot: silently pretend to succeed so bots don't know they were caught
     if (honeypot) {
