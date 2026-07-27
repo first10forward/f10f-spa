@@ -10,11 +10,11 @@ Any member can nominate and pitch an [Eligible Charitable Organization](../nomin
 Learn more about First10Forward, meet some of our members, and hear about our upcoming Annual Retreat at our Happy Hour on Thursday, May 14th at 7:00pm EDT. Email [hello@first10forward.org](mailto:hello@first10forward.org) for more a link to the event. -->
 
 ## 2026 Savannah, GA
-Our 2026 Annual Retreat will be held at the [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah) in Savannah, GA from October 9 -12, 2026.
+Our 2026 Annual Retreat will be held at the [Hyatt Regency](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F) in Savannah, GA from October 9 -12, 2026.
 
 {{< notes info >}}The deadline for purchasing a [Membership](/donate) in 2026 is August 15, 2026.{{</ notes >}}
 {{< notes success >}}The [nomination](/nomination) deadline for 2026 is September 18, 2026.{{</ notes >}}
-{{< notes warning >}}The deadline to [reserve a room](../annual-meeting-details) is September 18, 2026.{{</ notes >}}
+{{< notes warning >}}The deadline to [reserve a room](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F) is September 18, 2026.{{</ notes >}}
 
 >[Click here for event details](../annual-meeting-details)
 
