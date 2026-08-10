@@ -22,8 +22,8 @@ Our 2026 Annual Retreat will be held in Savannah, GA from Friday October 9 to Mo
 
 #### _Tentative Plan of Events_
 
-- _Friday evening_: Meet and Greet at [Churchill’s Pub](https://churchillsonbay.com/)
+- _Friday evening_: Low-country Boil at Connie's
 - _Saturday morning_: Annual Meeting at the Hyatt Regency (breakfast provided)
 - _Saturday afternoon_: Trolley Tour of Savannah
-- _Saturday evening_: Dinner at [Vic’s on the River](https://vicsontheriver.com/)
-- _Sunday morning_: River Cruise on the Savannah River
+- _Saturday evening_: Dinner at the Hyatt
+- _Sunday evening_: Dinner at the [Old Savannah Distillery](https://visitsavannah.com/profile/old-savannah-distillery/27806)

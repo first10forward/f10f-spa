@@ -3,9 +3,7 @@ title: "Membership"
 
 ---
 
-Women graduates from USMMA become eligible to join the organization 30 years after graduation. In 2026, we welcome any women who graduated 
-between 1978 and 1995 to purchase a Membership and join us at the [Annual Retreat](../annual-meeting). For first-time members, there is a one-time registration
-fee of $200. The registration fee is used to cover First10Forward’s administrative costs, ensuring that 100% of the funds from memberships go 
+Women graduates from USMMA become eligible to join the organization 30 years after graduation. In 2026, we welcome any women who graduated between 1978 and 1995 to purchase a Membership and join us at the [Annual Retreat](../annual-meeting). The membership fee is $1000, 100% of which goes to the grantee selected at the Annual Retreat. For first-time members, there is a one-time registration fee of $200. The registration fee is used to cover First10Forward’s administrative costs, ensuring that 100% of the funds from memberships go 
 to the [Annual Grant](../annual-grant).
 
 Eligible graduates can also choose to share a single Membership with one or two other eligible graduates. All graduates on the shared the Membership 
