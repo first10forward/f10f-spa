@@ -41,7 +41,7 @@ export class NominationsSettingsService {
 
         // Default settings - nominations are closed by default
         return {
-            isOpen: false,
+            isOpen: true,
             closedMessage: 'Nominations are currently closed. Please check back later.',
             lastUpdated: new Date()
         };
