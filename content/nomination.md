@@ -6,7 +6,7 @@ title: "Nomination Process"
 A Member who has identifed an Eligible Organization nominates the organization to receive First10Forward’s [Annual Grant](../annual-grant). 
 The nomination form must be submitted before the nomination deadline, usually four to six weeks before the [Annual Retreat](../annual-meeting).
 
-{{< notes info >}}The nomination deadline for 2026 is September 18, 2026{{</ notes >}}
+{{< notes info >}}The nomination deadline for 2026 is September 25, 2026{{</ notes >}}
 [Submit a Nomination](../app/#submit-nomination)
 <!-- ### [2026 Nominees](../nominations) -->
 
