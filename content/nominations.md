@@ -4,8 +4,10 @@ title: "2026 Nominations"
 
 <!-- _Check back here for the 2026 nominees!_ -->
 
-## [WIMOs (Women in Maritime Organizations)]( https://www.wimos.org/)
 ## [Girls in Gear]( https://www.girlsingear.org/)
+## [MIB Agents Osteosarcoma Alliance](https://www.mibagents.org/)
+## [WIMOs (Women in Maritime Organizations)]( https://www.wimos.org/)
+## [Women in Aviation International](https://www.wai.org/)
 
 <!-- ## [AAFE (Aid Afghanistan For Education)](https://www.aidafghanistanforeducation.org/)
 ## [AWCO (Atlantic Women’s Charitable Organization)](https://sites.google.com/view/awco-nj/home)

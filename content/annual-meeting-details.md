@@ -8,13 +8,13 @@ Our 2026 Annual Retreat will be held in Savannah, GA from Friday October 9 to Mo
 **Venue:** [Hyatt Regency](https://www.hyatt.com/hyatt-regency/en-US/savrs-hyatt-regency-savannah), Savannah, GA
 
 <!-- {{< notes info >}}The deadline for purchasing a [Membership](/donate) in 2026 is August 15, 2026.{{</ notes >}} -->
-{{< notes warning >}}The [nomination](/nomination) deadline for 2026 is September 25, 2026.{{</ notes >}}
+<!-- {{< notes warning >}}The [nomination](/nomination) deadline for 2026 is September 18, 2026.{{</ notes >}} -->
 
 > See the [Nomination Page](/nominations) for the 2026 nominees!
 
-{{< notes warning >}}The deadline to [reserve a room](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F) is September 18, 2026.{{</ notes >}}
+<!-- {{< notes warning >}}The deadline to [reserve a room](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F) is September 18, 2026.{{</ notes >}} -->
 
-[Reserve your room at the Hyatt Regency](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F)
+<!-- [Reserve your room at the Hyatt Regency](https://www.hyatt.com/events/en-US/group-booking/SAVRS/G-F10F) -->
 
 <!-- [Sign up for updates](../app#trip-interest) -->
 
