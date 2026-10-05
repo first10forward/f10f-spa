@@ -3,9 +3,10 @@ import AddressBook from './pages/AddressBook'
 import Nominations from './pages/Nominations'
 import TripInterest from './pages/TripInterest'
 import Membership from './pages/Membership'
+import AnnualMeetingPresentation from './pages/AnnualMeetingPresentation'
 import './App.css'
 
-type AppPage = 'home' | 'app' | 'addressbook' | 'nominations' | 'trip-interest' | 'membership';
+type AppPage = 'home' | 'app' | 'addressbook' | 'nominations' | 'trip-interest' | 'membership' | 'annual-meeting';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')
@@ -29,6 +30,8 @@ function App() {
         setCurrentPage('trip-interest');
       } else if (hash === 'membership') {
         setCurrentPage('membership');
+      } else if (hash === 'annual-meeting') {
+        setCurrentPage('annual-meeting');
       } else {
         setCurrentPage('home');
       }
@@ -65,6 +68,8 @@ function App() {
         return <TripInterest />
       case 'membership':
         return <Membership />
+      case 'annual-meeting':
+        return <AnnualMeetingPresentation />
       case 'home':
       default:
         return (
@@ -91,6 +96,11 @@ function App() {
                       <div className="nav-card" onClick={() => navigateToPage('trip-interest')}>
                         <h3><i className="fas fa-plane"></i> Trip Interest</h3>
                         <p>Sign up to receive annual retreat details</p>
+                      </div>
+
+                      <div className="nav-card" onClick={() => navigateToPage('annual-meeting')}>
+                        <h3><i className="fas fa-chart-line"></i> Annual Meeting</h3>
+                        <p>Open the annual members meeting presentation</p>
                       </div>
 
                       <div className="nav-card" onClick={() => window.open('https://outlook.office.com', '_blank')}>
@@ -231,10 +241,10 @@ function App() {
 
   return (
     <div className="app" id="all">
-      <HugoHeader />
+      {currentPage !== 'annual-meeting' && <HugoHeader />}
       
       <div id="content">
-        {currentPage !== 'home' && (
+        {currentPage !== 'home' && currentPage !== 'annual-meeting' && (
           <div className="top-nav">
             {/* <button className="nav-home-btn" onClick={() => navigateToPage('home')}>
               <i className="fas fa-home"></i> Dashboard
@@ -253,7 +263,7 @@ function App() {
         </div>
       </div>
 
-      <footer className="app-footer">
+      {currentPage !== 'annual-meeting' && <footer className="app-footer">
         <p>
           <a
             href="https://github.com/first10forward/f10f-spa"
@@ -263,7 +273,7 @@ function App() {
             <i className="fab fa-github"></i> Source on GitHub
           </a>
         </p>
-      </footer>
+      </footer>}
     </div>
   )
 }
