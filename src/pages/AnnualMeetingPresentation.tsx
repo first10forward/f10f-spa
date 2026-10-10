@@ -81,11 +81,11 @@ function AnnualMeetingPresentation() {
           <div className="member-bars"><div className="member-bar-wrap"><div className="member-bar" style={{ height: `${members[index] / 60 * 100}%` }} /></div><div className="member-bar-wrap"><div className="paid-bar" style={{ height: `${paidMemberships[index] / 60 * 100}%` }} /></div></div>
           <span className="member-added">+{additions[index]} new</span><span className="chart-year">{year}</span>
         </div>)}
-      </div><p className="chart-footnote">Cumulative participation · paid memberships by year · additions shown as +N</p>
+      </div><p className="chart-footnote">Cumulative participation · membership owners by year · additions shown as +N</p>
     </section>,
     <section className="meeting-slide chart-slide" aria-label="Annual donations">
       <div className="slide-heading-row"><div><p className="meeting-kicker">Fueling the mission</p><h2>Annual giving</h2></div><div className="chart-stat"><strong>${donationsToDate.toLocaleString('en-US')}</strong><span>total through 2025</span></div></div>
-      <div className="donation-chart" role="img" aria-label="Donations in dollars: 2018 $12,501; 2019 $15,000; 2020 $16,000; 2021 $25,000; 2022 $27,000; 2023 $30,250; 2024 $37,200; 2025 $27,500; 2026 $22,700, not yet awarded.">
+      <div className="donation-chart" role="img" aria-label="Donations in dollars: 2018 $12,501; 2019 $15,000; 2020 $16,000; 2021 $25,000; 2022 $27,000; 2023 $30,250; 2024 $37,200; 2025 $27,500; 2026 $27,700, not yet awarded.">
         {years.map((year, index) => <div className="donation-column" key={year}>
           <div className="donation-plot"><span className="donation-value" style={{ bottom: `calc(${donations[index] / 40000 * 100}% + 4px)` }}>${donations[index].toLocaleString('en-US')}</span><div className="donation-bar-wrap"><div className={`donation-bar${year === 2026 ? ' is-pending' : ''}`} style={{ height: `${donations[index] / 40000 * 100}%` }} /></div></div>
           <span className="chart-year">{year}</span>
