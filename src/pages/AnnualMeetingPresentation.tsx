@@ -8,7 +8,7 @@ const members = additions.reduce<number[]>((totals, count) => {
   return totals
 }, [])
 const paidMemberships = [12.5, 15, 15, 24, 27, 30, 37, 26.5, 26]
-const donations = [12501, 15000, 16000, 25000, 27000, 30250, 37200, 27500, 22700]
+const donations = [12501, 15000, 16000, 25000, 27000, 30250, 37200, 27500, 27700]
 const donationsToDate = donations.slice(0, -1).reduce((total, amount) => total + amount, 0)
 const recipients = [
   { year: 2025, name: 'MOWIT (Missouri Women in Trades)', href: 'https://www.mowit.org/', image: '25-grantee.jpg' },
