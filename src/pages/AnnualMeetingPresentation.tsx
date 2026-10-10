@@ -7,7 +7,7 @@ const members = additions.reduce<number[]>((totals, count) => {
   totals.push((totals.at(-1) ?? 0) + count)
   return totals
 }, [])
-const paidMemberships = [12.5, 15, 15, 24, 27, 30, 37, 26.5, 21]
+const paidMemberships = [12.5, 15, 15, 24, 27, 30, 37, 26.5, 26]
 const donations = [12501, 15000, 16000, 25000, 27000, 30250, 37200, 27500, 22700]
 const donationsToDate = donations.slice(0, -1).reduce((total, amount) => total + amount, 0)
 const recipients = [
@@ -57,12 +57,11 @@ function AnnualMeetingPresentation() {
     <section className="meeting-slide agenda-slide" aria-label="Meeting agenda">
       <p className="meeting-kicker">2026 · Savannah, Georgia</p><h1>Annual Members Meeting</h1>
       <div className="agenda-layout"><ol className="agenda-list">
-        <li><span>01</span> Welcome</li><li><span>02</span> Our history &amp; mission</li><li><span>03</span>Treasurer's report</li><li><span>04</span>Governance Committee</li><li><span>05</span>Nominations Committee</li>
-      </ol></div>
+        <li><span>01</span> Welcome</li><li><span>02</span> Our history &amp; mission</li><li><span>03</span>Treasurer's report</li><li><span>04</span>Governance Committee</li><li><span>05</span>Nominations Committee</li><li><span>06</span>Grant recipients</li><li><span>07</span>Members meeting</li></ol></div>
     </section>,
     <section className="meeting-slide history-slide" aria-label="Our history">
       <p className="meeting-kicker">Where we began</p><h2>Fourteen women.<br />One shared promise.</h2>
-      <p>First10Forward took shape after conversations at the 2016 Kings Point golf outing and Homecoming. In July 2017, fourteen graduates gathered in St. Croix and committed to support women and girls pursuing non-traditional careers.</p>
+      <p>First10Forward took shape after conversations at the 2016 Kings Point golf outing and Homecoming. In July 2017, fourteen graduates gathered in St. Croix and committed to support women and girls pursuing nontraditional careers.</p>
       <p><i>We have carried that mission forward ever since.</i></p>
       <span className="history-caption">Kings Point welcomed women to its Regiment of Midshipmen in 1974.</span>
     </section>,
@@ -73,21 +72,21 @@ function AnnualMeetingPresentation() {
       <p className="mission-detail">Members nominate eligible organizations and choose one recipient for the Annual Grant.</p>
     </section>,
     <section className="meeting-slide chart-slide" aria-label="Membership growth">
-      <div className="slide-heading-row"><div><p className="meeting-kicker">Growing together</p><h2>Our membership</h2></div><div className="chart-stat"><strong>{members.at(-1)}</strong><span>women participated through 2026</span></div></div>
+      <div className="slide-heading-row"><div><p className="meeting-kicker">Growing together</p><h2>Our membership</h2></div><div className="chart-stat"><strong>{members.at(-1)}</strong><span>women participating</span></div></div>
       <p className="chart-legend"><span className="legend-participants" /> Alumnae participated (cumulative) <b><span className="legend-paid" /> Paid memberships (annual)</b></p>
-      <div className="member-chart" role="img" aria-label={`Women participating cumulatively and paid memberships by year: ${years.map((year, index) => `${year}, ${members[index]} women participated, ${paidMemberships[index]} paid memberships, ${additions[index]} new participants`).join('; ')}.`}>
+      <div className="member-chart" role="img" aria-label={`Women participating cumulatively and paid memberships by year: ${years.map((year, index) => `${year}, ${members[index]} women participated, ${paidMemberships[index].toLocaleString('en-US')} paid memberships`).join('; ')}`}>
         {years.map((year, index) => <div className="member-column" key={year}>
           <div className="member-values"><span className="member-value-participated">{members[index]}</span><span className="member-value-paid">{paidMemberships[index].toLocaleString('en-US')}</span></div>
-          <div className="member-bars"><div className="member-bar-wrap"><div className="member-bar" style={{ height: `${members[index] / 60 * 100}%` }} /></div><div className="member-bar-wrap"><div className="paid-bar" style={{ height: `${paidMemberships[index] / 60 * 100}%` }} /></div></div>
+          <div className="member-bars"><div className="member-bar-wrap"><div className="member-bar" style={{ height: `${members[index] / 60 * 100}%` }} /></div><div className="member-bar-wrap"><div className="member-bar member-bar-paid" style={{ height: `${paidMemberships[index] / 40 * 100}%` }} /></div></div>
           <span className="member-added">+{additions[index]} new</span><span className="chart-year">{year}</span>
         </div>)}
-      </div><p className="chart-footnote">Cumulative participation · membership owners by year · additions shown as +N</p>
+      </div><p className="chart-footnote">Cumulative participation · paid memberships by year · additions shown as +N</p>
     </section>,
     <section className="meeting-slide chart-slide" aria-label="Annual donations">
-      <div className="slide-heading-row"><div><p className="meeting-kicker">Fueling the mission</p><h2>Annual giving</h2></div><div className="chart-stat"><strong>${donationsToDate.toLocaleString('en-US')}</strong><span>total through 2025</span></div></div>
-      <div className="donation-chart" role="img" aria-label="Donations in dollars: 2018 $12,501; 2019 $15,000; 2020 $16,000; 2021 $25,000; 2022 $27,000; 2023 $30,250; 2024 $37,200; 2025 $27,500; 2026 $27,700, not yet awarded.">
+      <div className="slide-heading-row"><div><p className="meeting-kicker">Fueling the mission</p><h2>Annual giving</h2></div><div className="chart-stat"><strong>${donationsToDate.toLocaleString('en-US')}</strong><span>to date</span></div></div>
+      <div className="donation-chart" role="img" aria-label="Donations in dollars: 2018 $12,501; 2019 $15,000; 2020 $16,000; 2021 $25,000; 2022 $27,000; 2023 $30,250; 2024 $37,200; 2025 $27,500; 2026 $22,700">
         {years.map((year, index) => <div className="donation-column" key={year}>
-          <div className="donation-plot"><span className="donation-value" style={{ bottom: `calc(${donations[index] / 40000 * 100}% + 4px)` }}>${donations[index].toLocaleString('en-US')}</span><div className="donation-bar-wrap"><div className={`donation-bar${year === 2026 ? ' is-pending' : ''}`} style={{ height: `${donations[index] / 40000 * 100}%` }} /></div></div>
+          <div className="donation-plot"><span className="donation-value" style={{ bottom: `calc(${donations[index] / 40000 * 100}% + 4px)` }}>${donations[index].toLocaleString('en-US')}</span><div className="donation-bar" style={{ height: `${donations[index] / 40000 * 100}%` }} /></div>
           <span className="chart-year">{year}</span>
         </div>)}
       </div><p className="chart-footnote">Annual donations in USD · Hatched 2026 bar is not yet awarded</p>
@@ -109,7 +108,7 @@ function AnnualMeetingPresentation() {
           <span>{recipient.year}{recipient.year === 2019 ? ' · shared' : ''}</span><a href={recipient.href} target="_blank" rel="noreferrer">{recipient.name}</a>
         </li>)}</ol>
         <div className="recipient-collage" aria-label="Photos from past grant presentations">
-          {recipients.filter((recipient) => recipient.image).map((recipient, index) => <a className={`collage-item collage-item-${index + 1}`} href={recipient.href} target="_blank" rel="noreferrer" aria-label={`${recipient.year} grant recipient: ${recipient.name}`} key={recipient.year}>
+          {recipients.filter((recipient) => recipient.image).map((recipient, index) => <a className={`collage-item collage-item-${index + 1}`} href={recipient.href} target="_blank" rel="noreferrer" aria-label={`View ${recipient.name}`} key={`${recipient.year}-${recipient.name}`}>
             <img src={`/img/photos/${recipient.image}`} alt="" /><span>{recipient.year}</span>
           </a>)}
         </div>
@@ -139,7 +138,7 @@ function AnnualMeetingPresentation() {
       <div className="meeting-progress"><span><i style={{ width: `${(active + 1) / count * 100}%` }} /></span>{String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</div>
       <div className="meeting-actions">
         <button onClick={() => window.print()} aria-label="Print slides"><i className="fas fa-print" aria-hidden="true" /></button>
-        <button onClick={() => document.fullscreenElement ? void document.exitFullscreen() : void document.documentElement.requestFullscreen()} aria-label={fullscreen ? 'Exit full screen' : 'Enter full screen'}><i className={`fas ${fullscreen ? 'fa-compress' : 'fa-expand'}`} aria-hidden="true" /></button>
+        <button onClick={() => document.fullscreenElement ? void document.exitFullscreen() : void document.documentElement.requestFullscreen()} aria-label={fullscreen ? 'Exit full screen' : 'Enter full screen'}><i className={fullscreen ? 'fas fa-compress' : 'fas fa-expand'} aria-hidden="true" /></button>
         <button onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous slide"><i className="fas fa-arrow-left" aria-hidden="true" /></button>
         <button onClick={() => goTo(active + 1)} disabled={active === count - 1} aria-label="Next slide"><i className="fas fa-arrow-right" aria-hidden="true" /></button>
       </div>
